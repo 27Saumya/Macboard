@@ -13,7 +13,7 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            Text("Macboard - The Minimalistic Clipboard Manager for MacOS!")
+            Text("Macboard - A Minimalistic Clipboard Manager for MacOS!")
                 .font(.largeTitle)
                 .padding()
 
