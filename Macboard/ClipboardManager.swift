@@ -24,7 +24,7 @@ class ClipboardManagerViewModel: ObservableObject {
         }
 
         if clipboardItems.firstIndex(where: { $0.content == content }) == nil {
-            let newItem = ClipboardItem(content: content, timestamp: Date())
+            let newItem = ClipboardItem(content: content)
             clipboardItems.insert(newItem, at: 0)
         }
     }
