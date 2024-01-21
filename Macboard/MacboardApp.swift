@@ -7,5 +7,6 @@ struct MacboardApp: App {
             ContentView()
                 .frame(minWidth: 500, idealWidth: 500, maxWidth: 500, minHeight: 400, idealHeight: 400, maxHeight: 400)
         }
+        .windowResizability(.contentSize)
     }
 }
