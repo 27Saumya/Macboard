@@ -23,56 +23,57 @@ struct ClipboardItemListView: View {
 
     var body: some View {
         List {
-            ForEach(viewModel.clipboardItems) { item in
-                GroupBox {
-                    VStack(alignment: .leading, spacing: 12) {
-                        HStack {
-                            Spacer()
+            
+            Section {
+                ForEach(viewModel.clipboardItems) { item in
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
+                                Text(item.content)
+                                    .lineLimit(1)
+                                
+                                Spacer()
 
-                            Button(action: {
-                                withAnimation {
+                                Button(action: {
+                                    withAnimation {
+                                        let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
+                                        viewModel.toggleFavourite(for: item)
+                                        showToast(message: item.isFavourite ? "Removed from Favourites" : "Added to Favourites", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                    }
+                                }) {
+                                    Image(systemName: item.isFavourite ? "star.fill" : "star")
+                                }
+                                .buttonStyle(LinkButtonStyle())
+
+                                Button(action: {
                                     let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
-                                    viewModel.toggleFavourite(for: item)
-                                    showToast(message: item.isFavourite ? "Added to Favorites" : "Removed from Favorites", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                    withAnimation {
+                                        viewModel.removeClipboardItem(at: viewModel.clipboardItems.firstIndex(where: { $0.id == item.id })!)
+                                        showToast(message: "Removed from Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                    }
+                                }) {
+                                    Image(systemName: "trash")
                                 }
-                            }) {
-                                Image(systemName: item.isFavourite ? "star.fill" : "star")
-                            }
-                            .buttonStyle(LinkButtonStyle())
+                                .buttonStyle(LinkButtonStyle())
 
-                            Button(action: {
-                                let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
-                                withAnimation {
-                                    viewModel.removeClipboardItem(at: viewModel.clipboardItems.firstIndex(where: { $0.id == item.id })!)
-                                    showToast(message: "Removed from Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                Button(action: {
+                                    let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
+                                    withAnimation {
+                                        NSPasteboard.general.clearContents()
+                                        NSPasteboard.general.setString(item.content, forType: .string)
+                                        showToast(message: "Copied to Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                    }
+                                }) {
+                                    Image(systemName: "doc.on.doc")
                                 }
-                            }) {
-                                Image(systemName: "trash")
+                                .buttonStyle(LinkButtonStyle())
                             }
-                            .buttonStyle(LinkButtonStyle())
-
-                            Button(action: {
-                                let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
-                                withAnimation {
-                                    NSPasteboard.general.clearContents()
-                                    NSPasteboard.general.setString(item.content, forType: .string)
-                                    showToast(message: "Copied to Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
-                                }
-                            }) {
-                                Image(systemName: "doc.on.doc")
-                            }
-                            .buttonStyle(LinkButtonStyle())
                         }
-                        .padding()
-
-                        Text(item.content)
-                            .padding(.leading, 12)
-                            .padding(.trailing, 12)
                     }
+                
+            } header: {
+                Text("Clipboard")
                 }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 16)
-            }
+            
         }
         .toast(isShowing: $showToast, message: toastMessage, position: toastPosition)
     }
