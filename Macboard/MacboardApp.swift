@@ -1,10 +1,3 @@
-//
-//  MacboardApp.swift
-//  Macboard
-//
-//  Created by Saumya Patel on 20/01/24.
-//
-
 import SwiftUI
 
 @main

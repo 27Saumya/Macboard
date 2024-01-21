@@ -1,11 +1,3 @@
-//
-//  ContentView.swift
-//  Macboard
-//
-//  Created by Saumya Patel on 20/01/24.
-//
-
-// ContentView.swift
 import SwiftUI
 
 struct ContentView: View {
@@ -19,8 +11,6 @@ struct ContentView: View {
 
             ClipboardItemListView(viewModel: viewModel)
                 .padding()
-
-            // Add more UI components as needed
         }
     }
 }
