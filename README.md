@@ -2,7 +2,7 @@
 
 Note:- This is still a work in progress, and I am looking for some help with UI (I'm too bad at UI)
 
-![demo](https://i.imgur.com/4GcTjXB.png)
+![demo](https://i.imgur.com/J2i89pg.jpg)
 
 ### Overview
 
