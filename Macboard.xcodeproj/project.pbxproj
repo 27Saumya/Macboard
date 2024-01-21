@@ -11,9 +11,8 @@
 		C5091C7F2B5C4D8A0091896F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5091C7E2B5C4D8A0091896F /* ContentView.swift */; };
 		C5091C812B5C4D8B0091896F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C802B5C4D8B0091896F /* Assets.xcassets */; };
 		C5091C842B5C4D8B0091896F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */; };
-		C553CEDC2B5C57BB00EC82F1 /* ClipboardItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDB2B5C57BB00EC82F1 /* ClipboardItemList.swift */; };
-		C553CEDE2B5C581200EC82F1 /* ClipboardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDD2B5C581200EC82F1 /* ClipboardItem.swift */; };
-		C553CEE02B5C597400EC82F1 /* ClipboardManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDF2B5C597400EC82F1 /* ClipboardManagerView.swift */; };
+		C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */; };
+		C553CEE02B5C597400EC82F1 /* ClipboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDF2B5C597400EC82F1 /* ClipboardManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,9 +22,8 @@
 		C5091C802B5C4D8B0091896F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C5091C852B5C4D8B0091896F /* Macboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macboard.entitlements; sourceTree = "<group>"; };
-		C553CEDB2B5C57BB00EC82F1 /* ClipboardItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItemList.swift; sourceTree = "<group>"; };
-		C553CEDD2B5C581200EC82F1 /* ClipboardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItem.swift; sourceTree = "<group>"; };
-		C553CEDF2B5C597400EC82F1 /* ClipboardManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardManagerView.swift; sourceTree = "<group>"; };
+		C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItems.swift; sourceTree = "<group>"; };
+		C553CEDF2B5C597400EC82F1 /* ClipboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,9 +58,8 @@
 			children = (
 				C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */,
 				C5091C7E2B5C4D8A0091896F /* ContentView.swift */,
-				C553CEDB2B5C57BB00EC82F1 /* ClipboardItemList.swift */,
-				C553CEDD2B5C581200EC82F1 /* ClipboardItem.swift */,
-				C553CEDF2B5C597400EC82F1 /* ClipboardManagerView.swift */,
+				C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */,
+				C553CEDF2B5C597400EC82F1 /* ClipboardManager.swift */,
 				C5091C802B5C4D8B0091896F /* Assets.xcassets */,
 				C5091C852B5C4D8B0091896F /* Macboard.entitlements */,
 				C5091C822B5C4D8B0091896F /* Preview Content */,
@@ -148,10 +145,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C553CEDC2B5C57BB00EC82F1 /* ClipboardItemList.swift in Sources */,
-				C553CEDE2B5C581200EC82F1 /* ClipboardItem.swift in Sources */,
+				C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */,
 				C5091C7F2B5C4D8A0091896F /* ContentView.swift in Sources */,
-				C553CEE02B5C597400EC82F1 /* ClipboardManagerView.swift in Sources */,
+				C553CEE02B5C597400EC82F1 /* ClipboardManager.swift in Sources */,
 				C5091C7D2B5C4D8A0091896F /* MacboardApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,6 +1,15 @@
 import Foundation
 import SwiftUI
 
+
+struct ClipboardItem: Identifiable {
+    let id = UUID()
+    let content: String
+    let timestamp: Date
+    var isFavourite: Bool = false
+}
+
+
 struct ClipboardItemListView: View {
     @ObservedObject var viewModel: ClipboardManagerViewModel
 
