@@ -91,6 +91,8 @@
 			dependencies = (
 			);
 			name = Macboard;
+			packageProductDependencies = (
+			);
 			productName = Macboard;
 			productReference = C5091C792B5C4D8A0091896F /* Macboard.app */;
 			productType = "com.apple.product-type.application";
@@ -119,6 +121,8 @@
 				Base,
 			);
 			mainGroup = C5091C702B5C4D8A0091896F;
+			packageReferences = (
+			);
 			productRefGroup = C5091C7A2B5C4D8A0091896F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

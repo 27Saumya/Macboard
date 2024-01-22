@@ -1,16 +1,26 @@
 import Foundation
 import SwiftUI
+import PhotosUI
+
+enum ContentType {
+    case text
+    case image
+}
 
 
 struct ClipboardItem: Identifiable {
     let id = UUID()
-    let content: String
+    let content: String?
+    let imageData: Data?
     var isFavourite: Bool = false
+    var contentType: ContentType
     
-    init(content: String, isFavourite: Bool = false) {
-            self.content = content
-            self.isFavourite = isFavourite
-        }
+    init(content: String? = nil, imageData: Data? = nil, isFavourite: Bool = false, contentType: ContentType = .text) {
+        self.content = content
+        self.imageData = imageData
+        self.isFavourite = isFavourite
+        self.contentType = contentType
+    }
 }
 
 
@@ -28,8 +38,17 @@ struct ClipboardItemListView: View {
                 ForEach(viewModel.clipboardItems) { item in
                         VStack(alignment: .leading, spacing: 10) {
                             HStack {
-                                Text(item.content)
-                                    .lineLimit(1)
+                                if item.contentType == .text {
+                                    Text(item.content!)
+                                        .lineLimit(1)
+                                } else {
+                                    let image = dataToImage(item.imageData!)
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .scaledToFit()
+                                        .frame(width: 100, height: 50)
+                                }
                                 
                                 Spacer()
 
@@ -59,7 +78,11 @@ struct ClipboardItemListView: View {
                                     let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
                                     withAnimation {
                                         NSPasteboard.general.clearContents()
-                                        NSPasteboard.general.setString(item.content, forType: .string)
+                                        if item.contentType == .image {
+                                            NSPasteboard.general.setData(item.imageData!, forType: .tiff)
+                                        } else {
+                                            NSPasteboard.general.setString(item.content!, forType: .string)
+                                        }
                                         showToast(message: "Copied to Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
                                     }
                                 }) {
@@ -76,6 +99,15 @@ struct ClipboardItemListView: View {
             
         }
         .toast(isShowing: $showToast, message: toastMessage, position: toastPosition)
+    }
+    
+    private func dataToImage(_ value: Data) -> Image {
+        #if canImport(AppKit)
+            let image = NSImage(data: value) ?? NSImage()
+            return Image(nsImage: image)
+        #else
+            return Image(systemName: "photo.fill")
+        #endif
     }
 
     private func showToast(message: String, position: CGPoint) {

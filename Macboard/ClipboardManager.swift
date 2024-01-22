@@ -19,13 +19,46 @@ class ClipboardManagerViewModel: ObservableObject {
     }
 
     private func checkClipboard() {
-        guard let content = NSPasteboard.general.string(forType: .string), !content.isEmpty else {
-            return
+        if self.clipboardContentType().0 == .text {
+            guard let content = NSPasteboard.general.string(forType: .string), !content.isEmpty else { return }
+            
+            if !content.isEmpty {
+                if clipboardItems.firstIndex(where: {
+                    if $0.contentType == .text {
+                        return $0.content! == content
+                    } else {
+                        return false
+                    }
+                }) == nil {
+                    let newItem = ClipboardItem(content: content, contentType: .text)
+                    clipboardItems.insert(newItem, at: 0)
+                }
+            }
+        } else {
+            guard let imageData = NSPasteboard.general.data(forType: self.clipboardContentType().1!) else { return }
+            
+            if !imageData.isEmpty {
+                if clipboardItems.firstIndex(where: {
+                    if $0.contentType == .image {
+                        return $0.imageData! == imageData
+                    } else {
+                        return false
+                    }
+                }) == nil {
+                    let newItem = ClipboardItem(imageData: imageData, contentType: .image)
+                    clipboardItems.insert(newItem, at: 0)
+                }
+            }
         }
-
-        if clipboardItems.firstIndex(where: { $0.content == content }) == nil {
-            let newItem = ClipboardItem(content: content)
-            clipboardItems.insert(newItem, at: 0)
+    }
+    
+    private func clipboardContentType() -> (ContentType, NSPasteboard.PasteboardType?) {
+        let image_types: [NSPasteboard.PasteboardType] = [.png, .tiff]
+        let _type = NSPasteboard.general.types?.first
+        if image_types.contains(_type!) {
+            return (.image, _type!)
+        } else {
+            return (.text, nil)
         }
     }
 
