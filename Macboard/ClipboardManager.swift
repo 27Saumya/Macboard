@@ -50,6 +50,10 @@ class ClipboardManagerViewModel: ObservableObject {
                 }
             }
         }
+        
+        clipboardItems = clipboardItems.sorted(by: { item1, item2 in
+            item1.isFavourite && !item2.isFavourite
+        })
     }
     
     private func clipboardContentType() -> (ContentType, NSPasteboard.PasteboardType?) {
