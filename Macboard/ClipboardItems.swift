@@ -37,7 +37,7 @@ struct ClipboardItemListView: View {
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .scaledToFit()
-                                        .frame(width: 100, height: 50)
+                                        .frame(width: 100, height: 50, alignment: .leading)
                                 }
                                 
                                 Spacer()
@@ -46,7 +46,7 @@ struct ClipboardItemListView: View {
                                     withAnimation {
                                         let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
                                         toggleFavourite(context: context, for: item)
-                                        showToast(message: item.isFavourite ? "Removed from Favourites" : "Added to Favourites", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                        showToast(message: item.isFavourite ? "Added to Favourites" : "Removed from Favourites", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
                                     }
                                 }) {
                                     Image(systemName: item.isFavourite ? "star.fill" : "star")
