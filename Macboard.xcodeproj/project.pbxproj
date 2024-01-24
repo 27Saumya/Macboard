@@ -12,7 +12,7 @@
 		C5091C812B5C4D8B0091896F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C802B5C4D8B0091896F /* Assets.xcassets */; };
 		C5091C842B5C4D8B0091896F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */; };
 		C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */; };
-		C5D534AF2B604F8E00074920 /* Bool+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D534AE2B604F8E00074920 /* Bool+View.swift */; };
+		C5D534AF2B604F8E00074920 /* Bool+String+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D534AE2B604F8E00074920 /* Bool+String+View.swift */; };
 		C5D534B12B604FE000074920 /* ViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D534B02B604FE000074920 /* ViewHelpers.swift */; };
 /* End PBXBuildFile section */
 
@@ -24,7 +24,7 @@
 		C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C5091C852B5C4D8B0091896F /* Macboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macboard.entitlements; sourceTree = "<group>"; };
 		C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItems.swift; sourceTree = "<group>"; };
-		C5D534AE2B604F8E00074920 /* Bool+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+View.swift"; sourceTree = "<group>"; };
+		C5D534AE2B604F8E00074920 /* Bool+String+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+String+View.swift"; sourceTree = "<group>"; };
 		C5D534B02B604FE000074920 /* ViewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,7 +61,7 @@
 				C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */,
 				C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */,
 				C5D534B02B604FE000074920 /* ViewHelpers.swift */,
-				C5D534AE2B604F8E00074920 /* Bool+View.swift */,
+				C5D534AE2B604F8E00074920 /* Bool+String+View.swift */,
 				C506F0B82B5FBECF0031F4D2 /* Data.swift */,
 				C5091C802B5C4D8B0091896F /* Assets.xcassets */,
 				C5091C852B5C4D8B0091896F /* Macboard.entitlements */,
@@ -155,7 +155,7 @@
 				C5D534B12B604FE000074920 /* ViewHelpers.swift in Sources */,
 				C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */,
 				C506F0B92B5FBECF0031F4D2 /* Data.swift in Sources */,
-				C5D534AF2B604F8E00074920 /* Bool+View.swift in Sources */,
+				C5D534AF2B604F8E00074920 /* Bool+String+View.swift in Sources */,
 				C5091C7D2B5C4D8A0091896F /* MacboardApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

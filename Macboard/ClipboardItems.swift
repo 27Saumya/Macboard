@@ -7,6 +7,7 @@ import Cocoa
 struct ClipboardItemListView: View {
     
     @Environment(\.modelContext) private var context
+    @Environment(\.openURL) var openURL
     
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
@@ -24,8 +25,13 @@ struct ClipboardItemListView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             HStack {
                                 if item.contentType == .text {
-                                    Text(item.content!)
-                                        .lineLimit(1)
+                                    if item.content!.isValidURL {
+                                        Link(item.content!, destination: URL(string: item.content!)!)
+                                    }
+                                    else {
+                                        Text(item.content!)
+                                            .lineLimit(1)
+                                    }
                                 } else {
                                     let image = dataToImage(item.imageData!)
                                     image
@@ -96,6 +102,7 @@ struct ClipboardItemListView: View {
                                 }
                             }
                     }
+                    .buttonStyle(LinkButtonStyle())
                 }
                 
                 }
