@@ -7,7 +7,6 @@ import Cocoa
 struct ClipboardItemListView: View {
     
     @Environment(\.modelContext) private var context
-    @Environment(\.openURL) var openURL
     
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
