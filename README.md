@@ -10,7 +10,8 @@ This is a minimalistic, blazingly fast and clean clipboard manager for MacOS
 
 ### Features
 
-- Compact, user-friendly, clean
+- Compact, user-friendly, clean UI
+- Compatible with system theme
 - Images support
 - Hyperlinks highlighting
 - Favourites
