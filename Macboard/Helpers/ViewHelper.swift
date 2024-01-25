@@ -3,11 +3,21 @@ import SwiftUI
 import Cocoa
 
 struct LinkButtonStyle: ButtonStyle {
+    
+    @State var hover: Bool = false
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .contentShape(Rectangle())
-            .onHover { isHovered in
-                NSCursor.pointingHand.set()
+            .onHover { isHovering in
+                self.hover = isHovering
+                DispatchQueue.main.async {
+                    if self.hover {
+                        NSCursor.pointingHand.push()
+                    } else {
+                        NSCursor.pop()
+                    }
+                }
             }
     }
 }

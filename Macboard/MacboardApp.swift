@@ -6,7 +6,7 @@ struct MacboardApp: App {
     var body: some Scene {
         WindowGroup {
             ClipboardItemListView()
-                .frame(minWidth: 500, idealWidth: 500, maxWidth: 500, minHeight: 400, idealHeight: 400, maxHeight: 400)
+                .frame(minWidth: 700, idealWidth: 700, maxWidth: 700, minHeight: 500, idealHeight: 500, maxHeight: 500)
         }
         .modelContainer(for: [ClipboardItem.self])
         .windowResizability(.contentSize)
