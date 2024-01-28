@@ -2,7 +2,7 @@
 
 Note:- This is still a work in progress, and I am looking for some help with UI (I'm too bad at UI)
 
-![demo](https://i.imgur.com/hqcaiuZ.mp4)
+![](https://i.imgur.com/hqcaiuZ.mp4)
 
 ### Overview
 
