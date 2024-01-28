@@ -2,7 +2,7 @@
 
 Note:- This is still a work in progress, and I am looking for some help with UI (I'm too bad at UI)
 
-![demo](https://i.imgur.com/KPdDBYH.jpg)
+![demo](https://i.imgur.com/hqcaiuZ.mp4)
 
 ### Overview
 
@@ -13,6 +13,7 @@ This is a minimalistic, blazingly fast and clean clipboard manager for MacOS
 - Compact, user-friendly, clean UI
 - Compatible with system theme
 - Images support
+- URL metadata preview
 - Hyperlinks highlighting
 - Favourites
 - And alot more coming soon!
