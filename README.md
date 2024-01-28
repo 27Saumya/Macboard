@@ -4,7 +4,7 @@ Note:- This is still a work in progress, and I am looking for some help with UI 
 
 
 
-https://github.com/27Saumya/Macboard/assets/64534496/bf908bcf-c6a5-489a-903c-fc28d42a419c
+https://github.com/27Saumya/Macboard/assets/64534496/ce091bca-eac3-4f71-91e0-8c89a35b0a83
 
 
 
