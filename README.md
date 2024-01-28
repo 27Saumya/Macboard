@@ -2,9 +2,11 @@
 
 Note:- This is still a work in progress, and I am looking for some help with UI (I'm too bad at UI)
 
-<video width="500" height="300" controls>
-  <source src="https://i.imgur.com/hqcaiuZ.mp4" type="video/mp4">
-</video>
+
+
+https://github.com/27Saumya/Macboard/assets/64534496/bf908bcf-c6a5-489a-903c-fc28d42a419c
+
+
 
 ### Overview
 
