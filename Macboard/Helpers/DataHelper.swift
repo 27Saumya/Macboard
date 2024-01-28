@@ -11,7 +11,7 @@ enum ContentType: Codable {
 @Model
 class ClipboardItem: Identifiable {
     let id: String
-    let createdAt: Date
+    var createdAt: Date
     let content: String?
     let imageData: Data?
     var isFavourite: Bool = false

@@ -11,7 +11,6 @@ struct ClipboardItemListView: View {
     
     @StateObject var viewModel = MetadataViewModel()
     
-    @State private var counter = 0
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
     @State private var toastPosition: CGPoint = .zero
@@ -154,7 +153,16 @@ struct ClipboardItemListView: View {
                     }
                 }) == nil {
                     newItem = ClipboardItem(content: content, contentType: .text)
-                    
+                } else {
+                    let existingItem = clipboardItems.first(where: {
+                        if $0.contentType == .text {
+                            return $0.content! == content
+                        } else {
+                            return false
+                        }
+                    })
+                    existingItem?.createdAt = Date.now
+                    try! context.save()
                 }
             }
         } else {
@@ -169,6 +177,16 @@ struct ClipboardItemListView: View {
                     }
                 }) == nil {
                     newItem = ClipboardItem(imageData: imageData, contentType: .image)
+                } else {
+                    let existingItem = clipboardItems.first(where: {
+                        if $0.contentType == .image {
+                            return $0.imageData! == imageData
+                        } else {
+                            return false
+                        }
+                    })
+                    existingItem?.createdAt = Date.now
+                    try! context.save()
                 }
             }
         }
