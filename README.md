@@ -2,7 +2,9 @@
 
 Note:- This is still a work in progress, and I am looking for some help with UI (I'm too bad at UI)
 
-![](https://i.imgur.com/hqcaiuZ.mp4)
+<video width="500" height="300" controls>
+  <source src="https://i.imgur.com/hqcaiuZ.mp4" type="video/mp4">
+</video>
 
 ### Overview
 
@@ -21,3 +23,4 @@ This is a minimalistic, blazingly fast and clean clipboard manager for MacOS
 ### Installation
 
 As this project is currently a work in progress, you can only install it by cloning the repository and opening it with XCode.
+
