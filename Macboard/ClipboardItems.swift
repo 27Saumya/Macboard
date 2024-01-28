@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import AppKit
 import SwiftData
 import Cocoa
 
@@ -8,6 +9,9 @@ struct ClipboardItemListView: View {
     
     @Environment(\.modelContext) private var context
     
+    @StateObject var viewModel = MetadataViewModel()
+    
+    @State private var counter = 0
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
     @State private var toastPosition: CGPoint = .zero
@@ -17,31 +21,50 @@ struct ClipboardItemListView: View {
     @State private var clipboardChangeTimer: Timer?
 
     var body: some View {
-        
-        List {
-            Section {
-                ForEach(clipboardItems) { item in
+        NavigationSplitView {
+            List {
+                Section {
+                    ForEach(clipboardItems) { item in
                         VStack(alignment: .leading, spacing: 10) {
                             HStack {
                                 if item.contentType == .text {
-                                    if item.content!.isValidURL {
-                                        Link(item.content!, destination: URL(string: item.content!)!)
-                                    }
-                                    else {
-                                        Text(item.content!)
-                                            .lineLimit(1)
+                                    NavigationLink {
+                                        DetailedView(clipboardItem: item, vm: viewModel)
+                                            .onAppear {
+                                                if item.content!.isValidURL {
+                                                    viewModel.fetchMetadata(item.content!)
+                                                }
+                                            }
+                                            .onChange(of: item) {
+                                                if item.content!.isValidURL {
+                                                    viewModel.fetchMetadata(item.content!)
+                                                }
+                                            }
+                                    } label: {
+                                        HStack {
+                                            if item.content!.isValidURL {
+                                                Image(systemName: "link.circle.fill")
+                                            } else {
+                                                Image(systemName: "doc.text.fill")
+                                            }
+                                            Text(item.content!)
+                                                .lineLimit(1)
+                                        }
                                     }
                                 } else {
-                                    let image = dataToImage(item.imageData!)
-                                    image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .scaledToFit()
-                                        .frame(width: 100, height: 50, alignment: .leading)
+                                    NavigationLink {
+                                        DetailedView(clipboardItem: item, vm: viewModel)
+                                    } label: {
+                                        HStack{
+                                            Image(systemName: "photo.fill")
+                                            Text(dataToImage(item.imageData!).1)
+                                                .lineLimit(1)
+                                        }
+                                    }
                                 }
                                 
                                 Spacer()
-
+                                
                                 Button(action: {
                                     withAnimation {
                                         let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
@@ -52,7 +75,7 @@ struct ClipboardItemListView: View {
                                     Image(systemName: item.isFavourite ? "star.fill" : "star")
                                 }
                                 .buttonStyle(LinkButtonStyle())
-
+                                
                                 Button(action: {
                                     let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
                                     withAnimation {
@@ -63,7 +86,7 @@ struct ClipboardItemListView: View {
                                     Image(systemName: "trash")
                                 }
                                 .buttonStyle(LinkButtonStyle())
-
+                                
                                 Button(action: {
                                     let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
                                     withAnimation {
@@ -82,32 +105,39 @@ struct ClipboardItemListView: View {
                             }
                         }
                     }
-                
-            } header: {
-                HStack {
-                    Text("Clipboard")
-                    Spacer()
-                    Button(action: {
-                        let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
-                        withAnimation {
-                            clearClipboard(context: context)
-                            showToast(message: "Cleared the Clipboard!", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
-                        }
-                    }) {
-                        Text("Clear Clipboard")
-                            .onAppear {
-                                clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [self] _ in
-                                    checkClipboard(context: context)
-                                }
+                    
+                } header: {
+                    HStack {
+                        Button(action: {
+                            let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
+                            withAnimation {
+                                clearClipboard(context: context)
+                                showToast(message: "Cleared the Clipboard!", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
                             }
+                        }) {
+                            Text("Clear Clipboard")
+                                .fontWeight(.medium)
+                                .onAppear {
+                                    clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [self] _ in
+                                        checkClipboard(context: context)
+                                    }
+                                }
+                        }
+                        .buttonStyle(LinkButtonStyle())
                     }
-                    .buttonStyle(LinkButtonStyle())
+                    
                 }
                 
-                }
-            
+            }
+            .frame(minWidth: 300, idealWidth: 350)
+            .listStyle(SidebarListStyle())
+            .navigationTitle("Clipboard History")
+            .toast(isShowing: $showToast, message: toastMessage, position: toastPosition)
+        } detail: {
+            Text("Select an item to get its detailed view")
+                .padding()
+                .bold()
         }
-        .toast(isShowing: $showToast, message: toastMessage, position: toastPosition)
     }
     
     func checkClipboard(context: ModelContext) {
@@ -174,22 +204,13 @@ struct ClipboardItemListView: View {
             try! context.save()
         }
     }
-    
-    func dataToImage(_ value: Data) -> Image {
-        #if canImport(AppKit)
-            let image = NSImage(data: value) ?? NSImage()
-            return Image(nsImage: image)
-        #else
-            return Image(systemName: "photo.fill")
-        #endif
-    }
 
     func showToast(message: String, position: CGPoint) {
         toastMessage = message
         toastPosition = position
         showToast.toggle()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             showToast.toggle()
         }
     }
