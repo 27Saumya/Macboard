@@ -1,13 +1,11 @@
 import SwiftUI
-import LinkPresentation
 
 struct DetailedView: View {
     
     let clipboardItem: ClipboardItem
+    @ObservedObject var vm: MetadataViewModel
     
     @State private var hover: Bool = false
-    @State private var metaImage: Image?
-    @State private var metaData: [String: String?]
     
     var body: some View {
         VStack {
@@ -15,12 +13,18 @@ struct DetailedView: View {
                 List {
                     Section {
                         if clipboardItem.content!.isValidURL {
-                            if let metaImage = metaImage {
-                                metaImage
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .scaledToFit()
-                                    .frame(maxWidth: .infinity, alignment: .center)
+                            let imageURLString = vm.metadata.first(where: {$0.key == "Image"})?.value
+                            if imageURLString != nil {
+                                if imageURLString != "Not Found" {
+                                    let imageURL = URL(string: imageURLString!)!
+                                    RemoteImage(url: imageURL)
+                                } else {
+                                    Image(systemName: "photo.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .scaledToFit()
+                                        .frame(maxWidth: .infinity, alignment: .center)
+                                }
                             } else {
                                 Image(systemName: "photo.fill")
                                     .resizable()
@@ -28,6 +32,7 @@ struct DetailedView: View {
                                     .scaledToFit()
                                     .frame(maxWidth: .infinity, alignment: .center)
                             }
+                            
                         } else {
                             Text(clipboardItem.content!)
                                 .textFieldStyle(.roundedBorder)
@@ -58,8 +63,15 @@ struct DetailedView: View {
                     if clipboardItem.content!.isValidURL {
                         Section {
                             HStack {
+                                Image(systemName: "person.badge.clock.fill")
+                                Text("Copied:")
+                                Spacer()
+                                Text(clipboardItem.createdAt.timeAgoDisplay())
+                            }
+                            
+                            HStack {
                                 Image(systemName: "link")
-                                Text("URL")
+                                Text("URL:")
                                 Spacer()
                                 Link(clipboardItem.content!, destination: URL(string: clipboardItem.content!)!)
                                     .textFieldStyle(.roundedBorder)
@@ -76,10 +88,29 @@ struct DetailedView: View {
                                     })
                             }
                             
+                            if let title = vm.metadata.first(where: {$0.key == "Title"})?.value {
+                                HStack {
+                                    Image(systemName: "pencil")
+                                    Text("Title:")
+                                    Spacer()
+                                    Text(title)
+                                }
+                            }
+                            
+                            if let description = vm.metadata.first(where: {$0.key == "Description"})?.value {
+                                HStack {
+                                    Image(systemName: "note.text")
+                                    Text("Description:")
+                                    Spacer()
+                                    Text(description)
+                                }
+                            }
+                            
                             HStack {
-                                Image(systemName: "pencil")
-                                Text("Title")
+                                Image(systemName: "server.rack")
+                                Text("Host Name:")
                                 Spacer()
+                                Text(URL(string: clipboardItem.content!)!.host() ?? "Unable to find URL Host")
                             }
                             
                         } header: {
@@ -93,19 +124,17 @@ struct DetailedView: View {
                         Section {
                             HStack {
                                 Image(systemName: "person.badge.clock.fill")
-                                Text("Copied")
+                                Text("Copied:")
                                 Spacer()
                                 Text(clipboardItem.createdAt.timeAgoDisplay())
                             }
                             
                             HStack {
                                 Image(systemName: "note.text")
-                                Text("Type")
+                                Text("Type:")
                                 Spacer()
                                 if clipboardItem.content!.contains("\n") {
                                     Text("Multi-line Text")
-                                } else if clipboardItem.content!.isValidURL {
-                                    Text("URL")
                                 } else if clipboardItem.content!.isNum {
                                     Text("Number")
                                 } else {
@@ -131,6 +160,7 @@ struct DetailedView: View {
                             .aspectRatio(contentMode: .fill)
                             .scaledToFit()
                             .frame(maxWidth: .infinity, alignment: .center)
+                            .clipShape(.buttonBorder)
                     } header: {
                         HStack {
                             Image(systemName: "photo.fill")
@@ -141,14 +171,14 @@ struct DetailedView: View {
                     Section {
                         HStack {
                             Image(systemName: "person.badge.clock.fill")
-                            Text("Copied")
+                            Text("Copied:")
                             Spacer()
                             Text(clipboardItem.createdAt.timeAgoDisplay())
                         }
                         
                         HStack {
                             Image(systemName: "photo.fill")
-                            Text("Type")
+                            Text("Type:")
                             Spacer()
                             Text("TIFF Image")
                         }
@@ -156,32 +186,6 @@ struct DetailedView: View {
                         HStack {
                             Image(systemName: "info.circle.fill")
                             Text("Details")
-                        }
-                    }
-                }
-            }
-        }.task {
-            await fetchMetadata(content: clipboardItem.content ?? nil)
-        }
-    }
-    
-    private func fetchMetadata(content: String?) async {
-        if content != nil {
-            if content!.isValidURL {
-                let url = URL(string: content!)
-                if url != nil {
-                    let _metaData = await extractMetadata(from: url!)
-                    metaData = ["Title": _metaData?.title,
-                                "Description": _metaData?.value(forKey: "_summary") as? String,
-                                "HostName": url!.host]
-                    _ = _metaData?.imageProvider?.loadDataRepresentation(for: .image) { imageData, error in
-                        if let imageData = imageData {
-                            let nsImage = NSImage(data: imageData)
-                            if nsImage != nil {
-                                metaImage = Image(nsImage: nsImage!)
-                            } else {
-                                metaImage = nil
-                            }
                         }
                     }
                 }

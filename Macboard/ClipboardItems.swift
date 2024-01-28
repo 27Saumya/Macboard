@@ -9,6 +9,9 @@ struct ClipboardItemListView: View {
     
     @Environment(\.modelContext) private var context
     
+    @StateObject var viewModel = MetadataViewModel()
+    
+    @State private var counter = 0
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
     @State private var toastPosition: CGPoint = .zero
@@ -26,7 +29,17 @@ struct ClipboardItemListView: View {
                             HStack {
                                 if item.contentType == .text {
                                     NavigationLink {
-                                        DetailedView(clipboardItem: item)
+                                        DetailedView(clipboardItem: item, vm: viewModel)
+                                            .onAppear {
+                                                if item.content!.isValidURL {
+                                                    viewModel.fetchMetadata(item.content!)
+                                                }
+                                            }
+                                            .onChange(of: item) {
+                                                if item.content!.isValidURL {
+                                                    viewModel.fetchMetadata(item.content!)
+                                                }
+                                            }
                                     } label: {
                                         HStack {
                                             if item.content!.isValidURL {
@@ -40,7 +53,7 @@ struct ClipboardItemListView: View {
                                     }
                                 } else {
                                     NavigationLink {
-                                        DetailedView(clipboardItem: item)
+                                        DetailedView(clipboardItem: item, vm: viewModel)
                                     } label: {
                                         HStack{
                                             Image(systemName: "photo.fill")
@@ -103,6 +116,7 @@ struct ClipboardItemListView: View {
                             }
                         }) {
                             Text("Clear Clipboard")
+                                .fontWeight(.medium)
                                 .onAppear {
                                     clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [self] _ in
                                         checkClipboard(context: context)

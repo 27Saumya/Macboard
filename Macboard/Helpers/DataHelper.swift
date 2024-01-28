@@ -28,3 +28,8 @@ class ClipboardItem: Identifiable {
         self.contentType = contentType
     }
 }
+
+struct Metadata {
+    let key: String
+    let value: String
+}
