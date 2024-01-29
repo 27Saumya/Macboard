@@ -101,6 +101,7 @@ struct ClipboardItemListView: View {
                                     Image(systemName: "doc.on.doc")
                                 }
                                 .buttonStyle(LinkButtonStyle())
+                                .validKeyboardShortcut(number: clipboardItems.firstIndex(of: item)!, modifiers: [.command])
                             }
                         }
                     }
@@ -214,6 +215,7 @@ struct ClipboardItemListView: View {
     func removeClipboardItem(context: ModelContext, at index: Int) {
         guard index >= 0, index < clipboardItems.count else { return }
         context.delete(clipboardItems[index])
+        try! context.save()
     }
 
     func toggleFavourite(context: ModelContext, for item: ClipboardItem) {

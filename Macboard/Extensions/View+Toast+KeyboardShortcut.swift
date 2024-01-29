@@ -21,3 +21,16 @@ extension View {
         }
     }
 }
+
+extension View {
+    func validKeyboardShortcut(number: Int, modifiers: EventModifiers) -> some View {
+        ZStack {
+            self
+            
+            if number < 9 {
+                let key = KeyEquivalent(Character(UnicodeScalar("\(number+1)".replacingOccurrences(of: "0", with: ""))!))
+                self.keyboardShortcut(key , modifiers: modifiers)
+            }
+        }
+    }
+}
