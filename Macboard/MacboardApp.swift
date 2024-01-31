@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import Cocoa
+import HotKey
 
 @main
 struct MacboardApp: App {
@@ -17,14 +18,19 @@ struct MacboardApp: App {
 class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     private var statusItem: NSStatusItem!
     private var popover: NSPopover!
+    let openHotKey = HotKey(key: .v, modifiers: [.shift, .command])
     
     @MainActor func applicationDidFinishLaunching(_ notification: Notification) {
         let rootView = ClipboardItemListView().modelContainer(for: [ClipboardItem.self])
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         if let statusButton = statusItem.button {
-            statusButton.image = NSImage(systemSymbolName: "list.bullet.clipboard", accessibilityDescription: "Macboard")
+            statusButton.image = NSImage(systemSymbolName: "list.bullet.clipboard.fill", accessibilityDescription: "Macboard")
             statusButton.action = #selector(togglePopover)
+        }
+        
+        openHotKey.keyUpHandler = {
+            self.togglePopover()
         }
         
         self.popover = NSPopover()
