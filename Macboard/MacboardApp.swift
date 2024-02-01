@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     let openHotKey = HotKey(key: .v, modifiers: [.shift, .command])
     
     @MainActor func applicationDidFinishLaunching(_ notification: Notification) {
-        let rootView = ClipboardItemListView().modelContainer(for: [ClipboardItem.self])
+        let rootView = ClipboardItemListView().environment(\.managedObjectContext, PersistanceController.shared.container.viewContext)
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         if let statusButton = statusItem.button {

@@ -13,10 +13,12 @@
 		C5091C842B5C4D8B0091896F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */; };
 		C5230DCF2B6B6E7900B6E8F7 /* View+Toast+KeyboardShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5230DCE2B6B6E7900B6E8F7 /* View+Toast+KeyboardShortcut.swift */; };
 		C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */; };
+		C56E675E2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C56E675C2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld */; };
 		C57241EA2B67CF5900703101 /* MacboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57241E92B67CF5900703101 /* MacboardTests.swift */; };
 		C5A5BC932B62692000104D06 /* String+isValidURL+isNum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5BC922B62692000104D06 /* String+isValidURL+isNum.swift */; };
 		C5A5BC982B626A8800104D06 /* Date+TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5BC972B626A8800104D06 /* Date+TimeAgo.swift */; };
 		C5A5BC9A2B626EEC00104D06 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5BC992B626EEC00104D06 /* Functions.swift */; };
+		C5CEB1492B6BB8D600495EE3 /* PersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CEB1482B6BB8D600495EE3 /* PersistanceController.swift */; };
 		C5CF08012B6AE42B00B03EB5 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = C5CF08002B6AE42B00B03EB5 /* HotKey */; };
 		C5D534AF2B604F8E00074920 /* Bool+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D534AE2B604F8E00074920 /* Bool+Comparable.swift */; };
 		C5D534B12B604FE000074920 /* ViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D534B02B604FE000074920 /* ViewHelper.swift */; };
@@ -42,11 +44,13 @@
 		C5091C852B5C4D8B0091896F /* Macboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macboard.entitlements; sourceTree = "<group>"; };
 		C5230DCE2B6B6E7900B6E8F7 /* View+Toast+KeyboardShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Toast+KeyboardShortcut.swift"; sourceTree = "<group>"; };
 		C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItems.swift; sourceTree = "<group>"; };
+		C56E675D2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipboardItem.xcdatamodel; sourceTree = "<group>"; };
 		C57241E72B67CF5900703101 /* MacboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C57241E92B67CF5900703101 /* MacboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacboardTests.swift; sourceTree = "<group>"; };
 		C5A5BC922B62692000104D06 /* String+isValidURL+isNum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+isValidURL+isNum.swift"; sourceTree = "<group>"; };
 		C5A5BC972B626A8800104D06 /* Date+TimeAgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeAgo.swift"; sourceTree = "<group>"; };
 		C5A5BC992B626EEC00104D06 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		C5CEB1482B6BB8D600495EE3 /* PersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceController.swift; sourceTree = "<group>"; };
 		C5D534AE2B604F8E00074920 /* Bool+Comparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Comparable.swift"; sourceTree = "<group>"; };
 		C5D534B02B604FE000074920 /* ViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHelper.swift; sourceTree = "<group>"; };
 		C5DBE0DA2B62493000418163 /* DetailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedView.swift; sourceTree = "<group>"; };
@@ -92,6 +96,7 @@
 		C5091C7B2B5C4D8A0091896F /* Macboard */ = {
 			isa = PBXGroup;
 			children = (
+				C56E675A2B6B9B4100AE7CE7 /* Models */,
 				C5A5BC962B6269DE00104D06 /* Helpers */,
 				C5A5BC912B6268CC00104D06 /* Extensions */,
 				C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */,
@@ -110,6 +115,23 @@
 				C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C56E675A2B6B9B4100AE7CE7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C56E675B2B6B9B5900AE7CE7 /* DataModel */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C56E675B2B6B9B5900AE7CE7 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				C56E675C2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld */,
+				C5CEB1482B6BB8D600495EE3 /* PersistanceController.swift */,
+			);
+			path = DataModel;
 			sourceTree = "<group>";
 		};
 		C57241E82B67CF5900703101 /* MacboardTests */ = {
@@ -251,7 +273,9 @@
 				C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */,
 				C506F0B92B5FBECF0031F4D2 /* DataHelper.swift in Sources */,
 				C5A5BC9A2B626EEC00104D06 /* Functions.swift in Sources */,
+				C56E675E2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld in Sources */,
 				C5A5BC932B62692000104D06 /* String+isValidURL+isNum.swift in Sources */,
+				C5CEB1492B6BB8D600495EE3 /* PersistanceController.swift in Sources */,
 				C5D534AF2B604F8E00074920 /* Bool+Comparable.swift in Sources */,
 				C5DBE0DB2B62493000418163 /* DetailedView.swift in Sources */,
 				C5230DCF2B6B6E7900B6E8F7 /* View+Toast+KeyboardShortcut.swift in Sources */,
@@ -539,6 +563,19 @@
 			productName = HotKey;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		C56E675C2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C56E675D2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodel */,
+			);
+			currentVersion = C56E675D2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodel */;
+			path = ClipboardItem.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C5091C712B5C4D8A0091896F /* Project object */;
 }

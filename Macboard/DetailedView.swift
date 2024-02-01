@@ -9,7 +9,7 @@ struct DetailedView: View {
     
     var body: some View {
         VStack {
-            if clipboardItem.contentType == .text {
+            if clipboardItem.contentType == "Text" {
                 List {
                     Section {
                         if clipboardItem.content!.isValidURL {
@@ -66,7 +66,7 @@ struct DetailedView: View {
                                 Image(systemName: "person.badge.clock.fill")
                                 Text("Copied:")
                                 Spacer()
-                                Text(clipboardItem.createdAt.timeAgoDisplay())
+                                Text(clipboardItem.createdAt!.timeAgoDisplay())
                             }
                             
                             HStack {
@@ -126,7 +126,7 @@ struct DetailedView: View {
                                 Image(systemName: "person.badge.clock.fill")
                                 Text("Copied:")
                                 Spacer()
-                                Text(clipboardItem.createdAt.timeAgoDisplay())
+                                Text(clipboardItem.createdAt!.timeAgoDisplay())
                             }
                             
                             HStack {
@@ -173,7 +173,7 @@ struct DetailedView: View {
                             Image(systemName: "person.badge.clock.fill")
                             Text("Copied:")
                             Spacer()
-                            Text(clipboardItem.createdAt.timeAgoDisplay())
+                            Text(clipboardItem.createdAt!.timeAgoDisplay())
                         }
                         
                         HStack {

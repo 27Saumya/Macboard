@@ -1,10 +1,10 @@
 import SwiftUI
-import SwiftData
+import CoreData
 import Cocoa
 
 struct ClipboardItemListView: View {
     
-    @Environment(\.modelContext) private var context
+    @Environment(\.managedObjectContext) private var context
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     @StateObject var viewModel = MetadataViewModel()
@@ -13,18 +13,21 @@ struct ClipboardItemListView: View {
     @State private var toastMessage: String = ""
     @State private var toastPosition: CGPoint = .zero
     
-    @Query(sort: [SortDescriptor(\ClipboardItem.isFavourite, order: .reverse), SortDescriptor(\ClipboardItem.createdAt, order: .reverse)]) var clipboardItems: [ClipboardItem]
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.isPinned, order: .reverse), 
+                                    SortDescriptor(\.createdAt, order: .reverse)])
+    var clipboardItems: FetchedResults<ClipboardItem>
     
     @State private var clipboardChangeTimer: Timer?
     
     let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
+    let dataManager = CoreDataManager()
 
     var body: some View {
         NavigationSplitView {
             List {
                 ForEach(clipboardItems) { item in
                     HStack {
-                        if item.contentType == .text {
+                        if item.contentType == "Text" {
                             NavigationLink {
                                 DetailedView(clipboardItem: item, vm: viewModel)
                                     .onAppear {
@@ -64,17 +67,17 @@ struct ClipboardItemListView: View {
                         
                         Button(action: {
                             withAnimation {
-                                toggleFavourite(context: context, for: item)
-                                showToast(message: item.isFavourite ? "Pinned" : "Unpinned", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                dataManager.togglePin(for: item)
+                                showToast(message: item.isPinned ? "Pinned" : "Unpinned", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
                             }
                         }) {
-                            Image(systemName: item.isFavourite ? "pin.fill" : "pin")
+                            Image(systemName: item.isPinned ? "pin.fill" : "pin")
                         }
                         .buttonStyle(LinkButtonStyle())
                         
                         Button(action: {
                             withAnimation {
-                                removeClipboardItem(context: context, at: clipboardItems.firstIndex(where: { $0.id == item.id })!)
+                                dataManager.deleteItem(item: item)
                                 showToast(message: "Removed from Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
                             }
                         }) {
@@ -85,7 +88,7 @@ struct ClipboardItemListView: View {
                         Button(action: {
                             withAnimation {
                                 NSPasteboard.general.clearContents()
-                                if item.contentType == .image {
+                                if item.contentType == "Image" {
                                     NSPasteboard.general.setData(item.imageData!, forType: .tiff)
                                 } else {
                                     NSPasteboard.general.setString(item.content!, forType: .string)
@@ -116,7 +119,7 @@ struct ClipboardItemListView: View {
             
             Button(action: {
                 withAnimation {
-                    clearClipboard(context: context)
+                    dataManager.clearClipboard()
                     showToast(message: "Copied to Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
                 }
             }) {
@@ -167,30 +170,28 @@ struct ClipboardItemListView: View {
         
     }
     
-    func checkClipboard(context: ModelContext) {
-        var newItem: ClipboardItem?
-        if clipboardContentType().0 == .text {
+    func checkClipboard(context: NSManagedObjectContext) {
+        if clipboardContentType().0 == "Text" {
             guard let content = NSPasteboard.general.string(forType: .string), !content.isEmpty else { return }
             
             if !content.isEmpty {
                 if clipboardItems.firstIndex(where: {
-                    if $0.contentType == .text {
+                    if $0.contentType == "Text" {
                         return $0.content! == content
                     } else {
                         return false
                     }
                 }) == nil {
-                    newItem = ClipboardItem(content: content, contentType: .text)
+                    dataManager.addToClipboard(content: content, contentType: "Text", context: context)
                 } else {
                     let existingItem = clipboardItems.first(where: {
-                        if $0.contentType == .text {
+                        if $0.contentType == "Text" {
                             return $0.content! == content
                         } else {
                             return false
                         }
                     })
-                    existingItem?.createdAt = Date.now
-                    try! context.save()
+                    dataManager.isReCopied(item: existingItem!)
                 }
             }
         } else {
@@ -200,65 +201,42 @@ struct ClipboardItemListView: View {
                 
                 if !imageData.isEmpty {
                     if clipboardItems.firstIndex(where: {
-                        if $0.contentType == .image {
+                        if $0.contentType == "Image" {
                             return $0.imageData! == imageData
                         } else {
                             return false
                         }
                     }) == nil {
-                        newItem = ClipboardItem(imageData: imageData, contentType: .image)
+                        dataManager.addToClipboard(imageData: imageData, contentType: "Image", context: context)
                     } else {
                         let existingItem = clipboardItems.first(where: {
-                            if $0.contentType == .image {
+                            if $0.contentType == "Image" {
                                 return $0.imageData! == imageData
                             } else {
                                 return false
                             }
                         })
-                        existingItem?.createdAt = Date.now
-                        try! context.save()
+                        dataManager.isReCopied(item: existingItem!)
                     }
                 }
             }
         }
-        if newItem != nil {
-            context.insert(newItem!)
-        }
     }
     
-    func clipboardContentType() -> (ContentType?, NSPasteboard.PasteboardType?) {
+    func clipboardContentType() -> (String?, NSPasteboard.PasteboardType?) {
         let image_types: [NSPasteboard.PasteboardType] = [.png, .tiff]
         let _type = NSPasteboard.general.types?.first
         if _type != nil {
             if image_types.contains(_type!) {
-                return (.image, _type!)
+                return ("Image", _type!)
             } else {
-                return (.text, nil)
+                return ("Text", nil)
             }
         } else {
             return (nil, nil)
         }
     }
-
-    func clearClipboard(context: ModelContext) {
-        for item in clipboardItems {
-            context.delete(item)
-        }
-    }
-
-    func removeClipboardItem(context: ModelContext, at index: Int) {
-        guard index >= 0, index < clipboardItems.count else { return }
-        context.delete(clipboardItems[index])
-        try! context.save()
-    }
-
-    func toggleFavourite(context: ModelContext, for item: ClipboardItem) {
-        if let index = clipboardItems.firstIndex(where: { $0.id == item.id }) {
-            clipboardItems[index].isFavourite.toggle()
-            try! context.save()
-        }
-    }
-
+    
     func showToast(message: String, position: CGPoint) {
         toastMessage = message
         toastPosition = position
