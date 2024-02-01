@@ -1,6 +1,4 @@
-import Foundation
 import SwiftUI
-import AppKit
 import SwiftData
 import Cocoa
 
@@ -93,12 +91,12 @@ struct ClipboardItemListView: View {
                                     NSPasteboard.general.setString(item.content!, forType: .string)
                                 }
                                 showToast(message: "Copied to Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
-                                
                             }
                         }) {
                             Image(systemName: "doc.on.doc")
                         }
                         .buttonStyle(LinkButtonStyle())
+                        .validKeyboardShortcut(number: clipboardItems.firstIndex(of: item)!, modifiers: [.command])
                     }
                 }
                 
