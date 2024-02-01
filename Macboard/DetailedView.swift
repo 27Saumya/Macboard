@@ -107,10 +107,10 @@ struct DetailedView: View {
                             }
                             
                             HStack {
-                                Image(systemName: "server.rack")
-                                Text("Host Name:")
+                                Image(systemName: "app.badge.checkmark.fill")
+                                Text("Source App:")
                                 Spacer()
-                                Text(URL(string: clipboardItem.content!)!.host() ?? "Unable to find URL Host")
+                                Text(clipboardItem.sourceApp ?? "Unknown")
                             }
                             
                         } header: {
@@ -142,6 +142,13 @@ struct DetailedView: View {
                                 }
                             }
                             
+                            HStack {
+                                Image(systemName: "app.badge.checkmark.fill")
+                                Text("Source App:")
+                                Spacer()
+                                Text(clipboardItem.sourceApp ?? "Unknown")
+                            }
+                            
                         } header: {
                             HStack {
                                 Image(systemName: "info.circle.fill")
@@ -160,7 +167,6 @@ struct DetailedView: View {
                             .aspectRatio(contentMode: .fill)
                             .scaledToFit()
                             .frame(maxWidth: .infinity, alignment: .center)
-                            .clipShape(.buttonBorder)
                     } header: {
                         HStack {
                             Image(systemName: "photo.fill")
@@ -182,6 +188,14 @@ struct DetailedView: View {
                             Spacer()
                             Text("TIFF Image")
                         }
+                        
+                        HStack {
+                            Image(systemName: "app.badge.checkmark.fill")
+                            Text("Source App:")
+                            Spacer()
+                            Text(clipboardItem.sourceApp ?? "Unknown")
+                        }
+                        
                     } header: {
                         HStack {
                             Image(systemName: "info.circle.fill")

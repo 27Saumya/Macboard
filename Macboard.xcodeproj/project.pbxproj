@@ -11,7 +11,7 @@
 		C5091C7D2B5C4D8A0091896F /* MacboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */; };
 		C5091C812B5C4D8B0091896F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C802B5C4D8B0091896F /* Assets.xcassets */; };
 		C5091C842B5C4D8B0091896F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */; };
-		C5230DCF2B6B6E7900B6E8F7 /* View+Toast+KeyboardShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5230DCE2B6B6E7900B6E8F7 /* View+Toast+KeyboardShortcut.swift */; };
+		C5230DCF2B6B6E7900B6E8F7 /* View++.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5230DCE2B6B6E7900B6E8F7 /* View++.swift */; };
 		C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */; };
 		C56E675E2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C56E675C2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld */; };
 		C57241EA2B67CF5900703101 /* MacboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57241E92B67CF5900703101 /* MacboardTests.swift */; };
@@ -42,7 +42,7 @@
 		C5091C802B5C4D8B0091896F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C5091C852B5C4D8B0091896F /* Macboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macboard.entitlements; sourceTree = "<group>"; };
-		C5230DCE2B6B6E7900B6E8F7 /* View+Toast+KeyboardShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Toast+KeyboardShortcut.swift"; sourceTree = "<group>"; };
+		C5230DCE2B6B6E7900B6E8F7 /* View++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View++.swift"; sourceTree = "<group>"; };
 		C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItems.swift; sourceTree = "<group>"; };
 		C56E675D2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipboardItem.xcdatamodel; sourceTree = "<group>"; };
 		C57241E72B67CF5900703101 /* MacboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,7 +148,7 @@
 				C5D534AE2B604F8E00074920 /* Bool+Comparable.swift */,
 				C5A5BC922B62692000104D06 /* String+isValidURL+isNum.swift */,
 				C5A5BC972B626A8800104D06 /* Date+TimeAgo.swift */,
-				C5230DCE2B6B6E7900B6E8F7 /* View+Toast+KeyboardShortcut.swift */,
+				C5230DCE2B6B6E7900B6E8F7 /* View++.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -278,7 +278,7 @@
 				C5CEB1492B6BB8D600495EE3 /* PersistanceController.swift in Sources */,
 				C5D534AF2B604F8E00074920 /* Bool+Comparable.swift in Sources */,
 				C5DBE0DB2B62493000418163 /* DetailedView.swift in Sources */,
-				C5230DCF2B6B6E7900B6E8F7 /* View+Toast+KeyboardShortcut.swift in Sources */,
+				C5230DCF2B6B6E7900B6E8F7 /* View++.swift in Sources */,
 				C5A5BC982B626A8800104D06 /* Date+TimeAgo.swift in Sources */,
 				C5091C7D2B5C4D8A0091896F /* MacboardApp.swift in Sources */,
 			);
@@ -356,7 +356,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -413,7 +413,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -435,6 +435,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -463,6 +464,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -12,10 +12,25 @@ struct ClipboardItemListView: View {
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
     @State private var toastPosition: CGPoint = .zero
+    @State private var isShowingConfirmationDialog = false
+    @State private var searchText = ""
+        var query: Binding<String> {
+            Binding {
+                searchText
+            } set: { newValue in
+                searchText = newValue
+                clipboardItems.nsPredicate = newValue.isEmpty
+                               ? nil
+                : NSPredicate(format: "content CONTAINS %@", newValue)
+            }
+        }
     
     @FetchRequest(sortDescriptors: [SortDescriptor(\.isPinned, order: .reverse), 
                                     SortDescriptor(\.createdAt, order: .reverse)])
     var clipboardItems: FetchedResults<ClipboardItem>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.isPinned, order: .reverse),
+                                    SortDescriptor(\.createdAt, order: .reverse)])
+    var rawClipboardItems: FetchedResults<ClipboardItem>
     
     @State private var clipboardChangeTimer: Timer?
     
@@ -35,11 +50,12 @@ struct ClipboardItemListView: View {
                                             viewModel.fetchMetadata(item.content!)
                                         }
                                     }
-                                    .onChange(of: item) {
+                                    .onChange(of: item) { [item] newItem in
                                         if item.content!.isValidURL {
-                                            viewModel.fetchMetadata(item.content!)
+                                            viewModel.fetchMetadata(newItem.content!)
                                         }
                                     }
+                                    
                             } label: {
                                 HStack {
                                     if item.content!.isValidURL {
@@ -51,6 +67,7 @@ struct ClipboardItemListView: View {
                                         .lineLimit(1)
                                 }
                             }
+                            
                         } else {
                             NavigationLink {
                                 DetailedView(clipboardItem: item, vm: viewModel)
@@ -106,6 +123,7 @@ struct ClipboardItemListView: View {
             }
             .listStyle(SidebarListStyle())
             .navigationTitle("Clipboard History")
+            .searchable(text: query, placement: .sidebar, prompt: "type to search...")
             .toast(isShowing: $showToast, message: toastMessage, position: toastPosition)
             .onAppear {
                 clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [self] _ in
@@ -119,8 +137,7 @@ struct ClipboardItemListView: View {
             
             Button(action: {
                 withAnimation {
-                    dataManager.clearClipboard()
-                    showToast(message: "Copied to Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                    isShowingConfirmationDialog = true
                 }
             }) {
                 HStack {
@@ -138,6 +155,16 @@ struct ClipboardItemListView: View {
             .buttonStyle(PlainButtonStyle())
             .frame(minWidth: 300, idealWidth: 350, minHeight: 15, idealHeight: 15, maxHeight: 15)
             .keyboardShortcut("/")
+            .confirmationDialog("Are you sure you want to clear your clipboard history?", 
+                                isPresented: $isShowingConfirmationDialog) {
+                Button("Yes") {
+                    withAnimation {
+                        dataManager.clearClipboard()
+                        showToast(message: "Cleard the clipboard history", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                    }
+                }
+                Button("No", role: .destructive) { }
+            }
             
             Divider()
             
@@ -175,16 +202,17 @@ struct ClipboardItemListView: View {
             guard let content = NSPasteboard.general.string(forType: .string), !content.isEmpty else { return }
             
             if !content.isEmpty {
-                if clipboardItems.firstIndex(where: {
+                if rawClipboardItems.firstIndex(where: {
                     if $0.contentType == "Text" {
                         return $0.content! == content
                     } else {
                         return false
                     }
                 }) == nil {
-                    dataManager.addToClipboard(content: content, contentType: "Text", context: context)
+                    let sourceApp = NSWorkspace.shared.frontmostApplication?.localizedName ?? "Unknown"
+                    dataManager.addToClipboard(content: content, contentType: "Text", sourceApp: sourceApp, context: context)
                 } else {
-                    let existingItem = clipboardItems.first(where: {
+                    let existingItem = rawClipboardItems.first(where: {
                         if $0.contentType == "Text" {
                             return $0.content! == content
                         } else {
@@ -200,16 +228,17 @@ struct ClipboardItemListView: View {
                 guard let imageData = NSPasteboard.general.data(forType: contentType!) else { return }
                 
                 if !imageData.isEmpty {
-                    if clipboardItems.firstIndex(where: {
+                    if rawClipboardItems.firstIndex(where: {
                         if $0.contentType == "Image" {
                             return $0.imageData! == imageData
                         } else {
                             return false
                         }
                     }) == nil {
-                        dataManager.addToClipboard(imageData: imageData, contentType: "Image", context: context)
+                        let sourceApp = NSWorkspace.shared.frontmostApplication?.localizedName ?? "Unknown"
+                        dataManager.addToClipboard(imageData: imageData, contentType: "Image", sourceApp: sourceApp, context: context)
                     } else {
-                        let existingItem = clipboardItems.first(where: {
+                        let existingItem = rawClipboardItems.first(where: {
                             if $0.contentType == "Image" {
                                 return $0.imageData! == imageData
                             } else {
@@ -247,5 +276,3 @@ struct ClipboardItemListView: View {
         }
     }
 }
-
-
