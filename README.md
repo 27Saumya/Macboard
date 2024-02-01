@@ -2,11 +2,7 @@
 
 Note:- This is still a work in progress, and I am looking for some help with UI (I'm too bad at UI)
 
-
-
-https://github.com/27Saumya/Macboard/assets/64534496/ce091bca-eac3-4f71-91e0-8c89a35b0a83
-
-
+![Demo](https://i.imgur.com/vrNbL4M.png)
 
 ### Overview
 

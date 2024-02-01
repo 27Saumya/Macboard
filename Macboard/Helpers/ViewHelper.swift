@@ -1,4 +1,3 @@
-import Foundation
 import SwiftUI
 import Cocoa
 
@@ -134,7 +133,6 @@ struct RemoteImage: View {
                     .aspectRatio(contentMode: .fill)
                     .scaledToFit()
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .clipShape(.buttonBorder)
             } else {
                 Image(systemName: "photo.fill")
                     .resizable()

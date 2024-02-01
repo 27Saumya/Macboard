@@ -9,7 +9,7 @@ struct DetailedView: View {
     
     var body: some View {
         VStack {
-            if clipboardItem.contentType == .text {
+            if clipboardItem.contentType == "Text" {
                 List {
                     Section {
                         if clipboardItem.content!.isValidURL {
@@ -66,7 +66,7 @@ struct DetailedView: View {
                                 Image(systemName: "person.badge.clock.fill")
                                 Text("Copied:")
                                 Spacer()
-                                Text(clipboardItem.createdAt.timeAgoDisplay())
+                                Text(clipboardItem.createdAt!.timeAgoDisplay())
                             }
                             
                             HStack {
@@ -107,10 +107,10 @@ struct DetailedView: View {
                             }
                             
                             HStack {
-                                Image(systemName: "server.rack")
-                                Text("Host Name:")
+                                Image(systemName: "app.badge.checkmark.fill")
+                                Text("Source App:")
                                 Spacer()
-                                Text(URL(string: clipboardItem.content!)!.host() ?? "Unable to find URL Host")
+                                Text(clipboardItem.sourceApp ?? "Unknown")
                             }
                             
                         } header: {
@@ -126,7 +126,7 @@ struct DetailedView: View {
                                 Image(systemName: "person.badge.clock.fill")
                                 Text("Copied:")
                                 Spacer()
-                                Text(clipboardItem.createdAt.timeAgoDisplay())
+                                Text(clipboardItem.createdAt!.timeAgoDisplay())
                             }
                             
                             HStack {
@@ -140,6 +140,13 @@ struct DetailedView: View {
                                 } else {
                                     Text("RTF - Rich Text Format")
                                 }
+                            }
+                            
+                            HStack {
+                                Image(systemName: "app.badge.checkmark.fill")
+                                Text("Source App:")
+                                Spacer()
+                                Text(clipboardItem.sourceApp ?? "Unknown")
                             }
                             
                         } header: {
@@ -160,7 +167,6 @@ struct DetailedView: View {
                             .aspectRatio(contentMode: .fill)
                             .scaledToFit()
                             .frame(maxWidth: .infinity, alignment: .center)
-                            .clipShape(.buttonBorder)
                     } header: {
                         HStack {
                             Image(systemName: "photo.fill")
@@ -173,7 +179,7 @@ struct DetailedView: View {
                             Image(systemName: "person.badge.clock.fill")
                             Text("Copied:")
                             Spacer()
-                            Text(clipboardItem.createdAt.timeAgoDisplay())
+                            Text(clipboardItem.createdAt!.timeAgoDisplay())
                         }
                         
                         HStack {
@@ -182,6 +188,14 @@ struct DetailedView: View {
                             Spacer()
                             Text("TIFF Image")
                         }
+                        
+                        HStack {
+                            Image(systemName: "app.badge.checkmark.fill")
+                            Text("Source App:")
+                            Spacer()
+                            Text(clipboardItem.sourceApp ?? "Unknown")
+                        }
+                        
                     } header: {
                         HStack {
                             Image(systemName: "info.circle.fill")
