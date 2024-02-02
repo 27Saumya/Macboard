@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreData
 import Cocoa
+import PopupView
 
 struct ClipboardItemListView: View {
     
@@ -11,7 +12,6 @@ struct ClipboardItemListView: View {
     
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
-    @State private var toastPosition: CGPoint = .zero
     @State private var isShowingConfirmationDialog = false
     @State private var searchText = ""
         var query: Binding<String> {
@@ -24,6 +24,7 @@ struct ClipboardItemListView: View {
                 : NSPredicate(format: "content CONTAINS %@", newValue)
             }
         }
+    @State private var clipboardChangeTimer: Timer?
     
     @FetchRequest(sortDescriptors: [SortDescriptor(\.isPinned, order: .reverse), 
                                     SortDescriptor(\.createdAt, order: .reverse)])
@@ -31,10 +32,6 @@ struct ClipboardItemListView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.isPinned, order: .reverse),
                                     SortDescriptor(\.createdAt, order: .reverse)])
     var rawClipboardItems: FetchedResults<ClipboardItem>
-    
-    @State private var clipboardChangeTimer: Timer?
-    
-    let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
     let dataManager = CoreDataManager()
 
     var body: some View {
@@ -85,7 +82,7 @@ struct ClipboardItemListView: View {
                         Button(action: {
                             withAnimation {
                                 dataManager.togglePin(for: item)
-                                showToast(message: item.isPinned ? "Pinned" : "Unpinned", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                showToast(item.isPinned ? "Pinned" : "Unpinned")
                             }
                         }) {
                             Image(systemName: item.isPinned ? "pin.fill" : "pin")
@@ -95,7 +92,7 @@ struct ClipboardItemListView: View {
                         Button(action: {
                             withAnimation {
                                 dataManager.deleteItem(item: item)
-                                showToast(message: "Removed from Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                showToast("Removed from Clipboard")
                             }
                         }) {
                             Image(systemName: "trash")
@@ -110,7 +107,7 @@ struct ClipboardItemListView: View {
                                 } else {
                                     NSPasteboard.general.setString(item.content!, forType: .string)
                                 }
-                                showToast(message: "Copied to Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                showToast("Copied to clipboard")
                             }
                         }) {
                             Image(systemName: "doc.on.doc")
@@ -124,7 +121,16 @@ struct ClipboardItemListView: View {
             .listStyle(SidebarListStyle())
             .navigationTitle("Clipboard History")
             .searchable(text: query, placement: .sidebar, prompt: "type to search...")
-            .toast(isShowing: $showToast, message: toastMessage, position: toastPosition)
+            .popup(isPresented: $showToast) {
+                ToastTopFirst(message: toastMessage)
+            } customize: {
+                $0
+                    .type(.toast)
+                    .position(.bottom)
+                    .animation(.easeInOut)
+                    .closeOnTapOutside(true)
+                    .autohideIn(1.25)
+            }
             .onAppear {
                 clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [self] _ in
                     checkClipboard(context: context)
@@ -160,7 +166,7 @@ struct ClipboardItemListView: View {
                 Button("Yes") {
                     withAnimation {
                         dataManager.clearClipboard()
-                        showToast(message: "Cleard the clipboard history", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                        showToast("Cleard the clipboard history")
                     }
                 }
                 Button("No", role: .destructive) { }
@@ -171,20 +177,21 @@ struct ClipboardItemListView: View {
             Button(action: {
                 
             }) {
-                Text("Keyboard Shortcuts")
+                Text("Preferences")
                     .fontWeight(.medium)
                     .padding(.leading, 8)
                 Spacer()
                 HStack {
                     Image(systemName: "command")
                         .padding(.trailing, -4)
-                    Text("K")
+                    Text(",")
                         .fontWeight(.regular)
                 }
                 .padding(.trailing, 8)
             }
             .buttonStyle(PlainButtonStyle())
             .padding(.top, -8)
+            .keyboardShortcut(",")
             .frame(minWidth: 300, idealWidth: 350, minHeight: 18, idealHeight: 18, maxHeight: 18)
             
         .frame(minWidth: 300, idealWidth: 350)
@@ -266,13 +273,8 @@ struct ClipboardItemListView: View {
         }
     }
     
-    func showToast(message: String, position: CGPoint) {
+    func showToast(_ message: String) {
         toastMessage = message
-        toastPosition = position
-        showToast.toggle()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            showToast.toggle()
-        }
+        showToast = true
     }
 }

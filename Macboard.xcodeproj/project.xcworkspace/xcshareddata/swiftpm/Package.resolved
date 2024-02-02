@@ -8,6 +8,15 @@
         "branch" : "main",
         "revision" : "4d02d80de143d69b7eeb5962729591a157a57ede"
       }
+    },
+    {
+      "identity" : "popupview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/PopupView",
+      "state" : {
+        "revision" : "d34361fa70d57af2fffde2f1e8863de1f25bd0a3",
+        "version" : "2.8.4"
+      }
     }
   ],
   "version" : 2

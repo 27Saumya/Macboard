@@ -22,29 +22,19 @@ struct LinkButtonStyle: ButtonStyle {
 }
 
 
-struct ToastView: View {
-    var message: String
-
-    @State private var opacity: Double = 1
-
+struct ToastTopFirst: View {
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    let message: String
+    
     var body: some View {
-        VStack {
-            Spacer()
-            Text(message)
-                .foregroundColor(.white)
-                .padding(.vertical, 10)
-                .padding(.horizontal, 15)
-                .background(Color.black.opacity(0.7))
-                .cornerRadius(8)
-                .opacity(opacity)
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        withAnimation {
-                            opacity = 0
-                        }
-                    }
-                }
-        }
+        Text(message)
+            .font(.system(.subheadline, design: .rounded, weight: .medium))
+            .foregroundColor(Color.green)
+            .padding(.vertical, 10)
+            .padding(.horizontal, 15)
+            .cornerRadius(10)
+            .frame(maxWidth: .infinity)
+            .background(colorScheme == .light ? .white.opacity(0.9) : .black.opacity(0.7))
     }
 }
 

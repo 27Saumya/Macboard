@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C505C1D52B6CB4EC00DA4E62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C505C1D42B6CB4EC00DA4E62 /* AppDelegate.swift */; };
+		C505C1D72B6CB57700DA4E62 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C505C1D62B6CB57700DA4E62 /* SettingsView.swift */; };
+		C505C1DA2B6CBDE300DA4E62 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = C505C1D92B6CBDE300DA4E62 /* PopupView */; };
 		C506F0B92B5FBECF0031F4D2 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C506F0B82B5FBECF0031F4D2 /* DataHelper.swift */; };
 		C5091C7D2B5C4D8A0091896F /* MacboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */; };
 		C5091C812B5C4D8B0091896F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C802B5C4D8B0091896F /* Assets.xcassets */; };
@@ -15,7 +18,7 @@
 		C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */; };
 		C56E675E2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C56E675C2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld */; };
 		C57241EA2B67CF5900703101 /* MacboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57241E92B67CF5900703101 /* MacboardTests.swift */; };
-		C5A5BC932B62692000104D06 /* String+isValidURL+isNum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5BC922B62692000104D06 /* String+isValidURL+isNum.swift */; };
+		C5A5BC932B62692000104D06 /* String++.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5BC922B62692000104D06 /* String++.swift */; };
 		C5A5BC982B626A8800104D06 /* Date+TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5BC972B626A8800104D06 /* Date+TimeAgo.swift */; };
 		C5A5BC9A2B626EEC00104D06 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5BC992B626EEC00104D06 /* Functions.swift */; };
 		C5CEB1492B6BB8D600495EE3 /* PersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CEB1482B6BB8D600495EE3 /* PersistanceController.swift */; };
@@ -36,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C505C1D42B6CB4EC00DA4E62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C505C1D62B6CB57700DA4E62 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C506F0B82B5FBECF0031F4D2 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
 		C5091C792B5C4D8A0091896F /* Macboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Macboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacboardApp.swift; sourceTree = "<group>"; };
@@ -47,7 +52,7 @@
 		C56E675D2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipboardItem.xcdatamodel; sourceTree = "<group>"; };
 		C57241E72B67CF5900703101 /* MacboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C57241E92B67CF5900703101 /* MacboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacboardTests.swift; sourceTree = "<group>"; };
-		C5A5BC922B62692000104D06 /* String+isValidURL+isNum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+isValidURL+isNum.swift"; sourceTree = "<group>"; };
+		C5A5BC922B62692000104D06 /* String++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String++.swift"; sourceTree = "<group>"; };
 		C5A5BC972B626A8800104D06 /* Date+TimeAgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeAgo.swift"; sourceTree = "<group>"; };
 		C5A5BC992B626EEC00104D06 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		C5CEB1482B6BB8D600495EE3 /* PersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceController.swift; sourceTree = "<group>"; };
@@ -61,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C505C1DA2B6CBDE300DA4E62 /* PopupView in Frameworks */,
 				C5CF08012B6AE42B00B03EB5 /* HotKey in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,6 +81,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C505C1D32B6CB4BA00DA4E62 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */,
+				C5DBE0DA2B62493000418163 /* DetailedView.swift */,
+				C505C1D62B6CB57700DA4E62 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		C5091C702B5C4D8A0091896F = {
 			isa = PBXGroup;
 			children = (
@@ -99,9 +115,9 @@
 				C56E675A2B6B9B4100AE7CE7 /* Models */,
 				C5A5BC962B6269DE00104D06 /* Helpers */,
 				C5A5BC912B6268CC00104D06 /* Extensions */,
+				C505C1D32B6CB4BA00DA4E62 /* Views */,
 				C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */,
-				C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */,
-				C5DBE0DA2B62493000418163 /* DetailedView.swift */,
+				C505C1D42B6CB4EC00DA4E62 /* AppDelegate.swift */,
 				C5091C802B5C4D8B0091896F /* Assets.xcassets */,
 				C5091C852B5C4D8B0091896F /* Macboard.entitlements */,
 				C5091C822B5C4D8B0091896F /* Preview Content */,
@@ -146,7 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				C5D534AE2B604F8E00074920 /* Bool+Comparable.swift */,
-				C5A5BC922B62692000104D06 /* String+isValidURL+isNum.swift */,
+				C5A5BC922B62692000104D06 /* String++.swift */,
 				C5A5BC972B626A8800104D06 /* Date+TimeAgo.swift */,
 				C5230DCE2B6B6E7900B6E8F7 /* View++.swift */,
 			);
@@ -181,6 +197,7 @@
 			name = Macboard;
 			packageProductDependencies = (
 				C5CF08002B6AE42B00B03EB5 /* HotKey */,
+				C505C1D92B6CBDE300DA4E62 /* PopupView */,
 			);
 			productName = Macboard;
 			productReference = C5091C792B5C4D8A0091896F /* Macboard.app */;
@@ -234,6 +251,7 @@
 			mainGroup = C5091C702B5C4D8A0091896F;
 			packageReferences = (
 				C5CF07FF2B6AE42B00B03EB5 /* XCRemoteSwiftPackageReference "HotKey" */,
+				C505C1D82B6CBDE300DA4E62 /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = C5091C7A2B5C4D8A0091896F /* Products */;
 			projectDirPath = "";
@@ -274,9 +292,11 @@
 				C506F0B92B5FBECF0031F4D2 /* DataHelper.swift in Sources */,
 				C5A5BC9A2B626EEC00104D06 /* Functions.swift in Sources */,
 				C56E675E2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld in Sources */,
-				C5A5BC932B62692000104D06 /* String+isValidURL+isNum.swift in Sources */,
+				C5A5BC932B62692000104D06 /* String++.swift in Sources */,
 				C5CEB1492B6BB8D600495EE3 /* PersistanceController.swift in Sources */,
+				C505C1D72B6CB57700DA4E62 /* SettingsView.swift in Sources */,
 				C5D534AF2B604F8E00074920 /* Bool+Comparable.swift in Sources */,
+				C505C1D52B6CB4EC00DA4E62 /* AppDelegate.swift in Sources */,
 				C5DBE0DB2B62493000418163 /* DetailedView.swift in Sources */,
 				C5230DCF2B6B6E7900B6E8F7 /* View++.swift in Sources */,
 				C5A5BC982B626A8800104D06 /* Date+TimeAgo.swift in Sources */,
@@ -548,6 +568,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C505C1D82B6CBDE300DA4E62 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.4;
+			};
+		};
 		C5CF07FF2B6AE42B00B03EB5 /* XCRemoteSwiftPackageReference "HotKey" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/soffes/HotKey";
@@ -559,6 +587,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C505C1D92B6CBDE300DA4E62 /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C505C1D82B6CBDE300DA4E62 /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
 		C5CF08002B6AE42B00B03EB5 /* HotKey */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C5CF07FF2B6AE42B00B03EB5 /* XCRemoteSwiftPackageReference "HotKey" */;
