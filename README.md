@@ -1,6 +1,6 @@
-# Macboard - The ultimate minimalistic clipboard manager for MacOS
+<img width="256px" src="https://i.imgur.com/QzlSfHn.png" alt="Logo" align="left" />
 
-Note:- This is still a work in progress, and I am looking for some help with UI (I'm too bad at UI)
+# Macboard
 
 ![Demo](https://i.imgur.com/vrNbL4M.png)
 
@@ -16,9 +16,12 @@ This is a minimalistic, blazingly fast and clean clipboard manager for MacOS
 - URL metadata preview
 - Hyperlinks highlighting
 - Favourites
-- And alot more coming soon!
+- Complete keyboard control (under development)
 
 ### Installation
 
 As this project is currently a work in progress, you can only install it by cloning the repository and opening it with XCode.
 
+### Note
+
+This app is still a work in progress, so stick around until I'm done cookin' it
