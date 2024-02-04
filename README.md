@@ -1,4 +1,4 @@
-<img width="256px" src="https://i.imgur.com/QzlSfHn.png" alt="Logo" align="left" />
+<img width="128px" src="https://i.imgur.com/QzlSfHn.png" alt="Logo" align="left" />
 
 # Macboard
 
