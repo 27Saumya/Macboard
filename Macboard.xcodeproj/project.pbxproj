@@ -12,7 +12,6 @@
 		C505C1DA2B6CBDE300DA4E62 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = C505C1D92B6CBDE300DA4E62 /* PopupView */; };
 		C506F0B92B5FBECF0031F4D2 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C506F0B82B5FBECF0031F4D2 /* DataHelper.swift */; };
 		C5091C7D2B5C4D8A0091896F /* MacboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */; };
-		C5091C812B5C4D8B0091896F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C802B5C4D8B0091896F /* Assets.xcassets */; };
 		C5091C842B5C4D8B0091896F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */; };
 		C5230DCF2B6B6E7900B6E8F7 /* View++.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5230DCE2B6B6E7900B6E8F7 /* View++.swift */; };
 		C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */; };
@@ -44,11 +43,11 @@
 		C506F0B82B5FBECF0031F4D2 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
 		C5091C792B5C4D8A0091896F /* Macboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Macboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacboardApp.swift; sourceTree = "<group>"; };
-		C5091C802B5C4D8B0091896F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C5091C852B5C4D8B0091896F /* Macboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macboard.entitlements; sourceTree = "<group>"; };
 		C5230DCE2B6B6E7900B6E8F7 /* View++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View++.swift"; sourceTree = "<group>"; };
 		C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItems.swift; sourceTree = "<group>"; };
+		C566FB912B6FD4D9005E7FC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C56E675D2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipboardItem.xcdatamodel; sourceTree = "<group>"; };
 		C57241E72B67CF5900703101 /* MacboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C57241E92B67CF5900703101 /* MacboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacboardTests.swift; sourceTree = "<group>"; };
@@ -118,8 +117,8 @@
 				C505C1D32B6CB4BA00DA4E62 /* Views */,
 				C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */,
 				C505C1D42B6CB4EC00DA4E62 /* AppDelegate.swift */,
-				C5091C802B5C4D8B0091896F /* Assets.xcassets */,
 				C5091C852B5C4D8B0091896F /* Macboard.entitlements */,
+				C566FB912B6FD4D9005E7FC0 /* Assets.xcassets */,
 				C5091C822B5C4D8B0091896F /* Preview Content */,
 			);
 			path = Macboard;
@@ -269,7 +268,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5091C842B5C4D8B0091896F /* Preview Assets.xcassets in Resources */,
-				C5091C812B5C4D8B0091896F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

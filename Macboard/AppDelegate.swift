@@ -6,6 +6,7 @@ import CoreData
 class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     private var statusItem: NSStatusItem!
     private var popover: NSPopover!
+    var preferencesWindow: NSWindow!
     let openHotKey = HotKey(key: .v, modifiers: [.shift, .command])
     
     @MainActor func applicationDidFinishLaunching(_ notification: Notification) {
@@ -36,6 +37,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             }
         }
         
+    }
+    
+    @objc func openPreferencesWindow() {
+        if nil == preferencesWindow {
+            let preferencesView = SettingsView()
+            preferencesWindow = NSWindow(
+                contentRect: NSRect(x: 0, y: 0, width: 400, height: 250),
+                styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+                backing: .buffered,
+                defer: false)
+            preferencesWindow.center()
+            preferencesWindow.title = "Preferences"
+            preferencesWindow.isReleasedWhenClosed = false
+            preferencesWindow.contentView = NSHostingView(rootView: preferencesView)
+            preferencesWindow.level = .floating
+        }
+        preferencesWindow.makeKeyAndOrderFront(nil)
     }
     
 }

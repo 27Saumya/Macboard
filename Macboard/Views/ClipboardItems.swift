@@ -12,7 +12,8 @@ struct ClipboardItemListView: View {
     
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
-    @State private var isShowingConfirmationDialog = false
+    @State private var isShowingConfirmationDialog: Bool = false
+    @State private var showPreferences: Bool = false
     @State private var searchText = ""
         var query: Binding<String> {
             Binding {
@@ -25,6 +26,8 @@ struct ClipboardItemListView: View {
             }
         }
     @State private var clipboardChangeTimer: Timer?
+    @State private var hovered: Bool = false
+    @State private var hoveredItem: ClipboardItem?
     
     @FetchRequest(sortDescriptors: [SortDescriptor(\.isPinned, order: .reverse), 
                                     SortDescriptor(\.createdAt, order: .reverse)])
@@ -175,7 +178,7 @@ struct ClipboardItemListView: View {
             Divider()
             
             Button(action: {
-                
+                showPreferences = true
             }) {
                 Text("Preferences")
                     .fontWeight(.medium)
@@ -192,6 +195,10 @@ struct ClipboardItemListView: View {
             .buttonStyle(PlainButtonStyle())
             .padding(.top, -8)
             .keyboardShortcut(",")
+            .sheet(isPresented: $showPreferences) {
+                SettingsView()
+                    .frame(width: 400, height: 250)
+            }
             .frame(minWidth: 300, idealWidth: 350, minHeight: 18, idealHeight: 18, maxHeight: 18)
             
         .frame(minWidth: 300, idealWidth: 350)
