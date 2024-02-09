@@ -1,7 +1,7 @@
 <img width="128px" src="https://i.imgur.com/QzlSfHn.png" alt="Logo" align="left" />
 
 # Macboard
-A new way to boost your productivity!
+Boost your productivity within seconds!
 
 ![Demo](https://i.imgur.com/vrNbL4M.png)
 
