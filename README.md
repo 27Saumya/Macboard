@@ -30,7 +30,9 @@ It works on MacOS Sonoma 13.0 or higher
 
 ### Installation
 
-- Install with [Github Releases](https://github.com/27Saumya/Macboard/releases)
+- Install the `Macboard.dmg` disk image from [Github Releases](https://github.com/27Saumya/Macboard/releases).
+- Open the `Macboard.dmg` file and drag the Macboard icon into your `Applications/` folder.
+- Open the `Macboard` app now, you might face a warning regarding `Unidentified Developer!`, click on Open anyways, and you're good to go!
 
 > [!NOTE]
 > This is still the first version of the app and may contain some bugs, please open an issue if found!
