@@ -1,6 +1,7 @@
 <img width="128px" src="https://i.imgur.com/QzlSfHn.png" alt="Logo" align="left" />
 
 # Macboard
+
 Boost your productivity within seconds!
 
 ![Demo](https://i.imgur.com/vMNioPX.png)
@@ -29,7 +30,7 @@ It works on MacOS Sonoma 13.0 or higher
 
 ### Installation
 
-As this project is currently a work in progress, you can only install it by cloning the repository and opening it with XCode.
+- Install with [Github Releases](https://github.com/27Saumya/Macboard/releases)
 
 > [!NOTE]
 > This is still the first version of the app and may contain some bugs, please open an issue if found!
