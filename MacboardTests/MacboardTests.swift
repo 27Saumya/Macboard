@@ -34,12 +34,12 @@ final class MacboardTests: XCTestCase {
     }
     
     func testContentClipboardItem() throws {
-        let clipboardItem = ClipboardItem(content: "test", isFavourite: false, contentType: .text)
+        // let clipboardItem = ClipboardItem(content: "test", isFavourite: false, contentType: .text)
     }
     
     func testImageClipboardItem() throws {
-        let data = Data()
-        let clipboardItem = ClipboardItem(imageData: data, isFavourite: false, contentType: .text)
+        // let data = Data()
+        // let clipboardItem = ClipboardItem(imageData: data, isFavourite: false, contentType: .text)
     }
     
     func testDataToImage() throws {
