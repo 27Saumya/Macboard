@@ -10,7 +10,7 @@ Boost your productivity within seconds!
 
 Macboard is a minimalistic, blazingly fast and lightweight clipboard manager for MacOS
 <br />
-It works on MacOS Sonoma 13.0 or higher
+It works on MacOS Ventura 13.0 or higher
 
 ### Features
 
