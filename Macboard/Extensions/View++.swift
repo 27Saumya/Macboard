@@ -3,26 +3,6 @@ import Cocoa
 import Combine
 
 extension View {
-    func toast(isShowing: Binding<Bool>, message: String, position: CGPoint) -> some View {
-        ZStack {
-            self
-
-            if isShowing.wrappedValue {
-                ToastView(message: message)
-                    .transition(.opacity)
-                    .onAppear {
-                        withAnimation(.default) {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                isShowing.wrappedValue = false
-                            }
-                        }
-                    }
-            }
-        }
-    }
-}
-
-extension View {
     func validKeyboardShortcut(number: Int, modifiers: EventModifiers) -> some View {
         ZStack {
             self

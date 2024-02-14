@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreData
 import Cocoa
+import PopupView
 
 struct ClipboardItemListView: View {
     
@@ -33,8 +34,6 @@ struct ClipboardItemListView: View {
     var rawClipboardItems: FetchedResults<ClipboardItem>
     
     @State private var clipboardChangeTimer: Timer?
-    
-    let buttonFrame = NSApplication.shared.keyWindow?.contentView?.convert(NSRect(x: 0, y: 0, width: 50, height: 30), to: nil) ?? NSRect(x: 0, y: 0, width: 50, height: 30)
     let dataManager = CoreDataManager()
 
     var body: some View {
@@ -50,8 +49,8 @@ struct ClipboardItemListView: View {
                                             viewModel.fetchMetadata(item.content!)
                                         }
                                     }
-                                    .onChange(of: item) { [item] newItem in
-                                        if item.content!.isValidURL {
+                                    .onChange(of: item) { newItem in
+                                        if newItem.content!.isValidURL {
                                             viewModel.fetchMetadata(newItem.content!)
                                         }
                                     }
@@ -85,7 +84,7 @@ struct ClipboardItemListView: View {
                         Button(action: {
                             withAnimation {
                                 dataManager.togglePin(for: item)
-                                showToast(message: item.isPinned ? "Pinned" : "Unpinned", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                showToast(item.isPinned ? "Pinned" : "Unpinned")
                             }
                         }) {
                             Image(systemName: item.isPinned ? "pin.fill" : "pin")
@@ -95,7 +94,7 @@ struct ClipboardItemListView: View {
                         Button(action: {
                             withAnimation {
                                 dataManager.deleteItem(item: item)
-                                showToast(message: "Removed from Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                showToast("Removed from Clipboard")
                             }
                         }) {
                             Image(systemName: "trash")
@@ -110,7 +109,7 @@ struct ClipboardItemListView: View {
                                 } else {
                                     NSPasteboard.general.setString(item.content!, forType: .string)
                                 }
-                                showToast(message: "Copied to Clipboard", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                                showToast("Copied to Clipboard")
                             }
                         }) {
                             Image(systemName: "doc.on.doc")
@@ -124,7 +123,16 @@ struct ClipboardItemListView: View {
             .listStyle(SidebarListStyle())
             .navigationTitle("Clipboard History")
             .searchable(text: query, placement: .sidebar, prompt: "type to search...")
-            .toast(isShowing: $showToast, message: toastMessage, position: toastPosition)
+            .popup(isPresented: $showToast) {
+                ToastView(message: toastMessage)
+            } customize: {
+                $0
+                    .type(.toast)
+                    .position(.bottom)
+                    .animation(.easeInOut)
+                    .closeOnTapOutside(true)
+                    .autohideIn(1.25)
+            }
             .onAppear {
                 clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [self] _ in
                     checkClipboard(context: context)
@@ -153,14 +161,14 @@ struct ClipboardItemListView: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
-            .frame(minWidth: 300, idealWidth: 350, minHeight: 15, idealHeight: 15, maxHeight: 15)
+            .frame(maxWidth: .infinity, minHeight: 15, idealHeight: 15, maxHeight: 15)
             .keyboardShortcut("/")
             .confirmationDialog("Are you sure you want to clear your clipboard history?", 
                                 isPresented: $isShowingConfirmationDialog) {
                 Button("Yes") {
                     withAnimation {
                         dataManager.clearClipboard()
-                        showToast(message: "Cleard the clipboard history", position: CGPoint(x: buttonFrame.midX, y: buttonFrame.minY))
+                        showToast("Cleard the clipboard history")
                     }
                 }
                 Button("No", role: .destructive) { }
@@ -168,24 +176,25 @@ struct ClipboardItemListView: View {
             
             Divider()
             
-            Button(action: {
-                
-            }) {
-                Text("Keyboard Shortcuts")
+            Button {
+                NSApplication.shared.terminate(nil)
+            } label: {
+                Text("Quit")
                     .fontWeight(.medium)
                     .padding(.leading, 8)
                 Spacer()
                 HStack {
                     Image(systemName: "command")
                         .padding(.trailing, -4)
-                    Text("K")
+                    Text("Q")
                         .fontWeight(.regular)
                 }
-                .padding(.trailing, 8)
+                .padding(.trailing, 6)
             }
             .buttonStyle(PlainButtonStyle())
             .padding(.top, -8)
-            .frame(minWidth: 300, idealWidth: 350, minHeight: 18, idealHeight: 18, maxHeight: 18)
+            .frame(maxWidth: .infinity, minHeight: 18, idealHeight: 18, maxHeight: 18)
+            .keyboardShortcut(",")
             
         .frame(minWidth: 300, idealWidth: 350)
             
@@ -198,6 +207,9 @@ struct ClipboardItemListView: View {
     }
     
     func checkClipboard(context: NSManagedObjectContext) {
+        if clipboardContentType().0 == nil {
+            return
+        }
         if clipboardContentType().0 == "Text" {
             guard let content = NSPasteboard.general.string(forType: .string), !content.isEmpty else { return }
             
@@ -266,13 +278,8 @@ struct ClipboardItemListView: View {
         }
     }
     
-    func showToast(message: String, position: CGPoint) {
+    func showToast(_ message: String) {
         toastMessage = message
-        toastPosition = position
-        showToast.toggle()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            showToast.toggle()
-        }
+        showToast = true
     }
 }

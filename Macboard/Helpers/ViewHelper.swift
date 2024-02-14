@@ -23,28 +23,21 @@ struct LinkButtonStyle: ButtonStyle {
 
 
 struct ToastView: View {
-    var message: String
-
-    @State private var opacity: Double = 1
-
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    let message: String
+    
     var body: some View {
-        VStack {
-            Spacer()
+        HStack {
+            Image(systemName: "checkmark.circle.fill")
+                .padding(.all, 8)
+                .background(.green)
             Text(message)
-                .foregroundColor(.white)
-                .padding(.vertical, 10)
-                .padding(.horizontal, 15)
-                .background(Color.black.opacity(0.7))
-                .cornerRadius(8)
-                .opacity(opacity)
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        withAnimation {
-                            opacity = 0
-                        }
-                    }
-                }
+                .font(.system(.subheadline, design: .rounded, weight: .medium))
+                .foregroundColor(Color.green)
+                .cornerRadius(10)
+                .frame(maxWidth: .infinity)
         }
+        .background(colorScheme == .light ? .white.opacity(0.9) : .black.opacity(0.7))
     }
 }
 

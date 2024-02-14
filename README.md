@@ -3,11 +3,13 @@
 # Macboard
 Boost your productivity within seconds!
 
-![Demo](https://i.imgur.com/vrNbL4M.png)
+![Demo](https://i.imgur.com/vMNioPX.png)
 
 ### Overview
 
-This is a minimalistic, blazingly fast and clean clipboard manager for MacOS
+Macboard is a minimalistic, blazingly fast and lightweight clipboard manager for MacOS
+<br />
+It works on MacOS Sonoma 13.0 or higher
 
 ### Features
 
@@ -19,10 +21,15 @@ This is a minimalistic, blazingly fast and clean clipboard manager for MacOS
 - Favourites
 - Complete keyboard control (under development)
 
+### Keyboard Shortcuts
+
+- Toggle Macboard -> `⇧ ⌘ C`
+- Copy an item at a specific index (1-9) -> `⌘ 1-9`
+- Clear Clipboard -> `⌘ /`
+
 ### Installation
 
 As this project is currently a work in progress, you can only install it by cloning the repository and opening it with XCode.
 
-### Note
-
-This app is still a work in progress, so stick around until I'm done cookin' it
+> [!NOTE]
+> This is still the first version of the app and may contain some bugs, please open an issue if found!

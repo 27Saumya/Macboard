@@ -35,7 +35,6 @@ struct DetailedView: View {
                             
                         } else {
                             Text(clipboardItem.content!)
-                                .textFieldStyle(.roundedBorder)
                                 .textSelection(.enabled)
                                 .onHover(perform: { isHovering in
                                     self.hover = isHovering
