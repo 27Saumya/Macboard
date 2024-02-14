@@ -13,7 +13,7 @@ struct GeneralSettingsView: View {
 
 struct KeyboardView: View {
     var body: some View {
-        Text("generic")
+        Text("hmm")
     }
 }
 

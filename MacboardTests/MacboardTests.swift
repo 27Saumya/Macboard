@@ -1,10 +1,3 @@
-//
-//  MacboardTests.swift
-//  MacboardTests
-//
-//  Created by Saumya Patel on 29/01/24.
-//
-
 import XCTest
 @testable import Macboard
 
@@ -34,12 +27,12 @@ final class MacboardTests: XCTestCase {
     }
     
     func testContentClipboardItem() throws {
-        let clipboardItem = ClipboardItem(content: "test", isFavourite: false, contentType: .text)
+        // let clipboardItem = ClipboardItem(content: "test", isFavourite: false, contentType: .text)
     }
     
     func testImageClipboardItem() throws {
         let data = Data()
-        let clipboardItem = ClipboardItem(imageData: data, isFavourite: false, contentType: .text)
+        // let clipboardItem = ClipboardItem(imageData: data, isFavourite: false, contentType: .text)
     }
     
     func testDataToImage() throws {

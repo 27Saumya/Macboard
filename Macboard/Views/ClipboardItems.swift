@@ -2,6 +2,7 @@ import SwiftUI
 import CoreData
 import Cocoa
 import PopupView
+import HotKey
 
 struct ClipboardItemListView: View {
     
@@ -28,6 +29,7 @@ struct ClipboardItemListView: View {
     @State private var clipboardChangeTimer: Timer?
     @State private var hovered: Bool = false
     @State private var hoveredItem: ClipboardItem?
+    @State var selectedItem: ClipboardItem?
     
     @FetchRequest(sortDescriptors: [SortDescriptor(\.isPinned, order: .reverse), 
                                     SortDescriptor(\.createdAt, order: .reverse)])
@@ -36,6 +38,8 @@ struct ClipboardItemListView: View {
                                     SortDescriptor(\.createdAt, order: .reverse)])
     var rawClipboardItems: FetchedResults<ClipboardItem>
     let dataManager = CoreDataManager()
+    let pasteKey = HotKey(key: .return, modifiers: [.option])
+    let appDelegate: AppDelegate
 
     var body: some View {
         NavigationSplitView {
@@ -46,12 +50,14 @@ struct ClipboardItemListView: View {
                             NavigationLink {
                                 DetailedView(clipboardItem: item, vm: viewModel)
                                     .onAppear {
+                                        selectedItem = item
                                         if item.content!.isValidURL {
                                             viewModel.fetchMetadata(item.content!)
                                         }
                                     }
-                                    .onChange(of: item) { [item] newItem in
-                                        if item.content!.isValidURL {
+                                    .onChange(of: item) { newItem in
+                                        selectedItem = newItem
+                                        if newItem.content!.isValidURL {
                                             viewModel.fetchMetadata(newItem.content!)
                                         }
                                     }
@@ -71,6 +77,13 @@ struct ClipboardItemListView: View {
                         } else {
                             NavigationLink {
                                 DetailedView(clipboardItem: item, vm: viewModel)
+                                    .onAppear {
+                                        selectedItem = item
+                                        }
+                                    .onChange(of: item) { newItem in
+                                        selectedItem = newItem
+                                    }
+                            
                             } label: {
                                 HStack{
                                     Image(systemName: "photo.fill")
@@ -104,12 +117,7 @@ struct ClipboardItemListView: View {
                         
                         Button(action: {
                             withAnimation {
-                                NSPasteboard.general.clearContents()
-                                if item.contentType == "Image" {
-                                    NSPasteboard.general.setData(item.imageData!, forType: .tiff)
-                                } else {
-                                    NSPasteboard.general.setString(item.content!, forType: .string)
-                                }
+                                copyItem(item)
                                 showToast("Copied to clipboard")
                             }
                         }) {
@@ -135,6 +143,22 @@ struct ClipboardItemListView: View {
                     .autohideIn(1.25)
             }
             .onAppear {
+                pasteKey.keyUpHandler = {
+                    if appDelegate.popover.isShown {
+                        if let selectedItem = selectedItem {
+                            copyItem(selectedItem)
+                            appDelegate.togglePopover()
+                            let vKeyCode: UInt16 = 9
+                            let keyDownEvent = CGEvent(keyboardEventSource: nil, virtualKey: vKeyCode, keyDown: true)
+                            keyDownEvent?.flags = CGEventFlags.maskCommand
+                            keyDownEvent?.post(tap: CGEventTapLocation.cgAnnotatedSessionEventTap)
+                            
+                            let keyUpEvent = CGEvent(keyboardEventSource: nil, virtualKey: vKeyCode, keyDown: false)
+                            keyUpEvent?.flags = CGEventFlags.maskCommand
+                            keyUpEvent?.post(tap: CGEventTapLocation.cgAnnotatedSessionEventTap)
+                        }
+                    }
+                }
                 clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [self] _ in
                     checkClipboard(context: context)
                 }
@@ -208,7 +232,6 @@ struct ClipboardItemListView: View {
                 .bold()
                 .padding()
         }
-        
     }
     
     func checkClipboard(context: NSManagedObjectContext) {

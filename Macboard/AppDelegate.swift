@@ -5,12 +5,12 @@ import CoreData
 
 class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     private var statusItem: NSStatusItem!
-    private var popover: NSPopover!
+    var popover: NSPopover!
     var preferencesWindow: NSWindow!
     let openHotKey = HotKey(key: .v, modifiers: [.shift, .command])
     
     @MainActor func applicationDidFinishLaunching(_ notification: Notification) {
-        let rootView = ClipboardItemListView().environment(\.managedObjectContext, PersistanceController.shared.container.viewContext)
+        let rootView = ClipboardItemListView(appDelegate: self).environment(\.managedObjectContext, PersistanceController.shared.container.viewContext)
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         if let statusButton = statusItem.button {
