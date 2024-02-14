@@ -24,7 +24,7 @@ It works on MacOS Sonoma 13.0 or higher
 
 ### Keyboard Shortcuts
 
-- Toggle Macboard -> `⇧ ⌘ C`
+- Toggle Macboard -> `⇧ ⌘ V`
 - Copy an item at a specific index (1-9) -> `⌘ 1-9`
 - Clear Clipboard -> `⌘ /`
 
