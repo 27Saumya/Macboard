@@ -10,12 +10,13 @@
 		C506F0B92B5FBECF0031F4D2 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C506F0B82B5FBECF0031F4D2 /* DataHelper.swift */; };
 		C5091C7D2B5C4D8A0091896F /* MacboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */; };
 		C5091C812B5C4D8B0091896F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C802B5C4D8B0091896F /* Assets.xcassets */; };
-		C5091C842B5C4D8B0091896F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */; };
 		C5230DCF2B6B6E7900B6E8F7 /* View++.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5230DCE2B6B6E7900B6E8F7 /* View++.swift */; };
 		C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */; };
 		C56E675E2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C56E675C2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld */; };
 		C57241EA2B67CF5900703101 /* MacboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57241E92B67CF5900703101 /* MacboardTests.swift */; };
-		C5A5BC932B62692000104D06 /* String+isValidURL+isNum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5BC922B62692000104D06 /* String+isValidURL+isNum.swift */; };
+		C57800942B7C7BF900B40EEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57800932B7C7BF900B40EEC /* AppDelegate.swift */; };
+		C57800972B7C7DE100B40EEC /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = C57800962B7C7DE100B40EEC /* PopupView */; };
+		C5A5BC932B62692000104D06 /* String++.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5BC922B62692000104D06 /* String++.swift */; };
 		C5A5BC982B626A8800104D06 /* Date+TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5BC972B626A8800104D06 /* Date+TimeAgo.swift */; };
 		C5A5BC9A2B626EEC00104D06 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5BC992B626EEC00104D06 /* Functions.swift */; };
 		C5CEB1492B6BB8D600495EE3 /* PersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CEB1482B6BB8D600495EE3 /* PersistanceController.swift */; };
@@ -40,14 +41,14 @@
 		C5091C792B5C4D8A0091896F /* Macboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Macboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacboardApp.swift; sourceTree = "<group>"; };
 		C5091C802B5C4D8B0091896F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C5091C852B5C4D8B0091896F /* Macboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macboard.entitlements; sourceTree = "<group>"; };
 		C5230DCE2B6B6E7900B6E8F7 /* View++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View++.swift"; sourceTree = "<group>"; };
 		C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItems.swift; sourceTree = "<group>"; };
 		C56E675D2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipboardItem.xcdatamodel; sourceTree = "<group>"; };
 		C57241E72B67CF5900703101 /* MacboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C57241E92B67CF5900703101 /* MacboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacboardTests.swift; sourceTree = "<group>"; };
-		C5A5BC922B62692000104D06 /* String+isValidURL+isNum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+isValidURL+isNum.swift"; sourceTree = "<group>"; };
+		C57800932B7C7BF900B40EEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C5A5BC922B62692000104D06 /* String++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String++.swift"; sourceTree = "<group>"; };
 		C5A5BC972B626A8800104D06 /* Date+TimeAgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeAgo.swift"; sourceTree = "<group>"; };
 		C5A5BC992B626EEC00104D06 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		C5CEB1482B6BB8D600495EE3 /* PersistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceController.swift; sourceTree = "<group>"; };
@@ -61,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C57800972B7C7DE100B40EEC /* PopupView in Frameworks */,
 				C5CF08012B6AE42B00B03EB5 /* HotKey in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,22 +101,13 @@
 				C56E675A2B6B9B4100AE7CE7 /* Models */,
 				C5A5BC962B6269DE00104D06 /* Helpers */,
 				C5A5BC912B6268CC00104D06 /* Extensions */,
+				C57800922B7C7BBC00B40EEC /* Views */,
 				C5091C7C2B5C4D8A0091896F /* MacboardApp.swift */,
-				C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */,
-				C5DBE0DA2B62493000418163 /* DetailedView.swift */,
+				C57800932B7C7BF900B40EEC /* AppDelegate.swift */,
 				C5091C802B5C4D8B0091896F /* Assets.xcassets */,
 				C5091C852B5C4D8B0091896F /* Macboard.entitlements */,
-				C5091C822B5C4D8B0091896F /* Preview Content */,
 			);
 			path = Macboard;
-			sourceTree = "<group>";
-		};
-		C5091C822B5C4D8B0091896F /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				C5091C832B5C4D8B0091896F /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		C56E675A2B6B9B4100AE7CE7 /* Models */ = {
@@ -142,11 +135,20 @@
 			path = MacboardTests;
 			sourceTree = "<group>";
 		};
+		C57800922B7C7BBC00B40EEC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */,
+				C5DBE0DA2B62493000418163 /* DetailedView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		C5A5BC912B6268CC00104D06 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				C5D534AE2B604F8E00074920 /* Bool+Comparable.swift */,
-				C5A5BC922B62692000104D06 /* String+isValidURL+isNum.swift */,
+				C5A5BC922B62692000104D06 /* String++.swift */,
 				C5A5BC972B626A8800104D06 /* Date+TimeAgo.swift */,
 				C5230DCE2B6B6E7900B6E8F7 /* View++.swift */,
 			);
@@ -181,6 +183,7 @@
 			name = Macboard;
 			packageProductDependencies = (
 				C5CF08002B6AE42B00B03EB5 /* HotKey */,
+				C57800962B7C7DE100B40EEC /* PopupView */,
 			);
 			productName = Macboard;
 			productReference = C5091C792B5C4D8A0091896F /* Macboard.app */;
@@ -234,6 +237,7 @@
 			mainGroup = C5091C702B5C4D8A0091896F;
 			packageReferences = (
 				C5CF07FF2B6AE42B00B03EB5 /* XCRemoteSwiftPackageReference "HotKey" */,
+				C57800952B7C7DE100B40EEC /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = C5091C7A2B5C4D8A0091896F /* Products */;
 			projectDirPath = "";
@@ -250,7 +254,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5091C842B5C4D8B0091896F /* Preview Assets.xcassets in Resources */,
 				C5091C812B5C4D8B0091896F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,9 +277,10 @@
 				C506F0B92B5FBECF0031F4D2 /* DataHelper.swift in Sources */,
 				C5A5BC9A2B626EEC00104D06 /* Functions.swift in Sources */,
 				C56E675E2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld in Sources */,
-				C5A5BC932B62692000104D06 /* String+isValidURL+isNum.swift in Sources */,
+				C5A5BC932B62692000104D06 /* String++.swift in Sources */,
 				C5CEB1492B6BB8D600495EE3 /* PersistanceController.swift in Sources */,
 				C5D534AF2B604F8E00074920 /* Bool+Comparable.swift in Sources */,
+				C57800942B7C7BF900B40EEC /* AppDelegate.swift in Sources */,
 				C5DBE0DB2B62493000418163 /* DetailedView.swift in Sources */,
 				C5230DCF2B6B6E7900B6E8F7 /* View++.swift in Sources */,
 				C5A5BC982B626A8800104D06 /* Date+TimeAgo.swift in Sources */,
@@ -427,12 +431,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Macboard/Macboard.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Macboard/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = J4NR76XL6C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -445,6 +448,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saumya.Macboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -456,12 +460,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Macboard/Macboard.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Macboard/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = J4NR76XL6C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -474,6 +477,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saumya.Macboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -548,6 +552,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C57800952B7C7DE100B40EEC /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.5;
+			};
+		};
 		C5CF07FF2B6AE42B00B03EB5 /* XCRemoteSwiftPackageReference "HotKey" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/soffes/HotKey";
@@ -559,6 +571,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C57800962B7C7DE100B40EEC /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C57800952B7C7DE100B40EEC /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
 		C5CF08002B6AE42B00B03EB5 /* HotKey */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C5CF07FF2B6AE42B00B03EB5 /* XCRemoteSwiftPackageReference "HotKey" */;

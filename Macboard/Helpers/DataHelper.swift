@@ -8,7 +8,12 @@ struct Metadata {
 }
 
 struct CoreDataManager {
-    func addToClipboard(content: String? = nil, imageData: Data? = nil, contentType: String, sourceApp: String, context: NSManagedObjectContext) {
+    func addToClipboard(content: String? = nil, 
+                        imageData: Data? = nil,
+                        contentType: String,
+                        sourceApp: String,
+                        context: NSManagedObjectContext) {
+        
         let newItem = ClipboardItem(context: context)
         newItem.id = UUID()
         newItem.createdAt = Date.now
