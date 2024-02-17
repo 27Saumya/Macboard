@@ -1,6 +1,7 @@
 <img width="128px" src="https://i.imgur.com/QzlSfHn.png" alt="Logo" align="left" />
 
 # Macboard
+![Downloads)](https://img.shields.io/github/downloads/27Saumya/Macboard/total?style=for-the-badge&color=%23a1ada4&link=https%3A%2F%2Fgithub.com%2F27Saumya%2FMacboard%2Freleases%2Flatest)
 
 Boost your productivity within seconds!
 
