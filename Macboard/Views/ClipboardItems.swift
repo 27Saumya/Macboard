@@ -148,14 +148,6 @@ struct ClipboardItemListView: View {
                         if let selectedItem = selectedItem {
                             copyItem(selectedItem)
                             appDelegate.togglePopover()
-                            let vKeyCode: UInt16 = 9
-                            let keyDownEvent = CGEvent(keyboardEventSource: nil, virtualKey: vKeyCode, keyDown: true)
-                            keyDownEvent?.flags = CGEventFlags.maskCommand
-                            keyDownEvent?.post(tap: CGEventTapLocation.cgAnnotatedSessionEventTap)
-                            
-                            let keyUpEvent = CGEvent(keyboardEventSource: nil, virtualKey: vKeyCode, keyDown: false)
-                            keyUpEvent?.flags = CGEventFlags.maskCommand
-                            keyUpEvent?.post(tap: CGEventTapLocation.cgAnnotatedSessionEventTap)
                         }
                     }
                 }
