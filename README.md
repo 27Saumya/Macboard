@@ -5,13 +5,25 @@
 
 Boost your productivity within seconds!
 
-![Demo](https://i.imgur.com/vMNioPX.png)
+![Demo](https://github.com/27Saumya/Macboard/assets/64534496/2589179c-e370-4aea-bbd8-9b3a7012b685)
+
+## Table Of Contents
+- [Overview](https://github.com/27Saumya/Macboard#Overview)
+- [Installation](https://github.com/27Saumya/Macboard#Installation)
+- [Features](https://github.com/27Saumya/Macboard#Features)
+- [Keyboard Shortcuts](https://github.com/27Saumya/Macboard#Keyboard-Shortcuts)
 
 ### Overview
 
 Macboard is a minimalistic, blazingly fast and lightweight clipboard manager for MacOS
 <br />
-It works on MacOS Ventura 13.0 or higher
+It works on macOS Monterey 12.0 or higher
+
+### Installation
+
+- Install the `Macboard.dmg` disk image from [Github Releases](https://github.com/27Saumya/Macboard/releases).
+- Open the `Macboard.dmg` file and drag the Macboard icon into your `Applications/` folder.
+- Open the `Macboard` app now, you might face a warning regarding `Unidentified Developer!`, click on Open anyways, and you're good to go!
 
 ### Features
 
@@ -28,12 +40,6 @@ It works on MacOS Ventura 13.0 or higher
 - Toggle Macboard -> `⇧ ⌘ V`
 - Copy an item at a specific index (1-9) -> `⌘ 1-9`
 - Clear Clipboard -> `⌘ /`
-
-### Installation
-
-- Install the `Macboard.dmg` disk image from [Github Releases](https://github.com/27Saumya/Macboard/releases).
-- Open the `Macboard.dmg` file and drag the Macboard icon into your `Applications/` folder.
-- Open the `Macboard` app now, you might face a warning regarding `Unidentified Developer!`, click on Open anyways, and you're good to go!
-
-> [!NOTE]
-> This is still the first version of the app and may contain some bugs, please open an issue if found!
+- Copy the selected item -> `⌘ C`
+- Copy the selected item & hide macboard -> `↩`
+- Delete the selected item -> `⌘ D`
