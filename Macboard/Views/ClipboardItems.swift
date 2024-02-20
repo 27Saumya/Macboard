@@ -55,8 +55,10 @@ struct ClipboardItemListView: View {
                                         }
                                         .onChange(of: item) { newItem in
                                             selectedItem = newItem
-                                            if newItem.content!.isValidURL {
-                                                viewModel.fetchMetadata(newItem.content!)
+                                            if newItem.contentType == "Text" {
+                                                if newItem.content!.isValidURL {
+                                                    viewModel.fetchMetadata(newItem.content!)
+                                                }
                                             }
                                         }
                                     
