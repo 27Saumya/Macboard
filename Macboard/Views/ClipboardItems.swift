@@ -24,7 +24,7 @@ struct ClipboardItemListView: View {
             searchText = newValue
             clipboardItems.nsPredicate = newValue.isEmpty
             ? nil
-            : NSPredicate(format: "content CONTAINS %@", newValue)
+            : NSPredicate(format: "content CONTAINS[cd] %@", newValue)
         }
     }
     

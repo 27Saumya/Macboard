@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         if let statusButton = statusItem.button {
-            statusButton.image = NSImage(systemSymbolName: "list.bullet.clipboard.fill", accessibilityDescription: "Macboard")
+            statusButton.image = NSImage(systemSymbolName: "doc.on.clipboard", accessibilityDescription: "Macboard")
             statusButton.action = #selector(togglePopover)
         }
         

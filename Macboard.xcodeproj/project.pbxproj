@@ -44,6 +44,7 @@
 		C5091C852B5C4D8B0091896F /* Macboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macboard.entitlements; sourceTree = "<group>"; };
 		C5230DCE2B6B6E7900B6E8F7 /* View++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View++.swift"; sourceTree = "<group>"; };
 		C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItems.swift; sourceTree = "<group>"; };
+		C567F32A2B8505A600822FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C56E675D2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipboardItem.xcdatamodel; sourceTree = "<group>"; };
 		C57241E72B67CF5900703101 /* MacboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C57241E92B67CF5900703101 /* MacboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacboardTests.swift; sourceTree = "<group>"; };
@@ -98,6 +99,7 @@
 		C5091C7B2B5C4D8A0091896F /* Macboard */ = {
 			isa = PBXGroup;
 			children = (
+				C567F32A2B8505A600822FCB /* Info.plist */,
 				C56E675A2B6B9B4100AE7CE7 /* Models */,
 				C5A5BC962B6269DE00104D06 /* Helpers */,
 				C5A5BC912B6268CC00104D06 /* Extensions */,
@@ -439,6 +441,7 @@
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Macboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -447,7 +450,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saumya.Macboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -470,6 +473,7 @@
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Macboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -478,7 +482,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saumya.Macboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
