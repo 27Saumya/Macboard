@@ -21,6 +21,18 @@ struct LinkButtonStyle: ButtonStyle {
     }
 }
 
+struct ItemButtonStyle: ButtonStyle {
+    
+    func makeBody(configuration: Configuration) -> some View {
+        withAnimation(.easeInOut) {
+            configuration.label
+                .contentShape(Rectangle())
+                .ignoresSafeArea()
+        }
+    }
+}
+
+
 
 struct ToastView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
@@ -32,7 +44,7 @@ struct ToastView: View {
                 .padding(.all, 8)
                 .background(.green)
             Text(message)
-                .font(.system(.subheadline, design: .rounded, weight: .medium))
+                .font(.subheadline)
                 .foregroundColor(Color.green)
                 .cornerRadius(10)
                 .frame(maxWidth: .infinity)
@@ -150,5 +162,32 @@ struct RemoteImage: View {
                 imageData = data
             }
         }.resume()
+    }
+}
+
+
+struct CustomSplitView<Master: View, Detail: View>: View {
+    let master: Master
+    let detail: Detail
+    
+    init(@ViewBuilder master: () -> Master, @ViewBuilder detail: () -> Detail) {
+        self.master = master()
+        self.detail = detail()
+    }
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            VStack {
+                master
+            }
+            .frame(width: 300)
+            
+            Divider()
+            
+            VStack {
+                detail
+            }
+            .frame(width: 400)
+        }
     }
 }

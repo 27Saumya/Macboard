@@ -10,200 +10,445 @@ struct ClipboardItemListView: View {
     
     @StateObject var viewModel = MetadataViewModel()
     
+    @State private var clipboardChangeTimer: Timer?
+    @State private var selectedItem: ClipboardItem?
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
     @State private var toastPosition: CGPoint = .zero
     @State private var isShowingConfirmationDialog = false
     @State private var searchText = ""
-        var query: Binding<String> {
-            Binding {
-                searchText
-            } set: { newValue in
-                searchText = newValue
-                clipboardItems.nsPredicate = newValue.isEmpty
-                               ? nil
-                : NSPredicate(format: "content CONTAINS %@", newValue)
-            }
+    var query: Binding<String> {
+        Binding {
+            searchText
+        } set: { newValue in
+            searchText = newValue
+            clipboardItems.nsPredicate = newValue.isEmpty
+            ? nil
+            : NSPredicate(format: "content CONTAINS %@", newValue)
         }
+    }
     
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.isPinned, order: .reverse), 
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.isPinned, order: .reverse),
                                     SortDescriptor(\.createdAt, order: .reverse)])
     var clipboardItems: FetchedResults<ClipboardItem>
     @FetchRequest(sortDescriptors: [SortDescriptor(\.isPinned, order: .reverse),
                                     SortDescriptor(\.createdAt, order: .reverse)])
     var rawClipboardItems: FetchedResults<ClipboardItem>
     
-    @State private var clipboardChangeTimer: Timer?
     let dataManager = CoreDataManager()
-
+    let appDelegate: AppDelegate
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(clipboardItems) { item in
-                    HStack {
-                        if item.contentType == "Text" {
-                            NavigationLink {
-                                DetailedView(clipboardItem: item, vm: viewModel)
-                                    .onAppear {
-                                        if item.content!.isValidURL {
-                                            viewModel.fetchMetadata(item.content!)
+        if #available(macOS 13.0, *) {
+            NavigationSplitView {
+                List {
+                    ForEach(clipboardItems) { item in
+                        HStack {
+                            if item.contentType == "Text" {
+                                NavigationLink {
+                                    DetailedView(clipboardItem: item, vm: viewModel, selectedItem: $selectedItem)
+                                        .onAppear {
+                                            selectedItem = item
+                                            if item.content!.isValidURL {
+                                                viewModel.fetchMetadata(item.content!)
+                                            }
                                         }
-                                    }
-                                    .onChange(of: item) { newItem in
-                                        if newItem.content!.isValidURL {
-                                            viewModel.fetchMetadata(newItem.content!)
+                                        .onChange(of: item) { newItem in
+                                            selectedItem = newItem
+                                            if newItem.content!.isValidURL {
+                                                viewModel.fetchMetadata(newItem.content!)
+                                            }
                                         }
-                                    }
                                     
-                            } label: {
-                                HStack {
-                                    if item.content!.isValidURL {
-                                        Image(systemName: "link.circle.fill")
-                                    } else {
-                                        Image(systemName: "doc.text.fill")
+                                } label: {
+                                    HStack {
+                                        if item.content!.isValidURL {
+                                            Image(systemName: "link.circle.fill")
+                                        } else {
+                                            Image(systemName: "doc.text.fill")
+                                        }
+                                        Text(item.content!)
+                                            .lineLimit(1)
                                     }
-                                    Text(item.content!)
-                                        .lineLimit(1)
+                                }
+                                
+                            } else {
+                                NavigationLink {
+                                    DetailedView(clipboardItem: item, vm: viewModel, selectedItem: $selectedItem)
+                                        .onAppear {
+                                            selectedItem = item
+                                        }
+                                        .onChange(of: item) { newItem in
+                                            selectedItem = newItem
+                                        }
+                                } label: {
+                                    HStack{
+                                        Image(systemName: "photo.fill")
+                                        Text(dataToImage(item.imageData!).1)
+                                            .lineLimit(1)
+                                    }
                                 }
                             }
                             
-                        } else {
-                            NavigationLink {
-                                DetailedView(clipboardItem: item, vm: viewModel)
-                            } label: {
-                                HStack{
-                                    Image(systemName: "photo.fill")
-                                    Text(dataToImage(item.imageData!).1)
-                                        .lineLimit(1)
+                            Spacer()
+                            
+                            Button(action: {
+                                withAnimation {
+                                    dataManager.togglePin(for: item)
+                                    showToast(item.isPinned ? "Pinned" : "Unpinned")
+                                }
+                            }) {
+                                Image(systemName: item.isPinned ? "pin.fill" : "pin")
+                            }
+                            .buttonStyle(LinkButtonStyle())
+                            
+                            Button(action: {
+                                withAnimation {
+                                    dataManager.deleteItem(item: item)
+                                    showToast("Removed from Clipboard")
+                                }
+                            }) {
+                                Image(systemName: "trash")
+                            }
+                            .buttonStyle(LinkButtonStyle())
+                            
+                            Button(action: {
+                                withAnimation {
+                                    NSPasteboard.general.clearContents()
+                                    if item.contentType == "Image" {
+                                        NSPasteboard.general.setData(item.imageData!, forType: .tiff)
+                                    } else {
+                                        NSPasteboard.general.setString(item.content!, forType: .string)
+                                    }
+                                    showToast("Copied to Clipboard")
+                                }
+                            }) {
+                                Image(systemName: "doc.on.doc")
+                            }
+                            .buttonStyle(LinkButtonStyle())
+                            .validKeyboardShortcut(number: clipboardItems.firstIndex(of: item)!, modifiers: [.command])
+                        }
+                        .onKeyboardShortcut(key: .return, modifiers: []) {
+                            if selectedItem != nil {
+                                withAnimation {
+                                    copyToClipboard(selectedItem!)
+                                    appDelegate.togglePopover()
                                 }
                             }
                         }
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            withAnimation {
-                                dataManager.togglePin(for: item)
-                                showToast(item.isPinned ? "Pinned" : "Unpinned")
-                            }
-                        }) {
-                            Image(systemName: item.isPinned ? "pin.fill" : "pin")
-                        }
-                        .buttonStyle(LinkButtonStyle())
-                        
-                        Button(action: {
-                            withAnimation {
-                                dataManager.deleteItem(item: item)
-                                showToast("Removed from Clipboard")
-                            }
-                        }) {
-                            Image(systemName: "trash")
-                        }
-                        .buttonStyle(LinkButtonStyle())
-                        
-                        Button(action: {
-                            withAnimation {
-                                NSPasteboard.general.clearContents()
-                                if item.contentType == "Image" {
-                                    NSPasteboard.general.setData(item.imageData!, forType: .tiff)
-                                } else {
-                                    NSPasteboard.general.setString(item.content!, forType: .string)
+                        .onKeyboardShortcut(key: "c", modifiers: [.command]) {
+                            if selectedItem != nil {
+                                withAnimation {
+                                    copyToClipboard(selectedItem!)
+                                    showToast("Copied to Clipboard")
                                 }
-                                showToast("Copied to Clipboard")
                             }
-                        }) {
-                            Image(systemName: "doc.on.doc")
                         }
-                        .buttonStyle(LinkButtonStyle())
-                        .validKeyboardShortcut(number: clipboardItems.firstIndex(of: item)!, modifiers: [.command])
+                        .onKeyboardShortcut(key: "d", modifiers: [.command]) {
+                            if selectedItem != nil {
+                                withAnimation {
+                                    dataManager.deleteItem(item: selectedItem!)
+                                    selectedItem = nil
+                                    showToast("Removed from clipboard")
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+                .listStyle(SidebarListStyle())
+                .navigationTitle("Clipboard History")
+                .searchable(text: query, placement: .sidebar, prompt: "type to search...")
+                .popup(isPresented: $showToast) {
+                    ToastView(message: toastMessage)
+                } customize: {
+                    $0
+                        .type(.toast)
+                        .position(.bottom)
+                        .animation(.easeInOut)
+                        .closeOnTapOutside(true)
+                        .autohideIn(1.25)
+                }
+                .onAppear {
+                    clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [self] _ in
+                        checkClipboard(context: context)
                     }
                 }
                 
-            }
-            .listStyle(SidebarListStyle())
-            .navigationTitle("Clipboard History")
-            .searchable(text: query, placement: .sidebar, prompt: "type to search...")
-            .popup(isPresented: $showToast) {
-                ToastView(message: toastMessage)
-            } customize: {
-                $0
-                    .type(.toast)
-                    .position(.bottom)
-                    .animation(.easeInOut)
-                    .closeOnTapOutside(true)
-                    .autohideIn(1.25)
-            }
-            .onAppear {
-                clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [self] _ in
-                    checkClipboard(context: context)
+                Divider()
+                    .background(colorScheme == .light ? .black : .white)
+                    .opacity(0.5)
+                
+                Button(action: {
+                    withAnimation {
+                        isShowingConfirmationDialog = true
+                    }
+                }) {
+                    HStack {
+                        Text("Clear Clipboard")
+                            .fontWeight(.medium)
+                            .padding(.leading, 8)
+                        Spacer()
+                        HStack {
+                            Image(systemName: "command")
+                                .opacity(0.7)
+                            Text("/")
+                                .opacity(0.7)
+                        }
+                        .padding(.trailing, 8)
+                    }
                 }
-            }
-            
-            Divider()
-                .background(colorScheme == .light ? .black : .white)
-                .opacity(0.5)
-            
-            Button(action: {
-                withAnimation {
-                    isShowingConfirmationDialog = true
+                .buttonStyle(PlainButtonStyle())
+                .frame(maxWidth: .infinity, minHeight: 15, idealHeight: 15, maxHeight: 15)
+                .keyboardShortcut("/")
+                .confirmationDialog("Are you sure you want to clear your clipboard history?",
+                                    isPresented: $isShowingConfirmationDialog) {
+                    Button("Yes") {
+                        withAnimation {
+                            dataManager.clearClipboard()
+                            selectedItem = nil
+                            showToast("Cleard the clipboard history")
+                        }
+                    }
+                    Button("No", role: .destructive) { }
                 }
-            }) {
-                HStack {
-                    Text("Clear Clipboard")
+                
+                Divider()
+                
+                Button {
+                    NSApplication.shared.terminate(nil)
+                } label: {
+                    Text("Quit")
                         .fontWeight(.medium)
                         .padding(.leading, 8)
                     Spacer()
                     HStack {
                         Image(systemName: "command")
-                        Text("/")
+                            .opacity(0.7)
+                            .padding(.trailing, -4)
+                        Text("Q")
+                        
+                            .opacity(0.7)
                     }
-                    .padding(.trailing, 8)
+                    .padding(.trailing, 6)
                 }
+                .buttonStyle(PlainButtonStyle())
+                .padding(.top, -8)
+                .frame(maxWidth: .infinity, minHeight: 18, idealHeight: 18, maxHeight: 18)
+                .keyboardShortcut("q")
+                
+                .frame(minWidth: 300, idealWidth: 350)
+                
+            } detail: {
+                Text("Select an item to get its detailed view")
+                    .bold()
+                    .padding()
             }
-            .buttonStyle(PlainButtonStyle())
-            .frame(maxWidth: .infinity, minHeight: 15, idealHeight: 15, maxHeight: 15)
-            .keyboardShortcut("/")
-            .confirmationDialog("Are you sure you want to clear your clipboard history?", 
-                                isPresented: $isShowingConfirmationDialog) {
-                Button("Yes") {
+        } else {
+            CustomSplitView {
+                List {
+                    ForEach(clipboardItems) { item in
+                        HStack {
+                            if item.contentType == "Text" {
+                                Button {
+                                    selectedItem = item
+                                } label: {
+                                    HStack {
+                                        if item.content!.isValidURL {
+                                            Image(systemName: "link.circle.fill")
+                                        } else {
+                                            Image(systemName: "doc.text.fill")
+                                        }
+                                        Text(item.content!)
+                                            .lineLimit(1)
+                                        Spacer()
+                                    }
+                                }
+                                .buttonStyle(ItemButtonStyle())
+                                
+                            } else {
+                                Button {
+                                    selectedItem = item
+                                } label: {
+                                    HStack{
+                                        Image(systemName: "photo.fill")
+                                        Text(dataToImage(item.imageData!).1)
+                                            .lineLimit(1)
+                                        Spacer()
+                                    }
+                                }
+                                .buttonStyle(ItemButtonStyle())
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                withAnimation {
+                                    dataManager.togglePin(for: item)
+                                    showToast(item.isPinned ? "Pinned" : "Unpinned")
+                                }
+                            }) {
+                                Image(systemName: item.isPinned ? "pin.fill" : "pin")
+                            }
+                            .buttonStyle(LinkButtonStyle())
+                            
+                            Button(action: {
+                                withAnimation {
+                                    dataManager.deleteItem(item: item)
+                                    showToast("Removed from Clipboard")
+                                }
+                            }) {
+                                Image(systemName: "trash")
+                            }
+                            .buttonStyle(LinkButtonStyle())
+                            
+                            Button(action: {
+                                withAnimation {
+                                    copyToClipboard(item)
+                                    showToast("Copied to Clipboard")
+                                }
+                            }) {
+                                Image(systemName: "doc.on.doc")
+                            }
+                            .buttonStyle(LinkButtonStyle())
+                            .validKeyboardShortcut(number: clipboardItems.firstIndex(of: item)!, modifiers: [.command])
+                        }
+                        .background(selectedItem != nil && selectedItem == item ? Color.accentColor : Color.clear)
+                        .onKeyboardShortcut(key: .return, modifiers: []) {
+                            if selectedItem != nil {
+                                withAnimation {
+                                    copyToClipboard(selectedItem!)
+                                    appDelegate.togglePopover()
+                                }
+                            }
+                        }
+                        .onKeyboardShortcut(key: "c", modifiers: [.command]) {
+                            if selectedItem != nil {
+                                withAnimation {
+                                    copyToClipboard(selectedItem!)
+                                    showToast("Copied to Clipboard")
+                                }
+                            }
+                        }
+                        .onKeyboardShortcut(key: "d", modifiers: [.command]) {
+                            if selectedItem != nil {
+                                withAnimation {
+                                    dataManager.deleteItem(item: selectedItem!)
+                                    selectedItem = nil
+                                    showToast("Removed from clipboard")
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+                .listStyle(SidebarListStyle())
+                .navigationTitle("Clipboard History")
+                .searchable(text: query, placement: .sidebar, prompt: "type to search...")
+                .popup(isPresented: $showToast) {
+                    ToastView(message: toastMessage)
+                } customize: {
+                    $0
+                        .type(.toast)
+                        .position(.bottom)
+                        .animation(.easeInOut)
+                        .closeOnTapOutside(true)
+                        .autohideIn(1.25)
+                }
+                .onAppear {
+                    NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+                        handleNavigation(event)
+                        return event
+                    }
+                    clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [self] _ in
+                        checkClipboard(context: context)
+                    }
+                }
+                
+                Divider()
+                    .background(colorScheme == .light ? .black : .white)
+                    .opacity(0.5)
+                
+                Button(action: {
                     withAnimation {
-                        dataManager.clearClipboard()
-                        showToast("Cleard the clipboard history")
+                        isShowingConfirmationDialog = true
+                    }
+                }) {
+                    HStack {
+                        Text("Clear Clipboard")
+                            .padding(.leading, 8)
+                        Spacer()
+                        HStack {
+                            Image(systemName: "command")
+                                .opacity(0.7)
+                            Text("/")
+                                .opacity(0.7)
+                        }
+                        .padding(.trailing, 8)
                     }
                 }
-                Button("No", role: .destructive) { }
-            }
-            
-            Divider()
-            
-            Button {
-                NSApplication.shared.terminate(nil)
-            } label: {
-                Text("Quit")
-                    .fontWeight(.medium)
-                    .padding(.leading, 8)
-                Spacer()
-                HStack {
-                    Image(systemName: "command")
-                        .padding(.trailing, -4)
-                    Text("Q")
-                        .fontWeight(.regular)
+                .buttonStyle(ItemButtonStyle())
+                .frame(maxWidth: .infinity, minHeight: 15, idealHeight: 15, maxHeight: 15)
+                .keyboardShortcut("/")
+                .confirmationDialog("Are you sure you want to clear your clipboard history?",
+                                    isPresented: $isShowingConfirmationDialog) {
+                    Button("Yes") {
+                        withAnimation {
+                            dataManager.clearClipboard()
+                            selectedItem = nil
+                            showToast("Cleard the clipboard history")
+                        }
+                    }
+                    Button("No", role: .destructive) { }
                 }
-                .padding(.trailing, 6)
+                
+                Divider()
+                
+                Button {
+                    NSApplication.shared.terminate(nil)
+                } label: {
+                    Text("Quit")
+                        .padding(.leading, 8)
+                    Spacer()
+                    HStack {
+                        Image(systemName: "command")
+                            .opacity(0.7)
+                            .padding(.trailing, -4)
+                        Text("Q")
+                            .opacity(0.7)
+                            .padding(.top, -1)
+                    }
+                    .padding(.trailing, 6)
+                }
+                .buttonStyle(.plain)
+                .padding(.top, -8)
+                .frame(maxWidth: .infinity, minHeight: 18, idealHeight: 18, maxHeight: 18)
+                .keyboardShortcut("q")
+                
+            } detail: {
+                if let selectedItem = selectedItem {
+                    DetailedView(clipboardItem: selectedItem, vm: viewModel, selectedItem: $selectedItem)
+                        .onAppear {
+                            if selectedItem.contentType == "Text" {
+                                if selectedItem.content!.isValidURL {
+                                    viewModel.fetchMetadata(selectedItem.content!)
+                                }
+                            }
+                        }
+                        .onChange(of: selectedItem) { newItem in
+                            if newItem.contentType == "Text" {
+                                if newItem.content!.isValidURL {
+                                    viewModel.fetchMetadata(newItem.content!)
+                                }
+                            }
+                        }
+                } else {
+                    Text("Select an item to get its detailed view")
+                        .bold()
+                        .padding()
+                }
             }
-            .buttonStyle(PlainButtonStyle())
-            .padding(.top, -8)
-            .frame(maxWidth: .infinity, minHeight: 18, idealHeight: 18, maxHeight: 18)
-            .keyboardShortcut(",")
-            
-        .frame(minWidth: 300, idealWidth: 350)
-            
-        } detail: {
-            Text("Select an item to get its detailed view")
-                .bold()
-                .padding()
         }
-        
     }
     
     func checkClipboard(context: NSManagedObjectContext) {
@@ -281,5 +526,33 @@ struct ClipboardItemListView: View {
     func showToast(_ message: String) {
         toastMessage = message
         showToast = true
+    }
+    
+    func handleNavigation(_ event: NSEvent) {
+        guard let characters = event.charactersIgnoringModifiers else { return }
+        switch characters {
+        case String(Character(UnicodeScalar(NSUpArrowFunctionKey)!)):
+            if selectedItem != nil {
+                let selectedItemIndex = clipboardItems.firstIndex(of: selectedItem!)!
+                if selectedItemIndex-1 != -1 {
+                    let nextItem = clipboardItems[selectedItemIndex-1]
+                    selectedItem = nextItem
+                }
+            } else {
+                selectedItem = clipboardItems.first!
+            }
+        case String(Character(UnicodeScalar(NSDownArrowFunctionKey)!)):
+            if selectedItem != nil {
+                let selectedItemIndex = clipboardItems.firstIndex(of: selectedItem!)!
+                if selectedItemIndex+1 != clipboardItems.count {
+                    let nextItem = clipboardItems[selectedItemIndex+1]
+                    selectedItem = nextItem
+                }
+            } else {
+                selectedItem = clipboardItems.first!
+            }
+        default:
+            break
+        }
     }
 }
