@@ -23,17 +23,18 @@ It works on macOS Monterey 12.0 or higher
 
 - Install the `Macboard.dmg` disk image from [Github Releases](https://github.com/27Saumya/Macboard/releases).
 - Open the `Macboard.dmg` file and drag the Macboard icon into your `Applications/` folder.
-- Open the `Macboard` app now, you might face a warning regarding `Unidentified Developer!`, click on Open anyways, and you're good to go!
+- Open the `Macboard` app now, you might face a warning regarding `Unidentified Developer!`, click on Open anyway, and you're good to go!
 
 ### Features
 
 - Compact, user-friendly, clean UI
+- Quick filtering with a search bar
 - Compatible with system theme
 - Images support
 - URL metadata preview
 - Hyperlinks highlighting
 - Favourites
-- Complete keyboard control (under development)
+- Complete keyboard control
 
 ### Keyboard Shortcuts
 
