@@ -116,19 +116,13 @@ struct ClipboardItemListView: View {
                             
                             Button(action: {
                                 withAnimation {
-                                    NSPasteboard.general.clearContents()
-                                    if item.contentType == "Image" {
-                                        NSPasteboard.general.setData(item.imageData!, forType: .tiff)
-                                    } else {
-                                        NSPasteboard.general.setString(item.content!, forType: .string)
-                                    }
+                                    copyToClipboard(item)
                                     showToast("Copied to Clipboard")
                                 }
                             }) {
                                 Image(systemName: "doc.on.doc")
                             }
                             .buttonStyle(LinkButtonStyle())
-                            .validKeyboardShortcut(number: clipboardItems.firstIndex(of: item)!, modifiers: [.command])
                         }
                         .onKeyboardShortcut(key: .return, modifiers: []) {
                             if selectedItem != nil {
@@ -313,7 +307,6 @@ struct ClipboardItemListView: View {
                                 Image(systemName: "doc.on.doc")
                             }
                             .buttonStyle(LinkButtonStyle())
-                            .validKeyboardShortcut(number: clipboardItems.firstIndex(of: item)!, modifiers: [.command])
                         }
                         .background(selectedItem != nil && selectedItem == item ? Color.accentColor : Color.clear)
                         .onKeyboardShortcut(key: .return, modifiers: []) {
