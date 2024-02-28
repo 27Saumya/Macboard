@@ -1,8 +1,11 @@
 import SwiftUI
+import Defaults
 
 struct DetailedView: View {
     
     let clipboardItem: ClipboardItem
+    
+    @Default(.showUrlMetadata) var showUrlMetadata
     
     @ObservedObject var vm: MetadataViewModel
     @Binding var selectedItem: ClipboardItem?
@@ -15,7 +18,7 @@ struct DetailedView: View {
                 if clipboardItem.contentType == "Text" {
                     List {
                         Section {
-                            if clipboardItem.content!.isValidURL {
+                            if clipboardItem.content!.isValidURL && showUrlMetadata {
                                 let imageURLString = vm.metadata.first(where: {$0.key == "Image"})?.value
                                 if imageURLString != nil {
                                     if imageURLString != "Not Found" {
@@ -37,22 +40,38 @@ struct DetailedView: View {
                                 }
                                 
                             } else {
-                                Text(clipboardItem.content!)
-                                    .textSelection(.enabled)
-                                    .onHover(perform: { isHovering in
-                                        self.hover = isHovering
-                                        DispatchQueue.main.async {
-                                            if self.hover {
-                                                NSCursor.iBeam.push()
-                                            } else {
-                                                NSCursor.pop()
+                                if clipboardItem.content!.isValidURL {
+                                    Link(clipboardItem.content!, destination: URL(string: clipboardItem.content!)!)
+                                        .textFieldStyle(.roundedBorder)
+                                        .textSelection(.enabled)
+                                        .onHover(perform: { isHovering in
+                                            self.hover = isHovering
+                                            DispatchQueue.main.async {
+                                                if self.hover {
+                                                    NSCursor.pointingHand.push()
+                                                } else {
+                                                    NSCursor.pop()
+                                                }
                                             }
-                                        }
-                                    })
+                                        })
+                                } else {
+                                    Text(clipboardItem.content!)
+                                        .textSelection(.enabled)
+                                        .onHover(perform: { isHovering in
+                                            self.hover = isHovering
+                                            DispatchQueue.main.async {
+                                                if self.hover {
+                                                    NSCursor.iBeam.push()
+                                                } else {
+                                                    NSCursor.pop()
+                                                }
+                                            }
+                                        })
+                                }
                             }
                         } header: {
                             HStack {
-                                if clipboardItem.content!.isValidURL {
+                                if clipboardItem.content!.isValidURL && showUrlMetadata {
                                     Image(systemName: "photo.fill")
                                     Text("Meta Image")
                                 } else {
@@ -62,7 +81,7 @@ struct DetailedView: View {
                             }
                         }
                         
-                        if clipboardItem.content!.isValidURL {
+                        if clipboardItem.content!.isValidURL && showUrlMetadata {
                             Section {
                                 HStack {
                                     Image(systemName: "person.badge.clock.fill")

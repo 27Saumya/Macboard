@@ -2,11 +2,17 @@ import SwiftUI
 import CoreData
 import Cocoa
 import PopupView
+import Setting
+import Defaults
 
 struct ClipboardItemListView: View {
     
     @Environment(\.managedObjectContext) private var context
     @Environment(\.colorScheme) var colorScheme: ColorScheme
+    
+    @Default(.showSearchbar) var showSearchbar
+    @Default(.allowedTypes) var allowedTypes
+    @Default(.maxItems) var maxItems
     
     @StateObject var viewModel = MetadataViewModel()
     
@@ -108,6 +114,11 @@ struct ClipboardItemListView: View {
                                 withAnimation {
                                     dataManager.deleteItem(item: item)
                                     showToast("Removed from Clipboard")
+                                    if selectedItem != nil {
+                                        if item == selectedItem! {
+                                            selectedItem = nil
+                                        }
+                                    }
                                 }
                             }) {
                                 Image(systemName: "trash")
@@ -124,37 +135,37 @@ struct ClipboardItemListView: View {
                             }
                             .buttonStyle(LinkButtonStyle())
                         }
-                        .onKeyboardShortcut(key: .return, modifiers: []) {
-                            if selectedItem != nil {
-                                withAnimation {
-                                    copyToClipboard(selectedItem!)
-                                    appDelegate.togglePopover()
-                                }
-                            }
-                        }
-                        .onKeyboardShortcut(key: "c", modifiers: [.command]) {
-                            if selectedItem != nil {
-                                withAnimation {
-                                    copyToClipboard(selectedItem!)
-                                    showToast("Copied to Clipboard")
-                                }
-                            }
-                        }
-                        .onKeyboardShortcut(key: "d", modifiers: [.command]) {
-                            if selectedItem != nil {
-                                withAnimation {
-                                    dataManager.deleteItem(item: selectedItem!)
-                                    selectedItem = nil
-                                    showToast("Removed from clipboard")
-                                }
-                            }
-                        }
+                        //.onKeyboardShortcut(key: .return, modifiers: []) {
+                        //    if selectedItem != nil {
+                        //        withAnimation {
+                        //            copyToClipboard(selectedItem!)
+                        //            appDelegate.togglePopover()
+                        //        }
+                        //    }
+                        //}
+                        //.onKeyboardShortcut(key: "c", modifiers: [.command]) {
+                        //    if selectedItem != nil {
+                        //        withAnimation {
+                        //            copyToClipboard(selectedItem!)
+                        //            showToast("Copied to Clipboard")
+                        //        }
+                        //    }
+                        //}
+                        //.onKeyboardShortcut(key: "d", modifiers: [.command]) {
+                        //    if selectedItem != nil {
+                        //        withAnimation {
+                        //            dataManager.deleteItem(item: selectedItem!)
+                        //            selectedItem = nil
+                        //            showToast("Removed from clipboard")
+                        //        }
+                        //    }
+                        //}
                     }
                     
                 }
                 .listStyle(SidebarListStyle())
                 .navigationTitle("Clipboard History")
-                .searchable(text: query, placement: .sidebar, prompt: "type to search...")
+                .searchable(text: query, placement: showSearchbar ? .sidebar : .toolbar, prompt: "type to search...")
                 .popup(isPresented: $showToast) {
                     ToastView(message: toastMessage)
                 } customize: {
@@ -182,19 +193,20 @@ struct ClipboardItemListView: View {
                 }) {
                     HStack {
                         Text("Clear Clipboard")
-                            .fontWeight(.medium)
                             .padding(.leading, 8)
                         Spacer()
                         HStack {
                             Image(systemName: "command")
                                 .opacity(0.7)
+                                .padding(.trailing, -2)
+                            
                             Text("/")
                                 .opacity(0.7)
                         }
                         .padding(.trailing, 8)
                     }
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(BorderlessButtonStyle())
                 .frame(maxWidth: .infinity, minHeight: 15, idealHeight: 15, maxHeight: 15)
                 .keyboardShortcut("/")
                 .confirmationDialog("Are you sure you want to clear your clipboard history?",
@@ -212,26 +224,27 @@ struct ClipboardItemListView: View {
                 Divider()
                 
                 Button {
-                    NSApplication.shared.terminate(nil)
+                    appDelegate.openSettings()
                 } label: {
-                    Text("Quit")
-                        .fontWeight(.medium)
+                    Text("Settings...")
                         .padding(.leading, 8)
                     Spacer()
                     HStack {
                         Image(systemName: "command")
                             .opacity(0.7)
-                            .padding(.trailing, -4)
-                        Text("Q")
-                        
+                            .padding(.trailing, -2)
+                        Text(",")
                             .opacity(0.7)
+                            .padding(.top, -4)
+                            .padding(.trailing, 2)
                     }
-                    .padding(.trailing, 6)
+                    .padding(.trailing, 5)
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(BorderlessButtonStyle())
+                .background(.clear)
                 .padding(.top, -8)
                 .frame(maxWidth: .infinity, minHeight: 18, idealHeight: 18, maxHeight: 18)
-                .keyboardShortcut("q")
+                .keyboardShortcut(",")
                 
                 .frame(minWidth: 300, idealWidth: 350)
                 
@@ -292,6 +305,11 @@ struct ClipboardItemListView: View {
                                 withAnimation {
                                     dataManager.deleteItem(item: item)
                                     showToast("Removed from Clipboard")
+                                    if selectedItem != nil {
+                                        if item == selectedItem! {
+                                            selectedItem = nil
+                                        }
+                                    }
                                 }
                             }) {
                                 Image(systemName: "trash")
@@ -309,37 +327,37 @@ struct ClipboardItemListView: View {
                             .buttonStyle(LinkButtonStyle())
                         }
                         .background(selectedItem != nil && selectedItem == item ? Color.accentColor : Color.clear)
-                        .onKeyboardShortcut(key: .return, modifiers: []) {
-                            if selectedItem != nil {
-                                withAnimation {
-                                    copyToClipboard(selectedItem!)
-                                    appDelegate.togglePopover()
-                                }
-                            }
-                        }
-                        .onKeyboardShortcut(key: "c", modifiers: [.command]) {
-                            if selectedItem != nil {
-                                withAnimation {
-                                    copyToClipboard(selectedItem!)
-                                    showToast("Copied to Clipboard")
-                                }
-                            }
-                        }
-                        .onKeyboardShortcut(key: "d", modifiers: [.command]) {
-                            if selectedItem != nil {
-                                withAnimation {
-                                    dataManager.deleteItem(item: selectedItem!)
-                                    selectedItem = nil
-                                    showToast("Removed from clipboard")
-                                }
-                            }
-                        }
+                        //.onKeyboardShortcut(key: .return, modifiers: []) {
+                        //    if selectedItem != nil {
+                        //        withAnimation {
+                        //            copyToClipboard(selectedItem!)
+                        //            appDelegate.togglePopover()
+                        //        }
+                        //    }
+                        //}
+                        //.onKeyboardShortcut(key: "c", modifiers: [.command]) {
+                        //    if selectedItem != nil {
+                        //        withAnimation {
+                        //            copyToClipboard(selectedItem!)
+                        //            showToast("Copied to Clipboard")
+                        //        }
+                        //    }
+                        //}
+                        //.onKeyboardShortcut(key: "d", modifiers: [.command]) {
+                        //    if selectedItem != nil {
+                        //        withAnimation {
+                        //            dataManager.deleteItem(item: selectedItem!)
+                        //            selectedItem = nil
+                        //            showToast("Removed from clipboard")
+                        //        }
+                        //    }
+                        //}
                     }
                     
                 }
                 .listStyle(SidebarListStyle())
                 .navigationTitle("Clipboard History")
-                .searchable(text: query, placement: .sidebar, prompt: "type to search...")
+                .searchable(text: query, placement: showSearchbar ? .sidebar : .toolbar, prompt: "type to search...")
                 .popup(isPresented: $showToast) {
                     ToastView(message: toastMessage)
                 } customize: {
@@ -382,7 +400,7 @@ struct ClipboardItemListView: View {
                         .padding(.trailing, 8)
                     }
                 }
-                .buttonStyle(ItemButtonStyle())
+                .buttonStyle(BorderlessButtonStyle())
                 .frame(maxWidth: .infinity, minHeight: 15, idealHeight: 15, maxHeight: 15)
                 .keyboardShortcut("/")
                 .confirmationDialog("Are you sure you want to clear your clipboard history?",
@@ -400,25 +418,27 @@ struct ClipboardItemListView: View {
                 Divider()
                 
                 Button {
-                    NSApplication.shared.terminate(nil)
+                    appDelegate.openSettings()
                 } label: {
-                    Text("Quit")
+                    Text("Settings...")
                         .padding(.leading, 8)
                     Spacer()
                     HStack {
                         Image(systemName: "command")
                             .opacity(0.7)
-                            .padding(.trailing, -4)
-                        Text("Q")
+                            .padding(.trailing, -2)
+                        Text(",")
                             .opacity(0.7)
-                            .padding(.top, -1)
+                            .padding(.top, -4)
+                            .padding(.trailing, 2)
                     }
-                    .padding(.trailing, 6)
+                    .padding(.trailing, 5)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(BorderlessButtonStyle())
+                .background(.clear)
                 .padding(.top, -8)
                 .frame(maxWidth: .infinity, minHeight: 18, idealHeight: 18, maxHeight: 18)
-                .keyboardShortcut("q")
+                .keyboardShortcut(",")
                 
             } detail: {
                 if let selectedItem = selectedItem {
@@ -447,10 +467,17 @@ struct ClipboardItemListView: View {
     }
     
     func checkClipboard(context: NSManagedObjectContext) {
-        if clipboardContentType().0 == nil {
+        let contentType = clipboardContentType().0
+        if contentType == nil {
             return
         }
-        if clipboardContentType().0 == "Text" {
+        if clipboardItems.count > maxItems && maxItems != 0 {
+            let itemsToRemoveCount = clipboardItems.count - maxItems
+            for _ in 0..<itemsToRemoveCount {
+                dataManager.deleteItem(item: clipboardItems.last!)
+            }
+        }
+        if contentType == "Text" && allowedTypes.contains("Text") {
             guard let content = NSPasteboard.general.string(forType: .string), !content.isEmpty else { return }
             
             if !content.isEmpty {
@@ -474,7 +501,7 @@ struct ClipboardItemListView: View {
                     dataManager.isReCopied(item: existingItem!)
                 }
             }
-        } else {
+        } else if contentType == "Image" && allowedTypes.contains("Image") {
             let contentType = clipboardContentType().1
             if contentType != nil {
                 guard let imageData = NSPasteboard.general.data(forType: contentType!) else { return }
