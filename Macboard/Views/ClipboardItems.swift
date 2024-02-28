@@ -4,6 +4,7 @@ import Cocoa
 import PopupView
 import Setting
 import Defaults
+import KeyboardShortcuts
 
 struct ClipboardItemListView: View {
     
@@ -208,7 +209,7 @@ struct ClipboardItemListView: View {
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .frame(maxWidth: .infinity, minHeight: 15, idealHeight: 15, maxHeight: 15)
-                .keyboardShortcut("/")
+                .keyboardShortcut(KeyboardShortcuts.Name("clearClipboard"))
                 .confirmationDialog("Are you sure you want to clear your clipboard history?",
                                     isPresented: $isShowingConfirmationDialog) {
                     Button("Yes") {
@@ -402,7 +403,7 @@ struct ClipboardItemListView: View {
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .frame(maxWidth: .infinity, minHeight: 15, idealHeight: 15, maxHeight: 15)
-                .keyboardShortcut("/")
+                .keyboardShortcut(.clearClipboard)
                 .confirmationDialog("Are you sure you want to clear your clipboard history?",
                                     isPresented: $isShowingConfirmationDialog) {
                     Button("Yes") {

@@ -5,6 +5,7 @@ import enum Settings.Settings
 extension Settings.PaneIdentifier {
     static let general = Self("general")
     static let storage = Self("storage")
+    static let keyboard = Self("keyboard")
     static let about = Self("about")
 }
 

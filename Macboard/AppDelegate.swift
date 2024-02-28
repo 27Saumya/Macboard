@@ -1,13 +1,12 @@
 import SwiftUI
 import Cocoa
 import CoreData
-import HotKey
+import KeyboardShortcuts
 import Settings
 
 class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     private var statusItem: NSStatusItem!
     var popover: NSPopover!
-    let openHotKey = HotKey(key: .v, modifiers: [.shift, .command])
     
     let GeneralSettingsViewController: () -> SettingsPane = {
         let paneView = Settings.Pane(
@@ -27,6 +26,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             toolbarIcon: NSImage(systemSymbolName: "externaldrive", accessibilityDescription: "Storage Settings")!
         ) {
             StorageSettingsView()
+        }
+        
+        return Settings.PaneHostingController(pane: paneView)
+    }
+    let KeyboardSettingsViewController: () -> SettingsPane = {
+        let paneView = Settings.Pane(
+            identifier: .keyboard,
+            title: "Keyboard",
+            toolbarIcon: NSImage(systemSymbolName: "command", accessibilityDescription: "Keyboard Settings")!
+        ) {
+            KeyboardSettingsView()
         }
         
         return Settings.PaneHostingController(pane: paneView)
@@ -52,8 +62,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             statusButton.action = #selector(togglePopover)
         }
         
-        openHotKey.keyUpHandler = {
-            self.togglePopover()
+        KeyboardShortcuts.onKeyUp(for: .toggleMacboard) { [self] in
+            togglePopover()
         }
         
         self.popover = NSPopover()
@@ -78,6 +88,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             panes: [
                 GeneralSettingsViewController(),
                 StorageSettingsViewController(),
+                KeyboardSettingsViewController(),
                 AboutSettingsViewController()
             ],
             style: .toolbarItems,
