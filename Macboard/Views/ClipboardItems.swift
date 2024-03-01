@@ -509,6 +509,12 @@ struct ClipboardItemListView: View {
             return false
         }
         
+        if let responder = NSApplication.shared.keyWindow?.firstResponder {
+            if responder.className.contains("SearchTextView") {
+                return false
+            }
+        }
+        
         guard let shortcut = KeyboardShortcuts.Shortcut(event: event) else { return false }
         
         switch shortcut {
@@ -573,6 +579,12 @@ struct ClipboardItemListView: View {
     func keyboardShortcutsHandler12(_ event: NSEvent) -> Bool {
         if !appDelegate.popoverFocused {
             return false
+        }
+        
+        if let responder = NSApplication.shared.keyWindow?.firstResponder {
+            if responder.className.contains("SearchTextView") {
+                return false
+            }
         }
         
         let upArrowKey = KeyboardShortcuts.Shortcut(.upArrow, modifiers: [])
