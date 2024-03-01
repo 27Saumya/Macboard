@@ -37,6 +37,15 @@
       }
     },
     {
+      "identity" : "sauce",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Clipy/Sauce.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "4fa210cc79207a9570b5620119f887fbdea99a06"
+      }
+    },
+    {
       "identity" : "settings",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/Settings",

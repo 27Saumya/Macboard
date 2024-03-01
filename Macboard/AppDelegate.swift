@@ -7,6 +7,9 @@ import Settings
 class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     private var statusItem: NSStatusItem!
     var popover: NSPopover!
+    var didShowObserver: AnyObject?
+    var didCloseObserver: AnyObject?
+    var popoverFocused: Bool = false
     
     let GeneralSettingsViewController: () -> SettingsPane = {
         let paneView = Settings.Pane(
@@ -65,11 +68,30 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         KeyboardShortcuts.onKeyUp(for: .toggleMacboard) { [self] in
             togglePopover()
         }
-        
         self.popover = NSPopover()
         self.popover.contentSize = NSSize(width: 700, height: 500)
         self.popover.behavior = .transient
         self.popover.contentViewController = NSHostingController(rootView: rootView)
+        didCloseObserver = NotificationCenter.default.addObserver(forName: NSPopover.didCloseNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.popoverDidClose()
+        }
+        didShowObserver = NotificationCenter.default.addObserver(forName: NSPopover.didShowNotification, object: popover, queue: .main) { [weak self] _ in
+            self?.popoverDidAppear()
+        }
+    }
+    
+    func applicationWillTerminate(_ notification: Notification) {
+        if let didCloseObserver = didCloseObserver {
+            NotificationCenter.default.removeObserver(didCloseObserver)
+        }
+    }
+    
+    func popoverDidAppear() {
+        popoverFocused = true
+    }
+    
+    func popoverDidClose() {
+        popoverFocused = false
     }
     
     @objc func togglePopover() {

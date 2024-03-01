@@ -10,11 +10,11 @@ extension Settings.PaneIdentifier {
 }
 
 public extension SettingsWindowController {
-  override func keyDown(with event: NSEvent) {
-    if event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command, let key = event.charactersIgnoringModifiers {
-      if key == "w" {
-        self.close()
-      }
+    override func keyDown(with event: NSEvent) {
+        if event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command, let key = event.charactersIgnoringModifiers {
+            if key == "w" {
+                self.close()
+            }
+        }
     }
-  }
 }

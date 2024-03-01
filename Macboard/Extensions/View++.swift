@@ -41,31 +41,3 @@ extension View {
         }
     }
 }
-
-extension View {
-    public func onKeyboardShortcut(_ shortcut: KeyboardShortcuts.Name, perform: @escaping () -> ()) -> some View {
-        ZStack {
-            Button("") {
-                perform()
-            }
-            .hidden()
-            .keyboardShortcut(shortcut)
-            
-            self
-        }
-    }
-}
-
-extension View {
-    
-    public func keyboardShortcut(_ shortcut: KeyboardShortcuts.Name) -> some View {
-        if let shortcut = shortcut.shortcut {
-            if let keyEquivalent = shortcut.toKeyEquivalent() {
-                return AnyView(self.keyboardShortcut(keyEquivalent, modifiers: shortcut.toEventModifiers()))
-            }
-        }
-        
-        return AnyView(self)
-    }
-    
-}

@@ -1,5 +1,6 @@
 import SwiftUI
 import Defaults
+import KeyboardShortcuts
 
 struct DetailedView: View {
     
@@ -227,48 +228,75 @@ struct DetailedView: View {
                     }
                     .padding(.bottom, -8)
                 }
+                
                 Divider()
                 
                 HStack {
-                    Spacer()
-                    Text("Copy & Hide")
-                        .padding(.top, -10)
-                    Image(systemName: "return")
-                        .opacity(0.7)
-                        .padding(.top, -8)
-                        .padding(.trailing, 4)
+                    Text("Copy & Hide:")
+                        .font(.footnote)
+                    if let shortcut = KeyboardShortcuts.Name("copyAndHide").shortcut {
+                        Text(shortcutToText(shortcut))
+                            .font(.footnote)
+                            .opacity(0.8)
+                    } else {
+                        Text("↩")
+                            .font(.footnote)
+                            .opacity(0.8)
+                    }
                     Text("|")
                         .font(.largeTitle)
                         .opacity(0.3)
-                        .padding(.top, -14)
-                        .padding(.leading, -2)
-                        .padding(.trailing, 2)
-                    Text("Copy")
-                        .padding(.top, -10)
-                    Image(systemName: "command")
-                        .opacity(0.7)
-                        .padding(.top, -9)
-                        .padding(.trailing, -2)
-                    Text("C")
-                        .opacity(0.7)
-                        .padding(.top, -9.5)
-                        .padding(.trailing, 4)
+                        .padding(.top, -7)
+                        .padding(.leading, -1)
+                        .padding(.trailing, 1)
+                    Text("Copy:")
+                        .font(.footnote)
+                    if let shortcut = KeyboardShortcuts.Name("copyItem").shortcut {
+                        Text(shortcutToText(shortcut))
+                            .font(.footnote)
+                            .opacity(0.8)
+                    } else {
+                        Text("⌘ ↩")
+                            .font(.footnote)
+                            .opacity(0.8)
+                    }
                     Text("|")
                         .font(.largeTitle)
                         .opacity(0.3)
-                        .padding(.top, -14)
-                        .padding(.trailing, 2)
-                    Text("Delete")
-                        .padding(.top, -10)
-                    Image(systemName: "command")
-                        .opacity(0.7)
-                        .padding(.top, -10)
-                        .padding(.trailing, -2)
-                    Text("D")
-                        .opacity(0.7)
-                        .padding(.top, -10)
-                        .padding(.trailing, 10)
+                        .padding(.top, -7)
+                        .padding(.leading, -1)
+                        .padding(.trailing, 1)
+                    Text(clipboardItem.isPinned ? "Unpin:" : "Pin:")
+                        .font(.footnote)
+                    if let shortcut = KeyboardShortcuts.Name("togglePin").shortcut {
+                        Text(shortcutToText(shortcut))
+                            .font(.footnote)
+                            .opacity(0.8)
+                    } else {
+                        Text("⌘ P")
+                            .font(.footnote)
+                            .opacity(0.8)
+                    }
+                    Text("|")
+                        .font(.largeTitle)
+                        .opacity(0.3)
+                        .padding(.top, -7)
+                        .padding(.leading, -1)
+                        .padding(.trailing, 1)
+                    Text("Delete:")
+                        .font(.footnote)
+                    if let shortcut = KeyboardShortcuts.Name("deleteItem").shortcut {
+                        Text(shortcutToText(shortcut))
+                            .font(.footnote)
+                            .opacity(0.8)
+                    } else {
+                        Text("⌫")
+                            .font(.footnote)
+                            .opacity(0.8)
+                    }
                 }
+                .padding(.top, -8)
+                .frame(maxWidth: .infinity, minHeight: 18, idealHeight: 18, maxHeight: 18)
             }
         } else {
             Text("Select an item to get its detailed view")

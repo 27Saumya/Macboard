@@ -2,7 +2,6 @@ import SwiftUI
 import CoreData
 import Cocoa
 import PopupView
-import Setting
 import Defaults
 import KeyboardShortcuts
 
@@ -44,6 +43,12 @@ struct ClipboardItemListView: View {
     
     let dataManager = CoreDataManager()
     let appDelegate: AppDelegate
+    
+    let clearClipboardShortcut = KeyboardShortcuts.Name("clearClipboard").shortcut ?? KeyboardShortcuts.Shortcut(.delete, modifiers: [.command])
+    let copyAndHideShortcut = KeyboardShortcuts.Name("copyAndHide").shortcut ?? KeyboardShortcuts.Shortcut(.return, modifiers: [])
+    let copyItemShortcut = KeyboardShortcuts.Name("copyItem").shortcut ?? KeyboardShortcuts.Shortcut(.return, modifiers: [.command])
+    let togglePinShortcut = KeyboardShortcuts.Name("togglePin").shortcut ?? KeyboardShortcuts.Shortcut(.p, modifiers: [.command])
+    let deleteItemShortcut = KeyboardShortcuts.Name("deleteItem").shortcut ?? KeyboardShortcuts.Shortcut(.delete, modifiers: [])
     
     var body: some View {
         if #available(macOS 13.0, *) {
@@ -136,31 +141,6 @@ struct ClipboardItemListView: View {
                             }
                             .buttonStyle(LinkButtonStyle())
                         }
-                        //.onKeyboardShortcut(key: .return, modifiers: []) {
-                        //    if selectedItem != nil {
-                        //        withAnimation {
-                        //            copyToClipboard(selectedItem!)
-                        //            appDelegate.togglePopover()
-                        //        }
-                        //    }
-                        //}
-                        //.onKeyboardShortcut(key: "c", modifiers: [.command]) {
-                        //    if selectedItem != nil {
-                        //        withAnimation {
-                        //            copyToClipboard(selectedItem!)
-                        //            showToast("Copied to Clipboard")
-                        //        }
-                        //    }
-                        //}
-                        //.onKeyboardShortcut(key: "d", modifiers: [.command]) {
-                        //    if selectedItem != nil {
-                        //        withAnimation {
-                        //            dataManager.deleteItem(item: selectedItem!)
-                        //            selectedItem = nil
-                        //            showToast("Removed from clipboard")
-                        //        }
-                        //    }
-                        //}
                     }
                     
                 }
@@ -178,6 +158,12 @@ struct ClipboardItemListView: View {
                         .autohideIn(1.25)
                 }
                 .onAppear {
+                    NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+                        if keyboardShortcutsHandler13(event) {
+                            return nil
+                        }
+                        return event
+                    }
                     clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [self] _ in
                         checkClipboard(context: context)
                     }
@@ -196,20 +182,19 @@ struct ClipboardItemListView: View {
                         Text("Clear Clipboard")
                             .padding(.leading, 8)
                         Spacer()
-                        HStack {
-                            Image(systemName: "command")
-                                .opacity(0.7)
-                                .padding(.trailing, -2)
-                            
-                            Text("/")
-                                .opacity(0.7)
+                        if let shortcut = KeyboardShortcuts.Name("clearClipboard").shortcut {
+                            Text(shortcutToText(shortcut))
+                                .opacity(0.8)
+                                .padding(.trailing, 4)
+                        } else {
+                            Text("⌘ ⌫")
+                                .opacity(0.8)
+                                .padding(.trailing, 4)
                         }
-                        .padding(.trailing, 8)
                     }
                 }
-                .buttonStyle(BorderlessButtonStyle())
+                .buttonStyle(ItemButtonStyle())
                 .frame(maxWidth: .infinity, minHeight: 15, idealHeight: 15, maxHeight: 15)
-                .keyboardShortcut(KeyboardShortcuts.Name("clearClipboard"))
                 .confirmationDialog("Are you sure you want to clear your clipboard history?",
                                     isPresented: $isShowingConfirmationDialog) {
                     Button("Yes") {
@@ -227,21 +212,16 @@ struct ClipboardItemListView: View {
                 Button {
                     appDelegate.openSettings()
                 } label: {
-                    Text("Settings...")
-                        .padding(.leading, 8)
-                    Spacer()
                     HStack {
-                        Image(systemName: "command")
-                            .opacity(0.7)
-                            .padding(.trailing, -2)
-                        Text(",")
-                            .opacity(0.7)
-                            .padding(.top, -4)
-                            .padding(.trailing, 2)
+                        Text("Settings...")
+                            .padding(.leading, 8)
+                        Spacer()
+                        Text("⌘ ,")
+                            .opacity(0.8)
+                            .padding(.trailing, 4)
                     }
-                    .padding(.trailing, 5)
                 }
-                .buttonStyle(BorderlessButtonStyle())
+                .buttonStyle(ItemButtonStyle())
                 .background(.clear)
                 .padding(.top, -8)
                 .frame(maxWidth: .infinity, minHeight: 18, idealHeight: 18, maxHeight: 18)
@@ -328,31 +308,6 @@ struct ClipboardItemListView: View {
                             .buttonStyle(LinkButtonStyle())
                         }
                         .background(selectedItem != nil && selectedItem == item ? Color.accentColor : Color.clear)
-                        //.onKeyboardShortcut(key: .return, modifiers: []) {
-                        //    if selectedItem != nil {
-                        //        withAnimation {
-                        //            copyToClipboard(selectedItem!)
-                        //            appDelegate.togglePopover()
-                        //        }
-                        //    }
-                        //}
-                        //.onKeyboardShortcut(key: "c", modifiers: [.command]) {
-                        //    if selectedItem != nil {
-                        //        withAnimation {
-                        //            copyToClipboard(selectedItem!)
-                        //            showToast("Copied to Clipboard")
-                        //        }
-                        //    }
-                        //}
-                        //.onKeyboardShortcut(key: "d", modifiers: [.command]) {
-                        //    if selectedItem != nil {
-                        //        withAnimation {
-                        //            dataManager.deleteItem(item: selectedItem!)
-                        //            selectedItem = nil
-                        //            showToast("Removed from clipboard")
-                        //        }
-                        //    }
-                        //}
                     }
                     
                 }
@@ -371,7 +326,9 @@ struct ClipboardItemListView: View {
                 }
                 .onAppear {
                     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-                        handleNavigation(event)
+                        if keyboardShortcutsHandler12(event) {
+                            return nil
+                        }
                         return event
                     }
                     clipboardChangeTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [self] _ in
@@ -392,18 +349,19 @@ struct ClipboardItemListView: View {
                         Text("Clear Clipboard")
                             .padding(.leading, 8)
                         Spacer()
-                        HStack {
-                            Image(systemName: "command")
-                                .opacity(0.7)
-                            Text("/")
-                                .opacity(0.7)
+                        if let shortcut = KeyboardShortcuts.Name("clearClipboard").shortcut {
+                            Text(shortcutToText(shortcut))
+                                .opacity(0.8)
+                                .padding(.trailing, 4)
+                        } else {
+                            Text("⌘ ⌫")
+                                .opacity(0.8)
+                                .padding(.trailing, 4)
                         }
-                        .padding(.trailing, 8)
                     }
                 }
-                .buttonStyle(BorderlessButtonStyle())
+                .buttonStyle(ItemButtonStyle())
                 .frame(maxWidth: .infinity, minHeight: 15, idealHeight: 15, maxHeight: 15)
-                .keyboardShortcut(.clearClipboard)
                 .confirmationDialog("Are you sure you want to clear your clipboard history?",
                                     isPresented: $isShowingConfirmationDialog) {
                     Button("Yes") {
@@ -421,21 +379,16 @@ struct ClipboardItemListView: View {
                 Button {
                     appDelegate.openSettings()
                 } label: {
-                    Text("Settings...")
-                        .padding(.leading, 8)
-                    Spacer()
                     HStack {
-                        Image(systemName: "command")
-                            .opacity(0.7)
-                            .padding(.trailing, -2)
-                        Text(",")
-                            .opacity(0.7)
-                            .padding(.top, -4)
-                            .padding(.trailing, 2)
+                        Text("Settings...")
+                            .padding(.leading, 8)
+                        Spacer()
+                        Text("⌘ ,")
+                            .opacity(0.8)
+                            .padding(.trailing, 4)
                     }
-                    .padding(.trailing, 5)
                 }
-                .buttonStyle(BorderlessButtonStyle())
+                .buttonStyle(ItemButtonStyle())
                 .background(.clear)
                 .padding(.top, -8)
                 .frame(maxWidth: .infinity, minHeight: 18, idealHeight: 18, maxHeight: 18)
@@ -516,7 +469,7 @@ struct ClipboardItemListView: View {
                         }
                     }) == nil {
                         let sourceApp = NSWorkspace.shared.frontmostApplication?.localizedName ?? "Unknown"
-                        dataManager.addToClipboard(imageData: imageData, contentType: "Image", sourceApp: sourceApp, context: context)
+                        dataManager.addToClipboard(content: "Image", imageData: imageData, contentType: "Image", sourceApp: sourceApp, context: context)
                     } else {
                         let existingItem = rawClipboardItems.first(where: {
                             if $0.contentType == "Image" {
@@ -551,10 +504,136 @@ struct ClipboardItemListView: View {
         showToast = true
     }
     
-    func handleNavigation(_ event: NSEvent) {
-        guard let characters = event.charactersIgnoringModifiers else { return }
-        switch characters {
-        case String(Character(UnicodeScalar(NSUpArrowFunctionKey)!)):
+    func keyboardShortcutsHandler13(_ event: NSEvent) -> Bool {
+        if !appDelegate.popoverFocused {
+            return false
+        }
+        
+        guard let shortcut = KeyboardShortcuts.Shortcut(event: event) else { return false }
+        
+        switch shortcut {
+            
+        case clearClipboardShortcut:
+            withAnimation {
+                isShowingConfirmationDialog = true
+            }
+            return true
+            
+        case copyAndHideShortcut:
+            if selectedItem != nil {
+                withAnimation {
+                    copyToClipboard(selectedItem!)
+                    appDelegate.togglePopover()
+                }
+                return true
+            } else {
+                return false
+            }
+            
+        case copyItemShortcut:
+            if selectedItem != nil {
+                withAnimation {
+                    copyToClipboard(selectedItem!)
+                    showToast("Copied to Clipboard")
+                }
+                return true
+            } else {
+                return false
+            }
+            
+        case togglePinShortcut:
+            if selectedItem != nil {
+                withAnimation {
+                    dataManager.togglePin(for: selectedItem!)
+                    showToast(selectedItem!.isPinned ? "Pinned" : "Unpinned")
+                }
+                return true
+            } else {
+                return false
+            }
+            
+        case deleteItemShortcut:
+            if selectedItem != nil {
+                withAnimation {
+                    dataManager.deleteItem(item: selectedItem!)
+                    showToast("Removed from clipboard")
+                    selectedItem = nil
+                }
+                return true
+            } else {
+                return false
+            }
+            
+        default:
+            return false
+        }
+    }
+    
+    
+    func keyboardShortcutsHandler12(_ event: NSEvent) -> Bool {
+        if !appDelegate.popoverFocused {
+            return false
+        }
+        
+        let upArrowKey = KeyboardShortcuts.Shortcut(.upArrow, modifiers: [])
+        let downArrowKey = KeyboardShortcuts.Shortcut(.downArrow, modifiers: [])
+        
+        guard let shortcut = KeyboardShortcuts.Shortcut(event: event) else { return false }
+        
+        switch shortcut {
+            
+        case clearClipboardShortcut:
+            withAnimation {
+                isShowingConfirmationDialog = true
+            }
+            return true
+            
+        case copyAndHideShortcut:
+            if selectedItem != nil {
+                withAnimation {
+                    copyToClipboard(selectedItem!)
+                    appDelegate.togglePopover()
+                }
+                return true
+            } else {
+                return false
+            }
+            
+        case copyItemShortcut:
+            if selectedItem != nil {
+                withAnimation {
+                    copyToClipboard(selectedItem!)
+                    showToast("Copied to Clipboard")
+                }
+                return true
+            } else {
+                return false
+            }
+            
+        case togglePinShortcut:
+            if selectedItem != nil {
+                withAnimation {
+                    dataManager.togglePin(for: selectedItem!)
+                    showToast(selectedItem!.isPinned ? "Pinned" : "Unpinned")
+                }
+                return true
+            } else {
+                return false
+            }
+            
+        case deleteItemShortcut:
+            if selectedItem != nil {
+                withAnimation {
+                    dataManager.deleteItem(item: selectedItem!)
+                    showToast("Removed from clipboard")
+                    selectedItem = nil
+                }
+                return true
+            } else {
+                return false
+            }
+            
+        case upArrowKey:
             if selectedItem != nil {
                 let selectedItemIndex = clipboardItems.firstIndex(of: selectedItem!)!
                 if selectedItemIndex-1 != -1 {
@@ -564,7 +643,9 @@ struct ClipboardItemListView: View {
             } else {
                 selectedItem = clipboardItems.first!
             }
-        case String(Character(UnicodeScalar(NSDownArrowFunctionKey)!)):
+            return true
+            
+        case downArrowKey:
             if selectedItem != nil {
                 let selectedItemIndex = clipboardItems.firstIndex(of: selectedItem!)!
                 if selectedItemIndex+1 != clipboardItems.count {
@@ -574,8 +655,10 @@ struct ClipboardItemListView: View {
             } else {
                 selectedItem = clipboardItems.first!
             }
+            return true
+            
         default:
-            break
+            return false
         }
     }
 }
