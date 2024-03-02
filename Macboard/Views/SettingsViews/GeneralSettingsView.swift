@@ -8,6 +8,7 @@ struct GeneralSettingsView: View {
     @Default(.autoUpdate) var autoUpdate
     @Default(.showSearchbar) var showSearchbar
     @Default(.showUrlMetadata) var showUrlMetadata
+    @Default(.menubarIcon) var menubarIcon
     
     var body: some View {
         Settings.Container(contentWidth: 300) {
@@ -19,8 +20,40 @@ struct GeneralSettingsView: View {
                         .padding(.vertical, 8)
                     Toggle("Show search bar", isOn: $showSearchbar)
                     Toggle("Show URL metadata", isOn: $showUrlMetadata)
+                    Picker(selection: $menubarIcon, label: Text("Menu bar icon")) {
+                        Image(systemName: "doc.on.clipboard")
+                            .tag(MenubarIcon.normal)
+                        Image(systemName: "doc.on.clipboard.fill")
+                            .tag(MenubarIcon.fill)
+                        Image(systemName: "paperclip")
+                            .tag(MenubarIcon.clip)
+                        Image(systemName: "scissors")
+                            .tag(MenubarIcon.scissors)
+                    }
+                    .frame(width: 150)
+                    Text("Icon changes require a re-launch to get reflected")
+                        .padding(.top, 6)
+                        .opacity(0.8)
+                        .font(.footnote)
+                    Button {
+                        relaunch()
+                    } label: {
+                        Text("Relaunch Now")
+                            .font(.footnote)
+                    }
+                    .padding(.top, 2)
                 }
             }
         }
+    }
+    
+    func relaunch(afterDelay seconds: TimeInterval = 0.5) -> Never {
+        let task = Process()
+        task.launchPath = "/bin/sh"
+        task.arguments = ["-c", "sleep \(seconds); open \"\(Bundle.main.bundlePath)\""]
+        task.launch()
+        
+        NSApp.terminate(self)
+        exit(0)
     }
 }

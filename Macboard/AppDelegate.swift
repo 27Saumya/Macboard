@@ -3,6 +3,7 @@ import Cocoa
 import CoreData
 import KeyboardShortcuts
 import Settings
+import Defaults
 
 class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     private var statusItem: NSStatusItem!
@@ -61,7 +62,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         if let statusButton = statusItem.button {
-            statusButton.image = NSImage(systemSymbolName: "doc.on.clipboard", accessibilityDescription: "Macboard")
+            statusButton.image = NSImage(systemSymbolName: Defaults[.menubarIcon].rawValue, accessibilityDescription: "Macboard")
             statusButton.action = #selector(togglePopover)
         }
         
@@ -117,6 +118,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             animated: true,
             hidesToolbarForSingleItem: true
         ).show()
+    }
+    
+    @objc func updateIcon() {
+        if let button = statusItem.button {
+            button.image = NSImage(systemSymbolName: Defaults[.menubarIcon].rawValue, accessibilityDescription: "Macboard")
+        }
     }
     
 }

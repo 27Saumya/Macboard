@@ -30,7 +30,7 @@ struct KeyboardSettingsView: View {
                         relaunch()
                     } label: {
                         Text("Relaunch Now")
-                            .font(.callout)
+                            .font(.footnote)
                     }
                     .padding(.top, 2)
                     .frame(maxWidth: .infinity, alignment: .center)
