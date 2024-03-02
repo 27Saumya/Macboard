@@ -64,6 +64,7 @@
 		C57241E72B67CF5900703101 /* MacboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C57241E92B67CF5900703101 /* MacboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacboardTests.swift; sourceTree = "<group>"; };
 		C57800932B7C7BF900B40EEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C5918ACE2B93287400B20031 /* ClipboardItem2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipboardItem2.xcdatamodel; sourceTree = "<group>"; };
 		C5A1D2732B8F2899007943B2 /* AboutSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSettingsView.swift; sourceTree = "<group>"; };
 		C5A1D2752B8F296B007943B2 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
 		C5A5BC922B62692000104D06 /* String++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String++.swift"; sourceTree = "<group>"; };
@@ -724,6 +725,7 @@
 		C56E675C2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				C5918ACE2B93287400B20031 /* ClipboardItem2.xcdatamodel */,
 				C56E675D2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodel */,
 			);
 			currentVersion = C56E675D2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodel */;

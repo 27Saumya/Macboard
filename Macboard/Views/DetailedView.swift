@@ -16,10 +16,10 @@ struct DetailedView: View {
     var body: some View {
         if selectedItem != nil {
             VStack {
-                if clipboardItem.contentType == "Text" {
+                if clipboardItem.contentType == "Text" || clipboardItem.contentType == "File" {
                     List {
                         Section {
-                            if clipboardItem.content!.isValidURL && showUrlMetadata {
+                            if clipboardItem.contentType == "Text" && clipboardItem.content!.isValidURL && showUrlMetadata {
                                 let imageURLString = vm.metadata.first(where: {$0.key == "Image"})?.value
                                 if imageURLString != nil {
                                     if imageURLString != "Not Found" {
@@ -41,7 +41,7 @@ struct DetailedView: View {
                                 }
                                 
                             } else {
-                                if clipboardItem.content!.isValidURL {
+                                if clipboardItem.contentType == "Text" && clipboardItem.content!.isValidURL {
                                     Link(clipboardItem.content!, destination: URL(string: clipboardItem.content!)!)
                                         .textFieldStyle(.roundedBorder)
                                         .textSelection(.enabled)
@@ -75,6 +75,9 @@ struct DetailedView: View {
                                 if clipboardItem.content!.isValidURL && showUrlMetadata {
                                     Image(systemName: "photo.fill")
                                     Text("Meta Image")
+                                } else if clipboardItem.contentType == "String" {
+                                    Image(systemName: "doc.circle.fill")
+                                    Text("Complete File Path")
                                 } else {
                                     Image(systemName: "doc.plaintext.fill")
                                     Text("Complete Text")
@@ -82,7 +85,7 @@ struct DetailedView: View {
                             }
                         }
                         
-                        if clipboardItem.content!.isValidURL && showUrlMetadata {
+                        if clipboardItem.contentType == "Text" && clipboardItem.content!.isValidURL && showUrlMetadata {
                             Section {
                                 HStack {
                                     Image(systemName: "person.badge.clock.fill")
@@ -155,7 +158,9 @@ struct DetailedView: View {
                                     Image(systemName: "note.text")
                                     Text("Type:")
                                     Spacer()
-                                    if clipboardItem.content!.contains("\n") {
+                                    if clipboardItem.contentType == "File" {
+                                        Text("File")
+                                    } else if clipboardItem.content!.contains("\n") {
                                         Text("Multi-line Text")
                                     } else if clipboardItem.content!.isNum {
                                         Text("Number")

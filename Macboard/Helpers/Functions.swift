@@ -12,6 +12,10 @@ func copyToClipboard(_ item: ClipboardItem) {
     NSPasteboard.general.clearContents()
     if item.contentType == "Image" {
         NSPasteboard.general.setData(item.imageData!, forType: .tiff)
+    } else if item.contentType == "File" {
+        if let fileURL = URL(string: item.content!) {
+            NSPasteboard.general.writeObjects([fileURL as NSPasteboardWriting])
+        }
     } else {
         NSPasteboard.general.setString(item.content!, forType: .string)
     }

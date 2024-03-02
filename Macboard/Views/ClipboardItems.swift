@@ -79,7 +79,7 @@ struct ClipboardItemListView: View {
                                         if item.content!.isValidURL {
                                             Image(systemName: "link.circle.fill")
                                         } else {
-                                            Image(systemName: "doc.text.fill")
+                                            Image(systemName: "doc.plaintext.fill")
                                         }
                                         Text(item.content!)
                                             .lineLimit(1)
@@ -97,9 +97,18 @@ struct ClipboardItemListView: View {
                                         }
                                 } label: {
                                     HStack{
-                                        Image(systemName: "photo.fill")
-                                        Text(dataToImage(item.imageData!).1)
-                                            .lineLimit(1)
+                                        if item.contentType == "Image" {
+                                            Image(systemName: "photo.fill")
+                                            Text(dataToImage(item.imageData!).1)
+                                                .lineLimit(1)
+                                            dataToImage(item.imageData!).0
+                                                .resizable()
+                                                .frame(width: 14, height: 14)
+                                        } else {
+                                            Image(systemName: "doc.fill")
+                                            Text(item.content!)
+                                                .lineLimit(1)
+                                        }
                                     }
                                 }
                             }
@@ -247,7 +256,7 @@ struct ClipboardItemListView: View {
                                         if item.content!.isValidURL {
                                             Image(systemName: "link.circle.fill")
                                         } else {
-                                            Image(systemName: "doc.text.fill")
+                                            Image(systemName: "doc.plaintext.fill")
                                         }
                                         Text(item.content!)
                                             .lineLimit(1)
@@ -261,10 +270,18 @@ struct ClipboardItemListView: View {
                                     selectedItem = item
                                 } label: {
                                     HStack{
-                                        Image(systemName: "photo.fill")
-                                        Text(dataToImage(item.imageData!).1)
-                                            .lineLimit(1)
-                                        Spacer()
+                                        if item.contentType == "Image" {
+                                            Image(systemName: "photo.fill")
+                                            Text(dataToImage(item.imageData!).1)
+                                                .lineLimit(1)
+                                            dataToImage(item.imageData!).0
+                                                .resizable()
+                                                .frame(width: 14, height: 14)
+                                        } else {
+                                            Image(systemName: "doc.fill")
+                                            Text(item.content!)
+                                                .lineLimit(1)
+                                        }
                                     }
                                 }
                                 .buttonStyle(ItemButtonStyle())
@@ -482,6 +499,29 @@ struct ClipboardItemListView: View {
                     }
                 }
             }
+        } else if contentType == "File" && allowedTypes.contains("File") {
+            guard let fileData = NSPasteboard.general.data(forType: .fileURL),
+                  let fileURL = URL(dataRepresentation: fileData, relativeTo: nil) else { return }
+            
+            if rawClipboardItems.firstIndex(where: {
+                if $0.contentType == "File" {
+                    return $0.content! == fileURL.absoluteString
+                } else {
+                    return false
+                }
+            }) == nil {
+                let sourceApp = NSWorkspace.shared.frontmostApplication?.localizedName ?? "Unknown"
+                dataManager.addToClipboard(content: fileURL.absoluteString, fileURL: fileURL, contentType: "File", sourceApp: sourceApp, context: context)
+            } else {
+                let existingItem = rawClipboardItems.first(where: {
+                    if $0.contentType == "File" {
+                        return $0.content! == fileURL.absoluteString
+                    } else {
+                        return false
+                    }
+                })
+                dataManager.isReCopied(item: existingItem!)
+            }
         }
     }
     
@@ -491,6 +531,8 @@ struct ClipboardItemListView: View {
         if _type != nil {
             if image_types.contains(_type!) {
                 return ("Image", _type!)
+            } else if _type == .fileURL {
+                return ("File", nil)
             } else {
                 return ("Text", nil)
             }

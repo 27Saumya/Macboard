@@ -10,6 +10,7 @@ struct Metadata {
 struct CoreDataManager {
     func addToClipboard(content: String? = nil, 
                         imageData: Data? = nil,
+                        fileURL: URL? = nil,
                         contentType: String,
                         sourceApp: String,
                         context: NSManagedObjectContext) {
