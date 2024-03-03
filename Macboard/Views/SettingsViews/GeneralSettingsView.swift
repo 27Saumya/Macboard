@@ -46,14 +46,4 @@ struct GeneralSettingsView: View {
             }
         }
     }
-    
-    func relaunch(afterDelay seconds: TimeInterval = 0.5) -> Never {
-        let task = Process()
-        task.launchPath = "/bin/sh"
-        task.arguments = ["-c", "sleep \(seconds); open \"\(Bundle.main.bundlePath)\""]
-        task.launch()
-        
-        NSApp.terminate(self)
-        exit(0)
-    }
 }

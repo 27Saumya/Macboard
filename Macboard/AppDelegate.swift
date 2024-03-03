@@ -67,7 +67,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         }
         
         KeyboardShortcuts.onKeyUp(for: .toggleMacboard) { [self] in
-            togglePopover()
+            self.togglePopover()
         }
         self.popover = NSPopover()
         self.popover.contentSize = NSSize(width: 700, height: 500)
@@ -78,6 +78,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         }
         didShowObserver = NotificationCenter.default.addObserver(forName: NSPopover.didShowNotification, object: popover, queue: .main) { [weak self] _ in
             self?.popoverDidAppear()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.togglePopover()
         }
     }
     
