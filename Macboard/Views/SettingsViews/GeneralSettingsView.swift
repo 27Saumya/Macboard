@@ -8,6 +8,7 @@ struct GeneralSettingsView: View {
     @Default(.autoUpdate) var autoUpdate
     @Default(.showSearchbar) var showSearchbar
     @Default(.showUrlMetadata) var showUrlMetadata
+    @Default(.searchType) var searchType
     @Default(.menubarIcon) var menubarIcon
     
     var body: some View {
@@ -20,6 +21,13 @@ struct GeneralSettingsView: View {
                         .padding(.vertical, 8)
                     Toggle("Show search bar", isOn: $showSearchbar)
                     Toggle("Show URL metadata", isOn: $showUrlMetadata)
+                    Picker(selection: $searchType, label: Text("Search")) {
+                        Text("Case Sensitive")
+                            .tag(SearchType.sensitive)
+                        Text("Case Insensitive")
+                            .tag(SearchType.insensitive)
+                    }
+                    .frame(width: 180)
                     Picker(selection: $menubarIcon, label: Text("Menu bar icon")) {
                         Image(systemName: "doc.on.clipboard")
                             .tag(MenubarIcon.normal)
@@ -32,7 +40,7 @@ struct GeneralSettingsView: View {
                     }
                     .frame(width: 150)
                     Text("Icon changes require a re-launch to get reflected")
-                        .padding(.top, 6)
+                        .padding(.top, 4)
                         .opacity(0.8)
                         .font(.footnote)
                     Button {

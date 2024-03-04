@@ -1,6 +1,5 @@
 import SwiftUI
 import Cocoa
-import CoreData
 import KeyboardShortcuts
 import Settings
 import Defaults
@@ -79,8 +78,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         didShowObserver = NotificationCenter.default.addObserver(forName: NSPopover.didShowNotification, object: popover, queue: .main) { [weak self] _ in
             self?.popoverDidAppear()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.togglePopover()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if !self.popover.isShown {
+                self.togglePopover()
+            }
         }
     }
     
@@ -121,12 +122,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             animated: true,
             hidesToolbarForSingleItem: true
         ).show()
-    }
-    
-    @objc func updateIcon() {
-        if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: Defaults[.menubarIcon].rawValue, accessibilityDescription: "Macboard")
-        }
     }
     
 }

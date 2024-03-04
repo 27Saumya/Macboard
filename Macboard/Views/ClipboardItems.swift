@@ -1,5 +1,4 @@
 import SwiftUI
-import CoreData
 import Cocoa
 import PopupView
 import Defaults
@@ -13,6 +12,7 @@ struct ClipboardItemListView: View {
     @Default(.showSearchbar) var showSearchbar
     @Default(.allowedTypes) var allowedTypes
     @Default(.maxItems) var maxItems
+    @Default(.searchType) var searchType
     
     @StateObject var viewModel = MetadataViewModel()
     
@@ -30,7 +30,7 @@ struct ClipboardItemListView: View {
             searchText = newValue
             clipboardItems.nsPredicate = newValue.isEmpty
             ? nil
-            : NSPredicate(format: "content CONTAINS[cd] %@", newValue)
+            : NSPredicate(format: "content CONTAINS\(searchType == .insensitive ? "[cd]" : "") %@", newValue)
         }
     }
     

@@ -11,6 +11,13 @@ enum MenubarIcon: String, CaseIterable, Identifiable, Defaults.Serializable {
     var id: Self { self }
 }
 
+enum SearchType: String, CaseIterable, Identifiable, Defaults.Serializable {
+    case sensitive = "Case Sensitive"
+    case insensitive = "Case Insensitive"
+    
+    var id: Self { self }
+}
+
 struct Metadata {
     let key: String
     let value: String
