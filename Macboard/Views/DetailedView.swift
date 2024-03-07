@@ -1,8 +1,12 @@
 import SwiftUI
+import Defaults
+import KeyboardShortcuts
 
 struct DetailedView: View {
     
     let clipboardItem: ClipboardItem
+    
+    @Default(.showUrlMetadata) var showUrlMetadata
     
     @ObservedObject var vm: MetadataViewModel
     @Binding var selectedItem: ClipboardItem?
@@ -12,10 +16,10 @@ struct DetailedView: View {
     var body: some View {
         if selectedItem != nil {
             VStack {
-                if clipboardItem.contentType == "Text" {
+                if clipboardItem.contentType == "Text" || clipboardItem.contentType == "File" {
                     List {
                         Section {
-                            if clipboardItem.content!.isValidURL {
+                            if clipboardItem.contentType == "Text" && clipboardItem.content!.isValidURL && showUrlMetadata {
                                 let imageURLString = vm.metadata.first(where: {$0.key == "Image"})?.value
                                 if imageURLString != nil {
                                     if imageURLString != "Not Found" {
@@ -37,24 +41,43 @@ struct DetailedView: View {
                                 }
                                 
                             } else {
-                                Text(clipboardItem.content!)
-                                    .textSelection(.enabled)
-                                    .onHover(perform: { isHovering in
-                                        self.hover = isHovering
-                                        DispatchQueue.main.async {
-                                            if self.hover {
-                                                NSCursor.iBeam.push()
-                                            } else {
-                                                NSCursor.pop()
+                                if clipboardItem.contentType == "Text" && clipboardItem.content!.isValidURL {
+                                    Link(clipboardItem.content!, destination: URL(string: clipboardItem.content!)!)
+                                        .textFieldStyle(.roundedBorder)
+                                        .textSelection(.enabled)
+                                        .onHover(perform: { isHovering in
+                                            self.hover = isHovering
+                                            DispatchQueue.main.async {
+                                                if self.hover {
+                                                    NSCursor.pointingHand.push()
+                                                } else {
+                                                    NSCursor.pop()
+                                                }
                                             }
-                                        }
-                                    })
+                                        })
+                                } else {
+                                    Text(clipboardItem.content!)
+                                        .textSelection(.enabled)
+                                        .onHover(perform: { isHovering in
+                                            self.hover = isHovering
+                                            DispatchQueue.main.async {
+                                                if self.hover {
+                                                    NSCursor.iBeam.push()
+                                                } else {
+                                                    NSCursor.pop()
+                                                }
+                                            }
+                                        })
+                                }
                             }
                         } header: {
                             HStack {
-                                if clipboardItem.content!.isValidURL {
+                                if clipboardItem.content!.isValidURL && showUrlMetadata {
                                     Image(systemName: "photo.fill")
                                     Text("Meta Image")
+                                } else if clipboardItem.contentType == "String" {
+                                    Image(systemName: "doc.circle.fill")
+                                    Text("Complete File Path")
                                 } else {
                                     Image(systemName: "doc.plaintext.fill")
                                     Text("Complete Text")
@@ -62,7 +85,7 @@ struct DetailedView: View {
                             }
                         }
                         
-                        if clipboardItem.content!.isValidURL {
+                        if clipboardItem.contentType == "Text" && clipboardItem.content!.isValidURL && showUrlMetadata {
                             Section {
                                 HStack {
                                     Image(systemName: "person.badge.clock.fill")
@@ -135,7 +158,9 @@ struct DetailedView: View {
                                     Image(systemName: "note.text")
                                     Text("Type:")
                                     Spacer()
-                                    if clipboardItem.content!.contains("\n") {
+                                    if clipboardItem.contentType == "File" {
+                                        Text("File")
+                                    } else if clipboardItem.content!.contains("\n") {
                                         Text("Multi-line Text")
                                     } else if clipboardItem.content!.isNum {
                                         Text("Number")
@@ -208,48 +233,75 @@ struct DetailedView: View {
                     }
                     .padding(.bottom, -8)
                 }
+                
                 Divider()
                 
                 HStack {
-                    Spacer()
-                    Text("Copy & Hide")
-                        .padding(.top, -10)
-                    Image(systemName: "return")
-                        .opacity(0.7)
-                        .padding(.top, -8)
-                        .padding(.trailing, 4)
+                    Text("Copy & Hide:")
+                        .font(.footnote)
+                    if let shortcut = KeyboardShortcuts.Name("copyAndHide").shortcut {
+                        Text(shortcutToText(shortcut))
+                            .font(.footnote)
+                            .opacity(0.8)
+                    } else {
+                        Text("↩")
+                            .font(.footnote)
+                            .opacity(0.8)
+                    }
                     Text("|")
                         .font(.largeTitle)
                         .opacity(0.3)
-                        .padding(.top, -14)
-                        .padding(.leading, -2)
-                        .padding(.trailing, 2)
-                    Text("Copy")
-                        .padding(.top, -10)
-                    Image(systemName: "command")
-                        .opacity(0.7)
-                        .padding(.top, -9)
-                        .padding(.trailing, -2)
-                    Text("C")
-                        .opacity(0.7)
-                        .padding(.top, -9.5)
-                        .padding(.trailing, 4)
+                        .padding(.top, -7)
+                        .padding(.leading, -1)
+                        .padding(.trailing, 1)
+                    Text("Copy:")
+                        .font(.footnote)
+                    if let shortcut = KeyboardShortcuts.Name("copyItem").shortcut {
+                        Text(shortcutToText(shortcut))
+                            .font(.footnote)
+                            .opacity(0.8)
+                    } else {
+                        Text("⌘ ↩")
+                            .font(.footnote)
+                            .opacity(0.8)
+                    }
                     Text("|")
                         .font(.largeTitle)
                         .opacity(0.3)
-                        .padding(.top, -14)
-                        .padding(.trailing, 2)
-                    Text("Delete")
-                        .padding(.top, -10)
-                    Image(systemName: "command")
-                        .opacity(0.7)
-                        .padding(.top, -10)
-                        .padding(.trailing, -2)
-                    Text("D")
-                        .opacity(0.7)
-                        .padding(.top, -10)
-                        .padding(.trailing, 10)
+                        .padding(.top, -7)
+                        .padding(.leading, -1)
+                        .padding(.trailing, 1)
+                    Text(clipboardItem.isPinned ? "Unpin:" : "Pin:")
+                        .font(.footnote)
+                    if let shortcut = KeyboardShortcuts.Name("togglePin").shortcut {
+                        Text(shortcutToText(shortcut))
+                            .font(.footnote)
+                            .opacity(0.8)
+                    } else {
+                        Text("⌘ P")
+                            .font(.footnote)
+                            .opacity(0.8)
+                    }
+                    Text("|")
+                        .font(.largeTitle)
+                        .opacity(0.3)
+                        .padding(.top, -7)
+                        .padding(.leading, -1)
+                        .padding(.trailing, 1)
+                    Text("Delete:")
+                        .font(.footnote)
+                    if let shortcut = KeyboardShortcuts.Name("deleteItem").shortcut {
+                        Text(shortcutToText(shortcut))
+                            .font(.footnote)
+                            .opacity(0.8)
+                    } else {
+                        Text("⌫")
+                            .font(.footnote)
+                            .opacity(0.8)
+                    }
                 }
+                .padding(.top, -8)
+                .frame(maxWidth: .infinity, minHeight: 18, idealHeight: 18, maxHeight: 18)
             }
         } else {
             Text("Select an item to get its detailed view")

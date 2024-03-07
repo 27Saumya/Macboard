@@ -1,6 +1,22 @@
-import Foundation
+import Cocoa
 import SwiftUI
-import CoreData
+import Defaults
+
+enum MenubarIcon: String, CaseIterable, Identifiable, Defaults.Serializable {
+    case normal = "doc.on.clipboard"
+    case fill = "doc.on.clipboard.fill"
+    case clip = "paperclip"
+    case scissors = "scissors"
+    
+    var id: Self { self }
+}
+
+enum SearchType: String, CaseIterable, Identifiable, Defaults.Serializable {
+    case sensitive = "Case Sensitive"
+    case insensitive = "Case Insensitive"
+    
+    var id: Self { self }
+}
 
 struct Metadata {
     let key: String
@@ -8,8 +24,9 @@ struct Metadata {
 }
 
 struct CoreDataManager {
-    func addToClipboard(content: String? = nil, 
+    func addToClipboard(content: String? = nil,
                         imageData: Data? = nil,
+                        fileURL: URL? = nil,
                         contentType: String,
                         sourceApp: String,
                         context: NSManagedObjectContext) {

@@ -1,7 +1,6 @@
 import SwiftUI
 import SwiftData
 import Cocoa
-import HotKey
 
 @main
 struct MacboardApp: App {
