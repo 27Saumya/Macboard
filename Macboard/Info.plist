@@ -10,7 +10,5 @@
 	<string>https://raw.githubusercontent.com/27Saumya/Macboard/master/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>NbVx5U5iXsOSE3lJ2ketLmcA1No80xpaEwf4QHrbAvw=</string>
-	<key>UIRequiresPersistentWiFi</key>
-	<true/>
 </dict>
 </plist>
