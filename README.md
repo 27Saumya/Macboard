@@ -5,7 +5,8 @@
 
 Boost your productivity within seconds!
 
-![Demo](https://github.com/27Saumya/Macboard/assets/64534496/2589179c-e370-4aea-bbd8-9b3a7012b685)
+![Demo](https://github.com/27Saumya/Macboard/assets/64534496/eacf2bee-b94c-4f87-bfa4-538c5a47b68d)
+
 
 ## Table Of Contents
 - [Overview](https://github.com/27Saumya/Macboard#overview)
@@ -23,24 +24,27 @@ It works on macOS Monterey 12.0 or higher
 
 - Install the `Macboard.dmg` disk image from [Github Releases](https://github.com/27Saumya/Macboard/releases).
 - Open the `Macboard.dmg` file and drag the Macboard icon into your `Applications/` folder.
-- Open the `Macboard` app now, you might face a warning regarding `Unidentified Developer!`, click on Open anyway, and you're good to go!
+- Open the `Macboard` app now, you might face a warning regarding `Unidentified Developer!`, click on `Open Anyway`/manually grant Macboard permissions, and you're good to go!
 
 ### Features
 
 - Compact, user-friendly, clean UI
 - Quick filtering with a search bar
+- Completely customisable settings
 - Compatible with system theme
 - Images support
 - URL metadata preview
 - Hyperlinks highlighting
-- Favourites
+- Pins
 - Complete keyboard control
 
 ### Keyboard Shortcuts
+All the keyboard shortcuts within Macboard are completely customisable!
+Here are the default ones:
 
 - Toggle Macboard -> `⇧ ⌘ V`
-- Copy an item at a specific index (1-9) -> `⌘ 1-9`
-- Clear Clipboard -> `⌘ /`
-- Copy the selected item -> `⌘ C`
+- Clear Clipboard -> `⌘ ⌫`
 - Copy the selected item & hide macboard -> `↩`
-- Delete the selected item -> `⌘ D`
+- Copy the selected item -> `⌘ ↩`
+- Pin the selected item -> `⌘ P`
+- Delete the selected item -> `⌫`
