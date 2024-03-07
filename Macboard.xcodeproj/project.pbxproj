@@ -17,6 +17,7 @@
 		C534107E2B8F6340007C55EA /* KeyboardSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C534107D2B8F6340007C55EA /* KeyboardSettingsView.swift */; };
 		C53410802B8F63CB007C55EA /* KeyboardShortcuts++.swift in Sources */ = {isa = PBXBuildFile; fileRef = C534107F2B8F63CB007C55EA /* KeyboardShortcuts++.swift */; };
 		C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */; };
+		C55671C32B985CAC007744A1 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = C55671C22B985CAC007744A1 /* Sparkle */; };
 		C56E675E2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C56E675C2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld */; };
 		C57241EA2B67CF5900703101 /* MacboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57241E92B67CF5900703101 /* MacboardTests.swift */; };
 		C57800942B7C7BF900B40EEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57800932B7C7BF900B40EEC /* AppDelegate.swift */; };
@@ -82,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C55671C32B985CAC007744A1 /* Sparkle in Frameworks */,
 				C5B396042B908B0E00CD3F51 /* Sauce in Frameworks */,
 				C53410782B8F354E007C55EA /* Defaults in Frameworks */,
 				C58C16A12B8E224400BDBD7A /* Settings in Frameworks */,
@@ -229,6 +231,7 @@
 				C5E1CD8B2B8F1C8D0009EAE1 /* KeyboardShortcuts */,
 				C53410772B8F354E007C55EA /* Defaults */,
 				C5B396032B908B0E00CD3F51 /* Sauce */,
+				C55671C22B985CAC007744A1 /* Sparkle */,
 			);
 			productName = Macboard;
 			productReference = C5091C792B5C4D8A0091896F /* Macboard.app */;
@@ -287,6 +290,7 @@
 				C5E1CD8A2B8F1C8D0009EAE1 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				C53410762B8F354E007C55EA /* XCRemoteSwiftPackageReference "Defaults" */,
 				C5B396022B908B0E00CD3F51 /* XCRemoteSwiftPackageReference "Sauce" */,
+				C55671C12B985CAC007744A1 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			productRefGroup = C5091C7A2B5C4D8A0091896F /* Products */;
 			projectDirPath = "";
@@ -512,7 +516,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.3;
 				DEVELOPMENT_TEAM = J4NR76XL6C;
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
@@ -521,13 +525,12 @@
 				INFOPLIST_FILE = Macboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saumya.Macboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -545,7 +548,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.3;
 				DEVELOPMENT_TEAM = J4NR76XL6C;
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
@@ -554,13 +557,12 @@
 				INFOPLIST_FILE = Macboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saumya.Macboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -646,6 +648,14 @@
 				kind = branch;
 			};
 		};
+		C55671C12B985CAC007744A1 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.2;
+			};
+		};
 		C57800952B7C7DE100B40EEC /* XCRemoteSwiftPackageReference "PopupView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/PopupView";
@@ -693,6 +703,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C53410762B8F354E007C55EA /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
+		};
+		C55671C22B985CAC007744A1 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C55671C12B985CAC007744A1 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 		C57800962B7C7DE100B40EEC /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;

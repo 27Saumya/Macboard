@@ -3,8 +3,15 @@ import Cocoa
 import KeyboardShortcuts
 import Settings
 import Defaults
+import Sparkle
+import UserNotifications
 
-class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
+let UPDATE_NOTIFICATION_IDENTIFIER = "UpdateCheck"
+
+class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate, SPUStandardUserDriverDelegate, UNUserNotificationCenterDelegate {
+    
+    @IBOutlet var updaterController: SPUStandardUpdaterController!
+    
     private var statusItem: NSStatusItem!
     var popover: NSPopover!
     var didShowObserver: AnyObject?
@@ -78,11 +85,59 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         didShowObserver = NotificationCenter.default.addObserver(forName: NSPopover.didShowNotification, object: popover, queue: .main) { [weak self] _ in
             self?.popoverDidAppear()
         }
+        NSApp.setActivationPolicy(.accessory)
+        
+        UNUserNotificationCenter.current().delegate = self
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if !self.popover.isShown {
                 self.togglePopover()
             }
         }
+    }
+    
+    func updater(_ updater: SPUUpdater, willScheduleUpdateCheckAfterDelay delay: TimeInterval) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { granted, error in
+        }
+    }
+    
+    var supportsGentleScheduledUpdateReminders: Bool {
+        return true
+    }
+    
+    func standardUserDriverWillHandleShowingUpdate(_ handleShowingUpdate: Bool, forUpdate update: SUAppcastItem, state: SPUUserUpdateState) {
+        NSApp.setActivationPolicy(.regular)
+        
+        if !state.userInitiated {
+            NSApp.dockTile.badgeLabel = "1"
+            
+            do {
+                let content = UNMutableNotificationContent()
+                content.title = "A new update is available"
+                content.body = "Version \(update.displayVersionString) is now available"
+                
+                let request = UNNotificationRequest(identifier: UPDATE_NOTIFICATION_IDENTIFIER, content: content, trigger: nil)
+                
+                UNUserNotificationCenter.current().add(request)
+            }
+        }
+    }
+    
+    func standardUserDriverDidReceiveUserAttention(forUpdate update: SUAppcastItem) {
+        NSApp.dockTile.badgeLabel = ""
+        
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [UPDATE_NOTIFICATION_IDENTIFIER])
+    }
+    
+    func standardUserDriverWillFinishUpdateSession() {
+        NSApp.setActivationPolicy(.accessory)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if response.notification.request.identifier == UPDATE_NOTIFICATION_IDENTIFIER && response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+            updaterController.checkForUpdates(nil)
+        }
+        
+        completionHandler()
     }
     
     func applicationWillTerminate(_ notification: Notification) {

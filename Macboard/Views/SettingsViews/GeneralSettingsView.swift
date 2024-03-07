@@ -2,10 +2,53 @@ import SwiftUI
 import Settings
 import LaunchAtLogin
 import Defaults
+import Sparkle
+
+final class UpdaterViewController: ObservableObject {
+    let updaterController: SPUStandardUpdaterController
+    
+    @Published var canCheckForUpdates = false
+    
+    init() {
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+        
+        updaterController.updater.publisher(for: \.canCheckForUpdates)
+            .assign(to: &$canCheckForUpdates)
+    }
+    
+    func toggleAutoUpdates(_ value: Bool) {
+        updaterController.updater.automaticallyChecksForUpdates = value
+    }
+    
+    func checkForUpdates() {
+        updaterController.checkForUpdates(nil)
+    }
+}
+
+struct CheckForUpdatesView: View {
+    
+    @ObservedObject var updaterViewController: UpdaterViewController
+    
+    @Default(.autoUpdate) var autoUpdate
+    
+    var body: some View {
+        Toggle("Automatically check for updates", isOn: $autoUpdate)
+            .onChange(of: autoUpdate) { newValue in
+                updaterViewController.toggleAutoUpdates(newValue)
+            }
+        Button {
+            updaterViewController.checkForUpdates()
+        } label: {
+            Text("Check Now")
+                .font(.footnote)
+        }
+        .disabled(!updaterViewController.canCheckForUpdates)
+        .padding(.top, 1)
+    }
+}
 
 struct GeneralSettingsView: View {
     
-    @Default(.autoUpdate) var autoUpdate
     @Default(.showSearchbar) var showSearchbar
     @Default(.showUrlMetadata) var showUrlMetadata
     @Default(.searchType) var searchType
@@ -16,9 +59,9 @@ struct GeneralSettingsView: View {
             Settings.Section(title: "") {
                 VStack(alignment: .leading) {
                     LaunchAtLogin.Toggle()
-                    Toggle("Auto-update Macboard", isOn: $autoUpdate)
+                    CheckForUpdatesView(updaterViewController: UpdaterViewController())
                     Divider()
-                        .padding(.vertical, 8)
+                        .padding(.vertical, 2)
                     Toggle("Show search bar", isOn: $showSearchbar)
                     Toggle("Show URL metadata", isOn: $showUrlMetadata)
                     Picker(selection: $searchType, label: Text("Search")) {
@@ -49,7 +92,7 @@ struct GeneralSettingsView: View {
                         Text("Relaunch Now")
                             .font(.footnote)
                     }
-                    .padding(.top, 2)
+                    .padding(.top, 1)
                 }
             }
         }

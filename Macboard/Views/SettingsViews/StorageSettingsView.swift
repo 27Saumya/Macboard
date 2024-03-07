@@ -65,8 +65,8 @@ struct StorageSettingsView: View {
                         .opacity(0.7)
                         .padding(.top, 2)
                     Divider()
-                        .padding(.top, 4)
-                        .padding(.bottom, 8)
+                        .padding(.top, 2)
+                        .padding(.bottom, 6)
                     HStack {
                         Text("Maximum Items")
                         TextField("", value: $maxItems, formatter: NumberFormatter())
