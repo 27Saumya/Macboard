@@ -24,7 +24,7 @@ It works on macOS Monterey 12.0 or higher
 
 - Install the `Macboard.dmg` disk image from [Github Releases](https://github.com/27Saumya/Macboard/releases).
 - Open the `Macboard.dmg` file and drag the Macboard icon into your `Applications/` folder.
-- Open the `Macboard` app now, you might face a warning regarding `Unidentified Developer!`, click on `Open Anyway`/manually grant Macboard permissions, and you're good to go!
+- Open the `Macboard` app now, you might face a warning regarding `Unidentified Developer!`, click on `Open Anyway`/manually grant Macboard permissions, (as the app isn't notarized because a code signing certificate is too expensive 😭 and this application is **free** and **open source**) and you're good to go!
 
 ### Features
 
