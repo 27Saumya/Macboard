@@ -5,7 +5,7 @@
 
 Boost your productivity within seconds!
 
-![Demo](https://github.com/27Saumya/Macboard/assets/64534496/eacf2bee-b94c-4f87-bfa4-538c5a47b68d)
+![demo](https://github.com/27Saumya/Macboard/assets/64534496/a0da627c-fe64-4db5-974b-62623a36a8f8)
 
 
 ## Table Of Contents
@@ -44,7 +44,7 @@ Here are the default ones:
 
 - Toggle Macboard -> `⇧ ⌘ V`
 - Clear Clipboard -> `⌘ ⌫`
-- Copy the selected item & hide macboard -> `↩`
-- Copy the selected item -> `⌘ ↩`
+- Paste the selected item -> `↩`
+- Copy the selected item & hide Macboard -> `⌘ ↩`
 - Pin the selected item -> `⌘ P`
 - Delete the selected item -> `⌫`
