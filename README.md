@@ -45,6 +45,6 @@ Here are the default ones:
 - Toggle Macboard -> `⇧ ⌘ V`
 - Clear Clipboard -> `⌘ ⌫`
 - Paste the selected item -> `↩`
-- Copy the selected item & hide Macboard -> `⌘ ↩`
+- Copy the selected item & hide Macboard -> `⌥ ↩`
 - Pin the selected item -> `⌘ P`
 - Delete the selected item -> `⌫`
