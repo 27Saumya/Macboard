@@ -158,11 +158,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate, SPUStand
         if let button = statusItem.button {
             if popover.isShown {
                 self.popover.performClose(nil)
+                NSApp.hide(nil)
             } else {
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+                NSApp.activate(ignoringOtherApps: true)
             }
         }
-        
     }
     
     @objc func openSettings() {

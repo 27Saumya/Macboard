@@ -76,7 +76,7 @@ class MetadataViewModel: ObservableObject {
         }
         task.resume()
     }
-        
+    
     private func parseMetadata(from htmlString: String) {
         do {
             let regexTitle = try NSRegularExpression(pattern: "<meta[^>]*?property=['\"]og:title['\"][^>]*?content=['\"]([^'\"]*)['\"]", options: .caseInsensitive)
@@ -189,5 +189,18 @@ struct CustomSplitView<Master: View, Detail: View>: View {
             }
             .frame(width: 400)
         }
+    }
+}
+
+
+struct CustomDivider: View {
+    
+    var body: some View {
+        Text("|")
+            .font(.largeTitle)
+            .opacity(0.3)
+            .padding(.top, -7)
+            .padding(.leading, -1)
+            .padding(.trailing, 1)
     }
 }
