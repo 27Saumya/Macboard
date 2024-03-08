@@ -43,9 +43,9 @@ struct KeyboardSettingsView: View {
                             }
                         }
                         HStack {
-                            KeyboardShortcuts.Recorder("Copy:", name: .copyItem)
+                            KeyboardShortcuts.Recorder("Copy & Hide:", name: .copyAndHide)
                             Button {
-                                KeyboardShortcuts.Name("copyItem").shortcut = KeyboardShortcuts.Shortcut(.return, modifiers: [.command])
+                                KeyboardShortcuts.Name("copyAndHide").shortcut = KeyboardShortcuts.Shortcut(.return, modifiers: [.option])
                             } label: {
                                 Text("Reset")
                                     .font(.footnote)

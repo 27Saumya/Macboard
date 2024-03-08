@@ -238,65 +238,50 @@ struct DetailedView: View {
                 
                 HStack {
                     Text("Paste:")
-                        .font(.callout)
+                        .font(.footnote)
                     if let shortcut = KeyboardShortcuts.Name("paste").shortcut {
                         Text(shortcutToText(shortcut))
-                            .font(.callout)
+                            .font(.footnote)
                             .opacity(0.8)
                     } else {
                         Text("↩")
-                            .font(.callout)
+                            .font(.footnote)
                             .opacity(0.8)
                     }
-                    Text("|")
-                        .font(.largeTitle)
-                        .opacity(0.3)
-                        .padding(.top, -7)
-                        .padding(.leading, -1)
-                        .padding(.trailing, 1)
-                    Text("Copy:")
-                        .font(.callout)
-                    if let shortcut = KeyboardShortcuts.Name("copyItem").shortcut {
+                    CustomDivider()
+                    Text("Copy & Hide:")
+                        .font(.footnote)
+                    if let shortcut = KeyboardShortcuts.Name("copyAndHide").shortcut {
                         Text(shortcutToText(shortcut))
-                            .font(.callout)
+                            .font(.footnote)
                             .opacity(0.8)
                     } else {
                         Text("⌘ ↩")
-                            .font(.callout)
+                            .font(.footnote)
                             .opacity(0.8)
                     }
-                    Text("|")
-                        .font(.largeTitle)
-                        .opacity(0.3)
-                        .padding(.top, -7)
-                        .padding(.leading, -1)
-                        .padding(.trailing, 1)
+                    CustomDivider()
                     Text(clipboardItem.isPinned ? "Unpin:" : "Pin:")
-                        .font(.callout)
+                        .font(.footnote)
                     if let shortcut = KeyboardShortcuts.Name("togglePin").shortcut {
                         Text(shortcutToText(shortcut))
-                            .font(.callout)
+                            .font(.footnote)
                             .opacity(0.8)
                     } else {
                         Text("⌘ P")
-                            .font(.callout)
+                            .font(.footnote)
                             .opacity(0.8)
                     }
-                    Text("|")
-                        .font(.largeTitle)
-                        .opacity(0.3)
-                        .padding(.top, -7)
-                        .padding(.leading, -1)
-                        .padding(.trailing, 1)
+                    CustomDivider()
                     Text("Delete:")
-                        .font(.callout)
+                        .font(.footnote)
                     if let shortcut = KeyboardShortcuts.Name("deleteItem").shortcut {
                         Text(shortcutToText(shortcut))
-                            .font(.callout)
+                            .font(.footnote)
                             .opacity(0.8)
                     } else {
                         Text("⌫")
-                            .font(.callout)
+                            .font(.footnote)
                             .opacity(0.8)
                     }
                 }

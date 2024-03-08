@@ -47,7 +47,7 @@ struct ClipboardItemListView: View {
     
     let clearClipboardShortcut = KeyboardShortcuts.Name("clearClipboard").shortcut ?? KeyboardShortcuts.Shortcut(.delete, modifiers: [.command])
     let pasteShortcut = KeyboardShortcuts.Name("paste").shortcut ?? KeyboardShortcuts.Shortcut(.return, modifiers: [])
-    let copyItemShortcut = KeyboardShortcuts.Name("copyItem").shortcut ?? KeyboardShortcuts.Shortcut(.return, modifiers: [.command])
+    let copyAndHideShortcut = KeyboardShortcuts.Name("copyAndHide").shortcut ?? KeyboardShortcuts.Shortcut(.return, modifiers: [.option])
     let togglePinShortcut = KeyboardShortcuts.Name("togglePin").shortcut ?? KeyboardShortcuts.Shortcut(.p, modifiers: [.command])
     let deleteItemShortcut = KeyboardShortcuts.Name("deleteItem").shortcut ?? KeyboardShortcuts.Shortcut(.delete, modifiers: [])
     
@@ -597,11 +597,11 @@ struct ClipboardItemListView: View {
                 return false
             }
             
-        case copyItemShortcut:
+        case copyAndHideShortcut:
             if selectedItem != nil {
                 withAnimation {
                     copyToClipboard(selectedItem!)
-                    showToast("Copied to Clipboard")
+                    appDelegate.togglePopover()
                 }
                 return true
             } else {
@@ -690,11 +690,11 @@ struct ClipboardItemListView: View {
                 return false
             }
             
-        case copyItemShortcut:
+        case copyAndHideShortcut:
             if selectedItem != nil {
                 withAnimation {
                     copyToClipboard(selectedItem!)
-                    showToast("Copied to Clipboard")
+                    appDelegate.togglePopover()
                 }
                 return true
             } else {
