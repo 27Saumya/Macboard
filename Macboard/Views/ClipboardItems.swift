@@ -642,6 +642,10 @@ struct ClipboardItemListView: View {
             return false
         }
         
+        if isShowingConfirmationDialog {
+            return false
+        }
+        
         if let responder = NSApplication.shared.keyWindow?.firstResponder {
             if responder.className.contains("SearchTextView") {
                 return false
@@ -666,6 +670,20 @@ struct ClipboardItemListView: View {
                 withAnimation {
                     copyToClipboard(selectedItem!)
                     appDelegate.togglePopover()
+                    Accessibility.check()
+                    
+                    DispatchQueue.main.async {
+                        let vCode = Sauce.shared.keyCode(for: .v)
+                        let source = CGEventSource(stateID: .combinedSessionState)
+                        source?.setLocalEventsFilterDuringSuppressionState([.permitLocalMouseEvents, .permitSystemDefinedEvents],
+                                                                           state: .eventSuppressionStateSuppressionInterval)
+                        let keyVDown = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: true)
+                        let keyVUp = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: false)
+                        keyVDown?.flags = .maskCommand
+                        keyVUp?.flags = .maskCommand
+                        keyVDown?.post(tap: .cgAnnotatedSessionEventTap)
+                        keyVUp?.post(tap: .cgAnnotatedSessionEventTap)
+                    }
                 }
                 return true
             } else {
