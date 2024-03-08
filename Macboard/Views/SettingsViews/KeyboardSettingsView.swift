@@ -17,7 +17,7 @@ struct KeyboardSettingsView: View {
                         .padding(.vertical, 4)
                     Form {
                         KeyboardShortcuts.Recorder("Clear Clipboard:", name: .clearClipboard)
-                        KeyboardShortcuts.Recorder("Copy & Hide Macboard:", name: .copyAndHide)
+                        KeyboardShortcuts.Recorder("Paste:", name: .paste)
                         KeyboardShortcuts.Recorder("Copy & Don't Hide Macboard:", name: .copyItem)
                         KeyboardShortcuts.Recorder("Toggle Pin:", name: .togglePin)
                         KeyboardShortcuts.Recorder("Delete Item:", name: .deleteItem)
