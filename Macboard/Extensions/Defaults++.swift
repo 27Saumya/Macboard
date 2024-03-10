@@ -8,4 +8,5 @@ extension Defaults.Keys {
     static let allowedTypes = Key<[String]>("allowedTypes", default: ["Text", "Image", "File"])
     static let menubarIcon = Key<MenubarIcon>("menubarIcon", default: .normal)
     static let searchType = Key<SearchType>("searchType", default: .insensitive)
+    static let clearPins = Key<Bool>("clearPins", default: false)
 }
