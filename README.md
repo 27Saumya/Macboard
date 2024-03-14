@@ -1,18 +1,17 @@
 <img width="128px" src="https://i.imgur.com/QzlSfHn.png" alt="Logo" align="left" />
 
 # Macboard
-![Downloads)](https://img.shields.io/github/downloads/27Saumya/Macboard/total?style=for-the-badge&color=%23a1ada4&link=https%3A%2F%2Fgithub.com%2F27Saumya%2FMacboard%2Freleases%2Flatest)
+![Downloads)](https://img.shields.io/github/downloads/27Saumya/Macboard/total?label=Downloads%20(Github%20Releases)&style=for-the-badge&color=%23a1ada4&link=https%3A%2F%2Fgithub.com%2F27Saumya%2FMacboard%2Freleases%2Flatest)
 
 Boost your productivity within seconds!
 
 ![demo](https://github.com/27Saumya/Macboard/assets/64534496/a0da627c-fe64-4db5-974b-62623a36a8f8)
 
-
 ## Table Of Contents
-- [Overview](https://github.com/27Saumya/Macboard#overview)
-- [Installation](https://github.com/27Saumya/Macboard#installation)
-- [Features](https://github.com/27Saumya/Macboard#features)
-- [Keyboard Shortcuts](https://github.com/27Saumya/Macboard#keyboard-shortcuts)
+- [Overview](#overview)
+- [Installation](#installation)
+- [Features](#features)
+- [Keyboard Shortcuts](#keyboard-shortcuts)
 
 ### Overview
 
