@@ -6,6 +6,7 @@ struct StorageSettingsView: View {
     
     @Default(.allowedTypes) var allowedTypes
     @Default(.maxItems) var maxItems
+    @Default(.clearPins) var clearPins
     
     @State var textAllowed: Bool = Bool()
     @State var imageAllowed: Bool = Bool()
@@ -15,6 +16,9 @@ struct StorageSettingsView: View {
         Settings.Container(contentWidth: 350) {
             Settings.Section(title: "") {
                 VStack(alignment: .leading) {
+                    Toggle("Clear pins while clearing clipboard", isOn: $clearPins)
+                    Divider()
+                        .padding(.vertical, 2)
                     Toggle("Save Text", isOn: $textAllowed)
                         .onAppear {
                             textAllowed = allowedTypes.contains("Text")

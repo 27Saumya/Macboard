@@ -75,7 +75,7 @@ struct DetailedView: View {
                                 if clipboardItem.content!.isValidURL && showUrlMetadata {
                                     Image(systemName: "photo.fill")
                                     Text("Meta Image")
-                                } else if clipboardItem.contentType == "String" {
+                                } else if clipboardItem.contentType == "File" {
                                     Image(systemName: "doc.circle.fill")
                                     Text("Complete File Path")
                                 } else {
@@ -164,8 +164,10 @@ struct DetailedView: View {
                                         Text("Multi-line Text")
                                     } else if clipboardItem.content!.isNum {
                                         Text("Number")
+                                    } else if clipboardItem.content!.isValidColor {
+                                        Text("Color")
                                     } else {
-                                        Text("RTF - Rich Text Format")
+                                        Text("Text")
                                     }
                                 }
                                 

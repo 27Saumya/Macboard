@@ -14,6 +14,7 @@ struct ClipboardItemListView: View {
     @Default(.allowedTypes) var allowedTypes
     @Default(.maxItems) var maxItems
     @Default(.searchType) var searchType
+    @Default(.clearPins) var clearPins
     
     @StateObject var viewModel = MetadataViewModel()
     
@@ -77,13 +78,14 @@ struct ClipboardItemListView: View {
                                     
                                 } label: {
                                     HStack {
-                                        if item.content!.isValidURL {
-                                            Image(systemName: "link.circle.fill")
-                                        } else {
-                                            Image(systemName: "doc.plaintext.fill")
-                                        }
+                                        Image(systemName: item.content!.isValidURL ? "link.circle.fill" : (item.content!.isValidColor ? "circle.hexagongrid.fill" : "doc.plaintext.fill"))
                                         Text(item.content!)
                                             .lineLimit(1)
+                                        if item.content!.isValidColor {
+                                            Circle()
+                                                .fill(Color(hex: item.content!))
+                                                .frame(width: 12, height: 12)
+                                        }
                                     }
                                 }
                                 
@@ -220,7 +222,7 @@ struct ClipboardItemListView: View {
                                     isPresented: $isShowingConfirmationDialog) {
                     Button("Yes") {
                         withAnimation {
-                            dataManager.clearClipboard()
+                            dataManager.clearClipboard(clearPins: clearPins)
                             selectedItem = nil
                             showToast("Cleard the clipboard history")
                         }
@@ -265,14 +267,14 @@ struct ClipboardItemListView: View {
                                     selectedItem = item
                                 } label: {
                                     HStack {
-                                        if item.content!.isValidURL {
-                                            Image(systemName: "link.circle.fill")
-                                        } else {
-                                            Image(systemName: "doc.plaintext.fill")
-                                        }
+                                        Image(systemName: item.content!.isValidURL ? "link.circle.fill" : (item.content!.isValidColor ? "circle.hexagongrid.fill" : "doc.plaintext.fill"))
                                         Text(item.content!)
                                             .lineLimit(1)
-                                        Spacer()
+                                        if item.content!.isValidColor {
+                                            Circle()
+                                                .fill(Color(hex: item.content!))
+                                                .frame(width: 12, height: 12)
+                                        }
                                     }
                                 }
                                 .buttonStyle(ItemButtonStyle())
@@ -406,7 +408,7 @@ struct ClipboardItemListView: View {
                                     isPresented: $isShowingConfirmationDialog) {
                     Button("Yes") {
                         withAnimation {
-                            dataManager.clearClipboard()
+                            dataManager.clearClipboard(clearPins: clearPins)
                             selectedItem = nil
                             showToast("Cleard the clipboard history")
                         }
@@ -465,10 +467,10 @@ struct ClipboardItemListView: View {
         if contentType == nil {
             return
         }
-        if clipboardItems.count > maxItems && maxItems != 0 {
-            let itemsToRemoveCount = clipboardItems.count - maxItems
+        if rawClipboardItems.count > maxItems && maxItems != 0 {
+            let itemsToRemoveCount = rawClipboardItems.count - maxItems
             for _ in 0..<itemsToRemoveCount {
-                dataManager.deleteItem(item: clipboardItems.last!)
+                dataManager.deleteItem(item: rawClipboardItems.last!)
             }
         }
         if contentType == "Text" && allowedTypes.contains("Text") {

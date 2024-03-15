@@ -19,3 +19,11 @@ extension String  {
         return !isEmpty && rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
     }
 }
+
+extension String {
+    var isValidColor: Bool {
+        guard let regex = try? NSRegularExpression(pattern: "^#(?:[0-9a-fA-F]{2}){3,4}$") else { return false }
+        let range = NSRange(location: 0, length: self.utf16.count)
+        return regex.firstMatch(in: self, options: [], range: range) != nil
+    }
+}
