@@ -151,6 +151,17 @@ struct ClipboardItemListView: View {
                             }
                             .buttonStyle(LinkButtonStyle())
                         }
+                        .contextMenu {
+                            if item.contentType == "File" {
+                                Button {
+                                    let fileURL = URL(fileURLWithPath: item.content!.replacingOccurrences(of: "file://", with: ""))
+                                    NSWorkspace.shared.activateFileViewerSelecting([fileURL])
+                                } label: {
+                                    Image(systemName: "folder.fill")
+                                    Text("Show in Finder")
+                                }
+                            }
+                        }
                     }
                     
                 }
@@ -326,6 +337,17 @@ struct ClipboardItemListView: View {
                             .buttonStyle(LinkButtonStyle())
                         }
                         .background(selectedItem != nil && selectedItem == item ? Color.accentColor : Color.clear)
+                        .contextMenu {
+                            if item.contentType == "File" {
+                                Button {
+                                    let fileURL = URL(fileURLWithPath: item.content!.replacingOccurrences(of: "file://", with: ""))
+                                    NSWorkspace.shared.activateFileViewerSelecting([fileURL])
+                                } label: {
+                                    Image(systemName: "folder.fill")
+                                    Text("Show in Finder")
+                                }
+                            }
+                        }
                     }
                     
                 }
