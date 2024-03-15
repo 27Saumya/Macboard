@@ -78,13 +78,14 @@ struct ClipboardItemListView: View {
                                     
                                 } label: {
                                     HStack {
-                                        if item.content!.isValidURL {
-                                            Image(systemName: "link.circle.fill")
-                                        } else {
-                                            Image(systemName: "doc.plaintext.fill")
-                                        }
+                                        Image(systemName: item.content!.isValidURL ? "link.circle.fill" : (item.content!.isValidColor ? "circle.hexagongrid.fill" : "doc.plaintext.fill"))
                                         Text(item.content!)
                                             .lineLimit(1)
+                                        if item.content!.isValidColor {
+                                            Circle()
+                                                .fill(Color(hex: item.content!))
+                                                .frame(width: 12, height: 12)
+                                        }
                                     }
                                 }
                                 
@@ -255,14 +256,14 @@ struct ClipboardItemListView: View {
                                     selectedItem = item
                                 } label: {
                                     HStack {
-                                        if item.content!.isValidURL {
-                                            Image(systemName: "link.circle.fill")
-                                        } else {
-                                            Image(systemName: "doc.plaintext.fill")
-                                        }
+                                        Image(systemName: item.content!.isValidURL ? "link.circle.fill" : (item.content!.isValidColor ? "circle.hexagongrid.fill" : "doc.plaintext.fill"))
                                         Text(item.content!)
                                             .lineLimit(1)
-                                        Spacer()
+                                        if item.content!.isValidColor {
+                                            Circle()
+                                                .fill(Color(hex: item.content!))
+                                                .frame(width: 12, height: 12)
+                                        }
                                     }
                                 }
                                 .buttonStyle(ItemButtonStyle())

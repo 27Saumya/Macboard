@@ -18,6 +18,7 @@
 		C53410802B8F63CB007C55EA /* KeyboardShortcuts++.swift in Sources */ = {isa = PBXBuildFile; fileRef = C534107F2B8F63CB007C55EA /* KeyboardShortcuts++.swift */; };
 		C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */; };
 		C55671C32B985CAC007744A1 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = C55671C22B985CAC007744A1 /* Sparkle */; };
+		C5628C912BA463C300F32F5B /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5628C902BA463C300F32F5B /* Color+Hex.swift */; };
 		C56E675E2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C56E675C2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodeld */; };
 		C57241EA2B67CF5900703101 /* MacboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57241E92B67CF5900703101 /* MacboardTests.swift */; };
 		C57800942B7C7BF900B40EEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57800932B7C7BF900B40EEC /* AppDelegate.swift */; };
@@ -62,6 +63,7 @@
 		C534107D2B8F6340007C55EA /* KeyboardSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSettingsView.swift; sourceTree = "<group>"; };
 		C534107F2B8F63CB007C55EA /* KeyboardShortcuts++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts++.swift"; sourceTree = "<group>"; };
 		C553CEDB2B5C57BB00EC82F1 /* ClipboardItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItems.swift; sourceTree = "<group>"; };
+		C5628C902BA463C300F32F5B /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		C567F32A2B8505A600822FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C56E675D2B6B9BC800AE7CE7 /* ClipboardItem.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipboardItem.xcdatamodel; sourceTree = "<group>"; };
 		C57241E72B67CF5900703101 /* MacboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -199,6 +201,7 @@
 				C5C5F0242B8EDCAB00903601 /* Settings++.swift */,
 				C53410792B8F3B0E007C55EA /* Defaults++.swift */,
 				C534107F2B8F63CB007C55EA /* KeyboardShortcuts++.swift */,
+				C5628C902BA463C300F32F5B /* Color+Hex.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5628C912BA463C300F32F5B /* Color+Hex.swift in Sources */,
 				C5D534B12B604FE000074920 /* ViewHelper.swift in Sources */,
 				C57F29472B9AB03600228B6D /* Accessibility.swift in Sources */,
 				C553CEDC2B5C57BB00EC82F1 /* ClipboardItems.swift in Sources */,
