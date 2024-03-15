@@ -14,6 +14,7 @@ struct ClipboardItemListView: View {
     @Default(.allowedTypes) var allowedTypes
     @Default(.maxItems) var maxItems
     @Default(.searchType) var searchType
+    @Default(.clearPins) var clearPins
     
     @StateObject var viewModel = MetadataViewModel()
     
@@ -209,7 +210,7 @@ struct ClipboardItemListView: View {
                                     isPresented: $isShowingConfirmationDialog) {
                     Button("Yes") {
                         withAnimation {
-                            dataManager.clearClipboard()
+                            dataManager.clearClipboard(clearPins: clearPins)
                             selectedItem = nil
                             showToast("Cleard the clipboard history")
                         }
@@ -384,7 +385,7 @@ struct ClipboardItemListView: View {
                                     isPresented: $isShowingConfirmationDialog) {
                     Button("Yes") {
                         withAnimation {
-                            dataManager.clearClipboard()
+                            dataManager.clearClipboard(clearPins: clearPins)
                             selectedItem = nil
                             showToast("Cleard the clipboard history")
                         }
@@ -443,10 +444,10 @@ struct ClipboardItemListView: View {
         if contentType == nil {
             return
         }
-        if clipboardItems.count > maxItems && maxItems != 0 {
-            let itemsToRemoveCount = clipboardItems.count - maxItems
+        if rawClipboardItems.count > maxItems && maxItems != 0 {
+            let itemsToRemoveCount = rawClipboardItems.count - maxItems
             for _ in 0..<itemsToRemoveCount {
-                dataManager.deleteItem(item: clipboardItems.last!)
+                dataManager.deleteItem(item: rawClipboardItems.last!)
             }
         }
         if contentType == "Text" && allowedTypes.contains("Text") {
