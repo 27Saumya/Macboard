@@ -61,13 +61,17 @@ struct CoreDataManager {
         PersistanceController.shared.save()
     }
     
-    func clearClipboard() {
+    func clearClipboard(clearPins: Bool) {
         let context = PersistanceController.shared.container.viewContext
         do {
             let fetchRequest = ClipboardItem.fetchRequest()
             let items = try context.fetch(fetchRequest)
             for item in items {
-                context.delete(item)
+                if item.isPinned && !clearPins {
+                    continue
+                } else {
+                    context.delete(item)
+                }
             }
         } catch {
             print("Failed to clear the clipboard")
