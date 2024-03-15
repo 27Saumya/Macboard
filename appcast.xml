@@ -4,22 +4,22 @@
         <title>Macboard</title>
         <link>https://raw.githubusercontent.com/27Saumya/Macboard/master/appcast.xml</link>
         <item>
-            <title>1.4</title>
+            <title>1.5</title>
             <description>
                 <![CDATA[
                     <ul>
-                        <li>Added paste functionality (↩ to paste)</li>
-                        <li>Added reset shortcut button in the settings</li>
-                        <li>Removed copy selected item & don't hide Macboard shortcut (didn't make sense when you have a dedicated button for perfoming the same task)</li>
-                        <li>Enhance UI experience</li>
+                        <li>Added an option to remove/keep pins when you clear the clipboard</li>
+                        <li>Added support for color(s). Once you copy a hex code you now get to preview the color you copied right within Macboard.</li>
+                        <li>Added a Show in Finder button when you secondary click on a file from the clipboard history</li>
+                        <li>Fixed some minor bugs and refactored code for best performance</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 08 Mar 2024 10:53:53 +0530</pubDate>
-            <sparkle:version>1.4</sparkle:version>
-            <sparkle:shortVersionString>1.4</sparkle:shortVersionString>
+            <pubDate>Fri, 15 Mar 2024 18:53:36 +0530</pubDate>
+            <sparkle:version>1.5</sparkle:version>
+            <sparkle:shortVersionString>1.5</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/27Saumya/Macboard/releases/download/v1.4/Macboard.dmg" length="5520419" type="application/octet-stream" sparkle:edSignature="zIgvRujb2obO/0V4f5s8+m/GWuffdQb4EDQBoBXVK9c12KCLy/c1p5o7TdKHlz7JL4CTmdX4dG/PifzWZkOoDg=="/>
+            <enclosure url="https://github.com/27Saumya/Macboard/releases/download/v1.5/Macboard.dmg" length="5689051" type="application/octet-stream" sparkle:edSignature="YpkV3rXzZY1ZjXHY9jxT7MOsTViE2132Jv66DH8Owo6UEmgdxocsRB30ooRQlNoaogd5caXcivGGO/68ePHXCw=="/>
         </item>
     </channel>
 </rss>
