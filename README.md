@@ -5,7 +5,8 @@
 
 Boost your productivity within seconds!
 
-![demo](https://github.com/27Saumya/Macboard/assets/64534496/a0da627c-fe64-4db5-974b-62623a36a8f8)
+![demo](https://github.com/27Saumya/Macboard/assets/64534496/75c45f5e-98fd-4552-8ae3-7dc137ad920f)
+
 
 ## Table Of Contents
 - [Overview](#overview)
