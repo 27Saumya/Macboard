@@ -224,7 +224,7 @@ struct ClipboardItemListView: View {
                         withAnimation {
                             dataManager.clearClipboard(clearPins: clearPins)
                             selectedItem = nil
-                            showToast("Cleard the clipboard history")
+                            showToast("Cleared the clipboard history")
                         }
                     }
                     Button("No", role: .destructive) { }
