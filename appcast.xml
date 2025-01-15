@@ -1,25 +1,24 @@
 <?xml version="1.0" standalone="yes"?>
 <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
-    <channel>
+   <channel>
         <title>Macboard</title>
         <link>https://raw.githubusercontent.com/27Saumya/Macboard/master/appcast.xml</link>
         <item>
-            <title>1.5</title>
+            <title>1.6</title>
             <description>
                 <![CDATA[
                     <ul>
-                        <li>Added an option to remove/keep pins when you clear the clipboard</li>
-                        <li>Added support for color(s). Once you copy a hex code you now get to preview the color you copied right within Macboard.</li>
-                        <li>Added a Show in Finder button when you secondary click on a file from the clipboard history</li>
+                        <li>Added support for macOS Sequoia 15.0+</li>
+                        <li>Fixed hex color previews causing the app to crash</li>
                         <li>Fixed some minor bugs and refactored code for best performance</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 15 Mar 2024 18:53:36 +0530</pubDate>
-            <sparkle:version>1.5</sparkle:version>
-            <sparkle:shortVersionString>1.5</sparkle:shortVersionString>
+            <pubDate>Wed, 15 Jan 2025 14:12:08 +0530</pubDate>
+            <sparkle:version>1.6</sparkle:version>
+            <sparkle:shortVersionString>1.6</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/27Saumya/Macboard/releases/download/v1.5/Macboard.dmg" length="5689051" type="application/octet-stream" sparkle:edSignature="YpkV3rXzZY1ZjXHY9jxT7MOsTViE2132Jv66DH8Owo6UEmgdxocsRB30ooRQlNoaogd5caXcivGGO/68ePHXCw=="/>
+            <enclosure url="https://github.com/27Saumya/Macboard/releases/download/v1.6/Macboard.dmg" length="3475902" type="application/octet-stream" sparkle:edSignature="+koqw4C0WzBDdLdZd1XC2IdvgvPMhDL1q6PzMq55Rd1ZOqKwnNDJMEih1Cce75ibkdUgPbofs8fj8fkWLzWRCg=="/>
         </item>
     </channel>
 </rss>
