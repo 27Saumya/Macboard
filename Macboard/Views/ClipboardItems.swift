@@ -83,7 +83,7 @@ struct ClipboardItemListView: View {
                                             .lineLimit(1)
                                         if item.content!.isValidColor {
                                             Circle()
-                                                .fill(Color(hex: item.content!))
+                                                .fill(Color(hex: item.content!) ?? .accentColor)
                                                 .frame(width: 12, height: 12)
                                         }
                                     }
@@ -272,7 +272,7 @@ struct ClipboardItemListView: View {
                                             .lineLimit(1)
                                         if item.content!.isValidColor {
                                             Circle()
-                                                .fill(Color(hex: item.content!))
+                                                .fill(Color(hex: item.content!) ?? .accentColor)
                                                 .frame(width: 12, height: 12)
                                         }
                                     }
